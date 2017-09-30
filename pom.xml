@@ -2,16 +2,28 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <!--描述这个POM文件是遵从哪个版本的项目描述符-->
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.lxb</groupId>
     <artifactId>lxb</artifactId>
     <packaging>pom</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <version>${lxb.version}</version>
     <modules>
         <module>lxb-web</module>
         <module>lxb-common</module>
+        <module>lxb-generator</module>
+        <module>lxb-api</module>
     </modules>
 
-
+    <properties>
+        <!--maven编译jdk版本，默认为1.5-->
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.compilerVersion>1.7</maven.compiler.compilerVersion>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <!-- 版本号 -->
+        <lxb.version>1.0.0_Beta</lxb.version>
+    </properties>
 </project>
