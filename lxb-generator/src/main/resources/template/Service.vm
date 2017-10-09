@@ -1,0 +1,14 @@
+package ${package_name}.rpc.api;
+
+import com.lxb.common.base.BaseService;
+import ${package_name}.dao.model.${model};
+import ${package_name}.dao.model.${model}Example;
+
+/**
+* @Description ${model}Service接口
+* @Author Liaoxb
+* @Date  ${ctime}
+*/
+public interface ${model}Service extends BaseService<${model}, ${model}Example> {
+
+}
