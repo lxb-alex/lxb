@@ -2,9 +2,9 @@ package com.lxb.generator.controller;
 
 import com.lxb.common.utils.AESUtil;
 import com.lxb.common.utils.JdbcUtil;
+import com.lxb.common.utils.PropertiesFileUtil;
 import com.lxb.common.utils.StringUtil;
 import com.lxb.generator.utils.VelocityUtil;
-import org.apache.commons.lang.ObjectUtils;
 import org.apache.velocity.VelocityContext;
 import org.mybatis.generator.api.MyBatisGenerator;
 import org.mybatis.generator.config.Configuration;
@@ -12,6 +12,8 @@ import org.mybatis.generator.config.xml.ConfigurationParser;
 import org.mybatis.generator.internal.DefaultShellCallback;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -52,10 +54,11 @@ public class MybatisGeneratorUtil {
         serviceMock_vm = MybatisGeneratorUtil.class.getResource(serviceMock_vm).getPath().replaceFirst("/", "");
         serviceImpl_vm = MybatisGeneratorUtil.class.getResource(serviceImpl_vm).getPath().replaceFirst("/", "");
 
-        String targetProject = module + "/" + module + "-dao";
-        String basePath = MybatisGeneratorUtil.class.getResource("/").getPath().replace("/target/classes/", "").replace(targetProject, "").replaceFirst("/", "");
-        String generatorConfig_xml = MybatisGeneratorUtil.class.getResource("/").getPath().replace("/target/classes/", "") + "/src/main/resources/generatorConfig.xml";
-        targetProject = basePath + targetProject;
+        String basePath = getRootModulePath(MybatisGeneratorUtil.class);
+        String generatorConfig_xml = MybatisGeneratorUtil.class.getResource("/").getPath().replace("/target/classes", "") + "/src/main/resources/generatorConfig.xml".replaceFirst("/", "");
+
+        System.out.println(generatorConfig_xml+"++++++");
+
         String sql = "SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_schema = '" + database + "' AND table_name LIKE '" + table_prefix + "_%';";
 
         System.out.println("========== 开始生成generatorConfig.xml文件 ==========");
@@ -71,12 +74,13 @@ public class MybatisGeneratorUtil {
                 System.out.println(map.get("TABLE_NAME"));
                 table = new HashMap<>();
                 table.put("table_name", map.get("TABLE_NAME"));
-                table.put("model_name", StringUtil.lineToHump(ObjectUtils.toString(map.get("TABLE_NAME"))));
+                table.put("model_name", StringUtil.lineToHump(toString(map.get("TABLE_NAME"))));
                 tables.add(table);
             }
             jdbcUtil.release();
 
-            String targetProject_sqlMap = basePath + module + "/" + module + "-rpc-service";
+            String targetProject = basePath + module; // model 和 mapper接口 生成位置
+            String targetProject_sqlMap = basePath + module; // mapper xml文件生成位置
             context.put("tables", tables);
             context.put("generator_javaModelGenerator_targetPackage", package_name + ".dao.model");
             context.put("generator_sqlMapGenerator_targetPackage", package_name + ".dao.mapper");
@@ -85,6 +89,8 @@ public class MybatisGeneratorUtil {
             context.put("targetProject_sqlMap", targetProject_sqlMap);
             context.put("generator_jdbc_password", AESUtil.AESDecode(jdbc_password));
             context.put("last_insert_id_tables", last_insert_id_tables);
+
+            generatorConfig_xml = URLDecoder.decode(generatorConfig_xml, "UTF-8"); // 解码
             VelocityUtil.generate(generatorConfig_vm, generatorConfig_xml, context);
             // 删除旧代码
             deleteDir(new File(targetProject + "/src/main/java/" + package_name.replaceAll("\\.", "/") + "/dao/model"));
@@ -110,10 +116,11 @@ public class MybatisGeneratorUtil {
 
         System.out.println("========== 开始生成Service ==========");
         String ctime = new SimpleDateFormat("yyyy/M/d").format(new Date());
-        String servicePath = basePath + module + "/" + module + "-rpc-api" + "/src/main/java/" + package_name.replaceAll("\\.", "/") + "/rpc/api";
-        String serviceImplPath = basePath + module + "/" + module + "-rpc-service" + "/src/main/java/" + package_name.replaceAll("\\.", "/") + "/rpc/service/impl";
+
+        String servicePath = basePath + module + "/src/main/java/" + package_name.replaceAll("\\.", "/") + "/web";
+        String serviceImplPath = basePath + module + "/src/main/java/" + package_name.replaceAll("\\.", "/") + "/web/service/impl";
         for (int i = 0; i < tables.size(); i++) {
-            String model = StringUtil.lineToHump(ObjectUtils.toString(tables.get(i).get("table_name")));
+            String model = StringUtil.lineToHump(toString(tables.get(i).get("table_name")));
             String service = servicePath + "/" + model + "Service.java";
             String serviceMock = servicePath + "/" + model + "ServiceMock.java";
             String serviceImpl = serviceImplPath + "/" + model + "ServiceImpl.java";
@@ -153,6 +160,29 @@ public class MybatisGeneratorUtil {
 
         System.out.println("========== 开始生成Controller ==========");
         System.out.println("========== 结束生成Controller ==========");
+    }
+
+    public static String toString(Object obj) {
+        return obj == null ? "" : obj.toString();
+    }
+
+    /**
+     * module 结构项目，获取顶级module路径
+     * @param classObj
+     * @return
+     */
+    public static String getRootModulePath(Class classObj){
+        String rootPath = classObj.getClassLoader().getResource("").getPath();
+        // 当前代码生成器module名称
+        String generator = PropertiesFileUtil.getInstance("generator").get("generator.module.name");
+        // getResource 方式获取的路径是以“/”开始的，所有从1开始
+        rootPath = rootPath.substring(1, rootPath.indexOf(generator));
+        try {
+            return URLDecoder.decode(rootPath, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     // 递归删除非空文件夹

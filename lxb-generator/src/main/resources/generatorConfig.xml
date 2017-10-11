@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+
+    <!-- éç½®æä»¶ -->
+    <properties resource="generator.properties"></properties>
+
+    <context id="MysqlContext" targetRuntime="MyBatis3" defaultModelType="flat">
+
+        <property name="javaFileEncoding" value="UTF-8"/>
+        <!-- ç±äºbeginningDelimiteråendingDelimiterçé»è®¤å¼ä¸ºåå¼å·(")ï¼å¨Mysqlä¸­ä¸è½è¿ä¹åï¼æä»¥è¿è¦å°è¿ä¸¤ä¸ªé»è®¤å¼æ¹ä¸º`  -->
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
+
+        <!-- ä¸ºçæçJavaæ¨¡ååå»ºä¸ä¸ªtoStringæ¹æ³ -->
+        <plugin type="org.mybatis.generator.plugins.ToStringPlugin"></plugin>
+
+        <!-- ä¸ºçæçJavaæ¨¡åç±»æ·»å åºååæ¥å£ï¼å¹¶çæserialVersionUIDå­æ®µ -->
+        <plugin type="com.lxb.generator.utils.SerializablePlugin">
+            <property name="suppressJavaInterface" value="false"/>
+        </plugin>
+
+        <!-- çæä¸ä¸ªæ°çselectByExampleæ¹æ³ï¼è¿ä¸ªæ¹æ³å¯ä»¥æ¥æ¶offsetålimitåæ°ï¼ä¸»è¦ç¨æ¥å®ç°åé¡µï¼åªæ¯æmysql(å·²ä½¿ç¨pagehelperä»£æ¿) -->
+        <!--<plugin type="com.zheng.common.plugin.PaginationPlugin"></plugin>-->
+
+        <!-- çæå¨XMLä¸­ç<cache>åç´  -->
+        <plugin type="org.mybatis.generator.plugins.CachePlugin">
+            <!-- ä½¿ç¨ehcache -->
+            <property name="cache_type" value="org.mybatis.caches.ehcache.LoggingEhcache" />
+            <!-- åç½®cacheéç½® -->
+            <!--
+            <property name="cache_eviction" value="LRU" />
+            <property name="cache_flushInterval" value="60000" />
+            <property name="cache_readOnly" value="true" />
+            <property name="cache_size" value="1024" />
+            -->
+        </plugin>
+
+        <!-- Javaæ¨¡åçæequalsåhashcodeæ¹æ³ -->
+        <plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin"></plugin>
+
+        <!-- çæçä»£ç å»ææ³¨é -->
+        <commentGenerator type="com.lxb.generator.utils.CommentGenerator">
+            <property name="suppressAllComments" value="true" />
+            <property name="suppressDate" value="true"/>
+        </commentGenerator>
+
+        <!-- æ°æ®åºè¿æ¥ -->
+        <jdbcConnection driverClass="${generator.jdbc.driver}"
+                        connectionURL="${generator.jdbc.url}"
+                        userId="${generator.jdbc.username}"
+                        password="123456" />
+
+        <!-- modelçæ -->
+        <javaModelGenerator targetPackage="com.lxb.dao.model" targetProject="E:/IntelliJ IDEA/MyGithub/lxb/lxb-web/src/main/java" />
+
+        <!-- MapperXMLçæ -->
+        <sqlMapGenerator targetPackage="com.lxb.dao.mapper" targetProject="E:/IntelliJ IDEA/MyGithub/lxb/lxb-web/src/main/java" />
+
+        <!-- Mapperæ¥å£çæ -->
+        <javaClientGenerator targetPackage="com.lxb.dao.mapper" targetProject="E:/IntelliJ IDEA/MyGithub/lxb/lxb-web/src/main/java" type="XMLMAPPER" />
+
+        <!-- éè¦æ å°çè¡¨ -->
+                                    <table tableName="sys_menu" domainObjectName="SysMenu"></table>
+                                                <table tableName="sys_role" domainObjectName="SysRole"></table>
+                                                <table tableName="sys_user" domainObjectName="SysUser">
+                    <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+                </table>
+                        </context>
+</generatorConfiguration>
