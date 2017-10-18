@@ -14,6 +14,7 @@ import org.mybatis.generator.internal.DefaultShellCallback;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -24,14 +25,17 @@ import java.util.*;
  */
 public class MybatisGeneratorUtil {
 
-    // generatorConfig模板路径
+    // generatorConfig 模板路径
     private static String generatorConfig_vm = "/template/generatorConfig.vm";
-    // Service模板路径
+    // Controller 模板路径
+    private static String controller_vm = "/template/Controller.vm";
+    // Service 模板路径
     private static String service_vm = "/template/Service.vm";
-    // ServiceMock模板路径
-    private static String serviceMock_vm = "/template/ServiceMock.vm";
-    // ServiceImpl模板路径
+    // ServiceImpl 模板路径
     private static String serviceImpl_vm = "/template/ServiceImpl.vm";
+
+    // 当前代码生成器module名称
+    static String generatorName = PropertiesFileUtil.getInstance("generator").get("generator.module.name");
 
     /**
      * 根据模板生成generatorConfig.xml文件
@@ -48,101 +52,50 @@ public class MybatisGeneratorUtil {
     public static void generator(String jdbc_driver, String jdbc_url, String jdbc_username, String jdbc_password,
                                  String module, String database, String table_prefix, String package_name,
                                  Map<String, String> last_insert_id_tables) throws Exception {
-        // 得到模板的路径
-        generatorConfig_vm = MybatisGeneratorUtil.class.getResource(generatorConfig_vm).getPath().replaceFirst("/", "");
-        service_vm = MybatisGeneratorUtil.class.getResource(service_vm).getPath().replaceFirst("/", "");
-        serviceMock_vm = MybatisGeneratorUtil.class.getResource(serviceMock_vm).getPath().replaceFirst("/", "");
-        serviceImpl_vm = MybatisGeneratorUtil.class.getResource(serviceImpl_vm).getPath().replaceFirst("/", "");
-
-        String basePath = getRootModulePath(MybatisGeneratorUtil.class);
-        String generatorConfig_xml = MybatisGeneratorUtil.class.getResource("/").getPath().replace("/target/classes", "") + "/src/main/resources/generatorConfig.xml".replaceFirst("/", "");
-
-        System.out.println(generatorConfig_xml+"++++++");
-
-        String sql = "SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_schema = '" + database + "' AND table_name LIKE '" + table_prefix + "_%';";
-
-        System.out.println("========== 开始生成generatorConfig.xml文件 ==========");
-        List<Map<String, Object>> tables = new ArrayList<>();
-        try {
-            VelocityContext context = new VelocityContext();
-            Map<String, Object> table;
-
-            // 查询定制前缀项目的所有表
-            JdbcUtil jdbcUtil = new JdbcUtil(jdbc_driver, jdbc_url, jdbc_username, AESUtil.AESDecode(jdbc_password));
-            List<Map> result = jdbcUtil.selectByParams(sql, null);
-            for (Map map : result) {
-                System.out.println(map.get("TABLE_NAME"));
-                table = new HashMap<>();
-                table.put("table_name", map.get("TABLE_NAME"));
-                table.put("model_name", StringUtil.lineToHump(toString(map.get("TABLE_NAME"))));
-                tables.add(table);
-            }
-            jdbcUtil.release();
-
-            String targetProject = basePath + module; // model 和 mapper接口 生成位置
-            String targetProject_sqlMap = basePath + module; // mapper xml文件生成位置
-            context.put("tables", tables);
-            context.put("generator_javaModelGenerator_targetPackage", package_name + ".dao.model");
-            context.put("generator_sqlMapGenerator_targetPackage", package_name + ".dao.mapper");
-            context.put("generator_javaClientGenerator_targetPackage", package_name + ".dao.mapper");
-            context.put("targetProject", targetProject);
-            context.put("targetProject_sqlMap", targetProject_sqlMap);
-            context.put("generator_jdbc_password", AESUtil.AESDecode(jdbc_password));
-            context.put("last_insert_id_tables", last_insert_id_tables);
-
-            generatorConfig_xml = URLDecoder.decode(generatorConfig_xml, "UTF-8"); // 解码
-            VelocityUtil.generate(generatorConfig_vm, generatorConfig_xml, context);
-            // 删除旧代码
-            deleteDir(new File(targetProject + "/src/main/java/" + package_name.replaceAll("\\.", "/") + "/dao/model"));
-            deleteDir(new File(targetProject + "/src/main/java/" + package_name.replaceAll("\\.", "/") + "/dao/mapper"));
-            deleteDir(new File(targetProject_sqlMap + "/src/main/java/" + package_name.replaceAll("\\.", "/") + "/dao/mapper"));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        System.out.println("========== 结束生成generatorConfig.xml文件 ==========");
-
-        System.out.println("========== 开始运行MybatisGenerator ==========");
-        List<String> warnings = new ArrayList<>();
-        File configFile = new File(generatorConfig_xml);
-        ConfigurationParser cp = new ConfigurationParser(warnings);
-        Configuration config = cp.parseConfiguration(configFile);
-        DefaultShellCallback callback = new DefaultShellCallback(true);
-        MyBatisGenerator myBatisGenerator = new MyBatisGenerator(config, callback, warnings);
-        myBatisGenerator.generate(null);
-        for (String warning : warnings) {
-            System.out.println(warning);
-        }
-        System.out.println("========== 结束运行MybatisGenerator ==========");
+        // 查询定制前缀项目的所有表
+        List<Map<String, Object>> tables = getTables(jdbc_driver, jdbc_url, jdbc_username, jdbc_password, database, table_prefix);
+        /* 1. 生成generatorConfig.xml 文件
+        *  2. 运行generator 生成 model，dao（dao,mapper）
+        * */
+        createGeneratorConfig(jdbc_password, module, package_name, last_insert_id_tables, tables);
 
         System.out.println("========== 开始生成Service ==========");
         String ctime = new SimpleDateFormat("yyyy/M/d").format(new Date());
+        String controllerPath = getRootModulePath() + module + "/src/main/java/" + package_name.replaceAll("\\.", "/") + "/controller";
+        String servicePath = getRootModulePath() + module + "/src/main/java/" + package_name.replaceAll("\\.", "/") + "/service";
+        String serviceImplPath = getRootModulePath() + module + "/src/main/java/" + package_name.replaceAll("\\.", "/") + "/service/impl";
+        deleteDir(new File(controllerPath));
+        deleteDir(new File(servicePath));
+        deleteDir(new File(serviceImplPath));
+        new File(controllerPath).mkdirs();
+        new File(servicePath).mkdirs();
+        new File(serviceImplPath).mkdirs();
 
-        String servicePath = basePath + module + "/src/main/java/" + package_name.replaceAll("\\.", "/") + "/web";
-        String serviceImplPath = basePath + module + "/src/main/java/" + package_name.replaceAll("\\.", "/") + "/web/service/impl";
         for (int i = 0; i < tables.size(); i++) {
             String model = StringUtil.lineToHump(toString(tables.get(i).get("table_name")));
+            String controller = controllerPath + "/" + model + "controller.java";
             String service = servicePath + "/" + model + "Service.java";
-            String serviceMock = servicePath + "/" + model + "ServiceMock.java";
             String serviceImpl = serviceImplPath + "/" + model + "ServiceImpl.java";
+            // 生成 controller
+            File controllerFile = new File(controller);
+            if (!controllerFile.exists()) {
+                VelocityContext context = new VelocityContext();
+                context.put("package_name", package_name);
+                context.put("model", model);
+                context.put("author", "Liaoxb");
+                context.put("ctime", ctime);
+                VelocityUtil.generate(controller_vm, controller, context);
+            }
+/*
             // 生成service
             File serviceFile = new File(service);
             if (!serviceFile.exists()) {
                 VelocityContext context = new VelocityContext();
                 context.put("package_name", package_name);
                 context.put("model", model);
+                context.put("author", "Liaoxb");
                 context.put("ctime", ctime);
                 VelocityUtil.generate(service_vm, service, context);
-                System.out.println(service);
-            }
-            // 生成serviceMock
-            File serviceMockFile = new File(serviceMock);
-            if (!serviceMockFile.exists()) {
-                VelocityContext context = new VelocityContext();
-                context.put("package_name", package_name);
-                context.put("model", model);
-                context.put("ctime", ctime);
-                VelocityUtil.generate(serviceMock_vm, serviceMock, context);
-                System.out.println(serviceMock);
             }
             // 生成serviceImpl
             File serviceImplFile = new File(serviceImpl);
@@ -151,15 +104,88 @@ public class MybatisGeneratorUtil {
                 context.put("package_name", package_name);
                 context.put("model", model);
                 context.put("mapper", StringUtil.toLowerCaseFirstOne(model));
+                context.put("author", "Liaoxb");
                 context.put("ctime", ctime);
                 VelocityUtil.generate(serviceImpl_vm, serviceImpl, context);
                 System.out.println(serviceImpl);
-            }
+            }*/
         }
         System.out.println("========== 结束生成Service ==========");
+    }
 
-        System.out.println("========== 开始生成Controller ==========");
-        System.out.println("========== 结束生成Controller ==========");
+    private static void createGeneratorConfig(String jdbc_password, String module, String package_name,
+                                         Map<String, String> last_insert_id_tables,List<Map<String, Object>> tables){
+        String basePath = getRootModulePath();
+        // 生成后的 generatorConfig.xml 文件所在路径
+        String generatorConfig_xml =  basePath + generatorName + "//src/main/resources/generatorConfig.xml".replaceFirst("/", "");
+
+        //========== 开始生成generatorConfig.xml文件 ==========
+        try {
+            VelocityContext context = new VelocityContext();
+
+            String targetProject = basePath + module; // model 和 mapper接口 生成位置
+            String targetProject_sqlMap = basePath + module; // mapper xml文件生成位置
+            context.put("tables", tables);
+            // generator生成文件所在包路径
+            context.put("generator_javaModelGenerator_targetPackage", package_name + ".model");
+            context.put("generator_sqlMapGenerator_targetPackage", package_name + ".dao.mapper");
+            context.put("generator_javaClientGenerator_targetPackage", package_name + ".dao");
+            // 文件生成目标项目（project，或则module 路径）
+            context.put("targetProject", targetProject);
+            context.put("targetProject_sqlMap", targetProject_sqlMap);
+            context.put("generator_jdbc_password", AESUtil.AESDecode(jdbc_password));
+            context.put("last_insert_id_tables", last_insert_id_tables);
+
+            generatorConfig_xml = URLDecoder.decode(generatorConfig_xml, "UTF-8"); // 解码
+            VelocityUtil.generate(generatorConfig_vm, generatorConfig_xml, context);
+            // 删除旧代码
+            deleteDir(new File(targetProject + "/src/main/java/" + package_name.replaceAll("\\.", "/") + "/model"));
+            deleteDir(new File(targetProject + "/src/main/java/" + package_name.replaceAll("\\.", "/") + "/dao/mapper"));
+            deleteDir(new File(targetProject_sqlMap + "/src/main/java/" + package_name.replaceAll("\\.", "/") + "/dao"));
+            // ========== 结束生成generatorConfig.xml文件 ==========
+
+            // ========== 开始运行MybatisGenerator ==========
+            List<String> warnings = new ArrayList<>();
+            File configFile = new File(generatorConfig_xml);
+            ConfigurationParser cp = new ConfigurationParser(warnings);
+            Configuration config = cp.parseConfiguration(configFile);
+            DefaultShellCallback callback = new DefaultShellCallback(true);
+            MyBatisGenerator myBatisGenerator = new MyBatisGenerator(config, callback, warnings);
+            myBatisGenerator.generate(null); // 调用 mybatisGenerator 生成 model 和 mapper
+            for (String warning : warnings) {
+                System.out.println(warning);
+            }
+            // ========== 结束运行MybatisGenerator ==========
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
+     * 查询定制前缀项目的所有表
+     * @param jdbc_driver
+     * @param jdbc_url
+     * @param jdbc_username
+     * @param jdbc_password
+     * @param database
+     * @param table_prefix
+     * @throws SQLException
+     */
+    private static List<Map<String, Object>> getTables(String jdbc_driver, String jdbc_url, String jdbc_username, String jdbc_password, String database, String table_prefix) throws SQLException {
+        List<Map<String, Object>> tables = new ArrayList<>();
+        // 查询定制前缀项目的所有表
+        JdbcUtil jdbcUtil = new JdbcUtil(jdbc_driver, jdbc_url, jdbc_username, AESUtil.AESDecode(jdbc_password));
+        String sql = "SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_schema = '" + database + "' AND table_name LIKE '" + table_prefix + "_%';";
+        List<Map> result = jdbcUtil.selectByParams(sql, null);
+        for (Map map : result) {
+            Map<String, Object> table = new HashMap<>();
+            table.put("table_name", map.get("TABLE_NAME"));
+            table.put("model_name", StringUtil.lineToHump(toString(map.get("TABLE_NAME"))));
+            tables.add(table);
+        }
+        jdbcUtil.release();
+        return tables;
     }
 
     public static String toString(Object obj) {
@@ -168,11 +194,10 @@ public class MybatisGeneratorUtil {
 
     /**
      * module 结构项目，获取顶级module路径
-     * @param classObj
      * @return
      */
-    public static String getRootModulePath(Class classObj){
-        String rootPath = classObj.getClassLoader().getResource("").getPath();
+    public static String getRootModulePath(){
+        String rootPath = MybatisGeneratorUtil.class.getClassLoader().getResource("").getPath();
         // 当前代码生成器module名称
         String generator = PropertiesFileUtil.getInstance("generator").get("generator.module.name");
         // getResource 方式获取的路径是以“/”开始的，所有从1开始

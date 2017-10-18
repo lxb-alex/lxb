@@ -20,7 +20,7 @@ public class Generator {
     // 表前缀
     private static String TABLE_PREFIX = "sys";
     // 包名称
-    private static String PACKAGE_NAME = "com.lxb";
+    private static String PACKAGE_NAME = "com.lxb.web";
     private static String JDBC_DRIVER = PropertiesFileUtil.getInstance("generator").get("generator.jdbc.driver");
     private static String JDBC_URL = PropertiesFileUtil.getInstance("generator").get("generator.jdbc.url");
     private static String JDBC_USERNAME = PropertiesFileUtil.getInstance("generator").get("generator.jdbc.username");
