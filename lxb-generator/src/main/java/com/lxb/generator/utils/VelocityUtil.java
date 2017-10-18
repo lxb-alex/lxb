@@ -4,6 +4,7 @@ import org.apache.commons.io.output.FileWriterWithEncoding;
 import org.apache.commons.lang.StringUtils;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
+import org.apache.velocity.app.Velocity;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
@@ -37,6 +38,9 @@ public class VelocityUtil {
             VelocityEngine ve = new VelocityEngine();
             ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
             ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
+            // 设置编码，解决中文乱码
+            ve.setProperty(Velocity.INPUT_ENCODING, "utf8");
+            ve.setProperty(Velocity.OUTPUT_ENCODING, "utf8");
             ve.init();
             Template template = ve.getTemplate(vmFilePath);
             File outputFile = new File(outputFilePath);

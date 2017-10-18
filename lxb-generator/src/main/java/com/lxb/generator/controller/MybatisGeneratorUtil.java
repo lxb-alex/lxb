@@ -60,6 +60,7 @@ public class MybatisGeneratorUtil {
         createGeneratorConfig(jdbc_password, module, package_name, last_insert_id_tables, tables);
 
         System.out.println("========== 开始生成Service ==========");
+        // 指定 Controller、service、impl 目录
         String ctime = new SimpleDateFormat("yyyy/M/d").format(new Date());
         String controllerPath = getRootModulePath() + module + "/src/main/java/" + package_name.replaceAll("\\.", "/") + "/controller";
         String servicePath = getRootModulePath() + module + "/src/main/java/" + package_name.replaceAll("\\.", "/") + "/service";
@@ -72,43 +73,33 @@ public class MybatisGeneratorUtil {
         new File(serviceImplPath).mkdirs();
 
         for (int i = 0; i < tables.size(); i++) {
+            // 指定生成的文件 全路径名称
             String model = StringUtil.lineToHump(toString(tables.get(i).get("table_name")));
-            String controller = controllerPath + "/" + model + "controller.java";
+            String controller = controllerPath + "/" + model + "Controller.java";
             String service = servicePath + "/" + model + "Service.java";
             String serviceImpl = serviceImplPath + "/" + model + "ServiceImpl.java";
+            // 赋值 .vm 文件中的参数
+            VelocityContext context = new VelocityContext();
+            context.put("package_name", package_name);
+            context.put("model", model);
+            context.put("author", "Liaoxb");
+            context.put("ctime", ctime);
             // 生成 controller
             File controllerFile = new File(controller);
             if (!controllerFile.exists()) {
-                VelocityContext context = new VelocityContext();
-                context.put("package_name", package_name);
-                context.put("model", model);
-                context.put("author", "Liaoxb");
-                context.put("ctime", ctime);
                 VelocityUtil.generate(controller_vm, controller, context);
             }
-/*
             // 生成service
             File serviceFile = new File(service);
             if (!serviceFile.exists()) {
-                VelocityContext context = new VelocityContext();
-                context.put("package_name", package_name);
-                context.put("model", model);
-                context.put("author", "Liaoxb");
-                context.put("ctime", ctime);
                 VelocityUtil.generate(service_vm, service, context);
             }
             // 生成serviceImpl
             File serviceImplFile = new File(serviceImpl);
             if (!serviceImplFile.exists()) {
-                VelocityContext context = new VelocityContext();
-                context.put("package_name", package_name);
-                context.put("model", model);
                 context.put("mapper", StringUtil.toLowerCaseFirstOne(model));
-                context.put("author", "Liaoxb");
-                context.put("ctime", ctime);
                 VelocityUtil.generate(serviceImpl_vm, serviceImpl, context);
-                System.out.println(serviceImpl);
-            }*/
+            }
         }
         System.out.println("========== 结束生成Service ==========");
     }
@@ -156,6 +147,8 @@ public class MybatisGeneratorUtil {
                 System.out.println(warning);
             }
             // ========== 结束运行MybatisGenerator ==========
+            // 删除前面生成的 generatorConfig.xml 文件
+            new File(generatorConfig_xml).delete();
         } catch (Exception e) {
             e.printStackTrace();
         }
