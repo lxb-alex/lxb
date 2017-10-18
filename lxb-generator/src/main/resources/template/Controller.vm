@@ -1,4 +1,4 @@
-package ${package_name}.controller;
+package ${package}.controller;
 
 import ${groupId}.common.base.BaseController;
 import io.swagger.annotations.Api;
@@ -10,14 +10,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
- * ${model}controller
- * Created by ${author} on ${ctime}.
+ * ${className}Controller
+ * Created by ${author} on ${createDate}.
  */
 @Controller
 @RequestMapping("/manage")
-public class ${model}Controller extends BaseController {
+public class ${className}Controller extends BaseController {
 
-    private static Logger _log = LoggerFactory.getLogger(${model}Controller.class);
+    private static Logger _log = LoggerFactory.getLogger(${className}Controller.class);
 
 
 

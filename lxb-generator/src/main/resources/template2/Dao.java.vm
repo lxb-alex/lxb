@@ -1,0 +1,16 @@
+package
+
+import org.springframework.stereotype.Repository;${package}.dao;
+
+import ${package}.entity.${className}Entity;
+
+/**
+ * ${className}
+ * 
+ * @author ${author}
+ * @date ${createDate}
+ */
+@Repository()
+public interface ${className}Dao extends BaseDao<${className}Entity> {
+	
+}

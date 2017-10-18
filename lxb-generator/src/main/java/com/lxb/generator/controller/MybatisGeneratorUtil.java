@@ -27,12 +27,19 @@ public class MybatisGeneratorUtil {
 
     // generatorConfig 模板路径
     private static String generatorConfig_vm = "/template/generatorConfig.vm";
-    // Controller 模板路径
+/*    // Controller 模板路径
     private static String controller_vm = "/template/Controller.vm";
     // Service 模板路径
     private static String service_vm = "/template/Service.vm";
     // ServiceImpl 模板路径
-    private static String serviceImpl_vm = "/template/ServiceImpl.vm";
+    private static String serviceImpl_vm = "/template/ServiceImpl.vm";*/
+
+    // Controller 模板路径
+    private static String controller_vm = "/template2/Controller.java.vm";
+    // Service 模板路径
+    private static String service_vm = "/template2/Service.java.vm";
+    // ServiceImpl 模板路径
+    private static String serviceImpl_vm = "/template2/ServiceImpl.java.vm";
 
     // 当前代码生成器module名称
     static String generatorName = PropertiesFileUtil.getInstance("generator").get("generator.module.name");
@@ -80,10 +87,12 @@ public class MybatisGeneratorUtil {
             String serviceImpl = serviceImplPath + "/" + model + "ServiceImpl.java";
             // 赋值 .vm 文件中的参数
             VelocityContext context = new VelocityContext();
-            context.put("package_name", package_name);
-            context.put("model", model);
-            context.put("author", "Liaoxb");
-            context.put("ctime", ctime);
+            context.put("package", package_name);// 包路径
+            context.put("className", model);    // 表名称（类名）
+            context.put("classname", StringUtil.toLowerCaseFirstOne(model));// 首字母小写（小驼峰）
+            context.put("pathName", "/"+StringUtil.toLowerCaseFirstOne(model));// controller 请求前缀
+            context.put("author", "Liaoxb");    // 作者
+            context.put("createDate", ctime);   // 创建时间
             // 生成 controller
             File controllerFile = new File(controller);
             if (!controllerFile.exists()) {
@@ -97,7 +106,6 @@ public class MybatisGeneratorUtil {
             // 生成serviceImpl
             File serviceImplFile = new File(serviceImpl);
             if (!serviceImplFile.exists()) {
-                context.put("mapper", StringUtil.toLowerCaseFirstOne(model));
                 VelocityUtil.generate(serviceImpl_vm, serviceImpl, context);
             }
         }

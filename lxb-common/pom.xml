@@ -8,7 +8,6 @@
         <version>1.0.0_Beta</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-
     <artifactId>lxb-common</artifactId>
     <groupId>com.lxb</groupId>
     <version>${lxb.version}</version>
@@ -212,6 +211,7 @@
         </dependency>
 
     </dependencies>
+
     <build>
         <finalName>lxb-common</finalName>
     </build>

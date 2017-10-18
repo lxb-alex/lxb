@@ -4,19 +4,6 @@
     <output url="file://$MODULE_DIR$/target/classes" />
     <output-test url="file://$MODULE_DIR$/target/test-classes" />
     <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/lxb-common/src/main/java" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/lxb-common/src/main/resources" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/lxb-generator/src/test" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/lxb-common/src/test" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/lxb-api/src/main/java" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/lxb-api/src/main/resources" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/lxb-api/src/test" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/lxb-generator/src/main/java" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/lxb-generator/src/main/resources" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/lxb-web/src/main/resources" type="java-resource" />
-      <excludeFolder url="file://$MODULE_DIR$/lxb-common/target" />
-      <excludeFolder url="file://$MODULE_DIR$/lxb-generator/target" />
-      <excludeFolder url="file://$MODULE_DIR$/lxb-web/target" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="inheritedJdk" />

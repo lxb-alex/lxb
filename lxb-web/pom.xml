@@ -3,19 +3,24 @@
     <parent>
         <artifactId>lxb</artifactId>
         <groupId>com.lxb</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0.0_Beta</version>
     </parent>
-    <modelVersion>4.0.0</modelVersion>
+    <modelVersion>${lxb.version}</modelVersion>
     <artifactId>lxb-web</artifactId>
+    <groupId>com.lxb</groupId>
+
     <packaging>war</packaging>
-    <name>lxb-web Maven Webapp</name>
+    <version>${lxb.version}</version>
+
+    <name>lxb-web </name>
     <url>http://maven.apache.org</url>
+
+
     <dependencies>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>3.8.1</version>
-            <scope>test</scope>
+            <groupId>com.lxb</groupId>
+            <artifactId>lxb-common</artifactId>
+            <version>${lxb.version}</version>
         </dependency>
     </dependencies>
     <build>

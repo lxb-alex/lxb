@@ -1,7 +1,7 @@
 package com.lxb.common.utils;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ import java.util.Map;
  * @Date 2017/9/30 13:45:45
  */
 public class JdbcUtil {
-    private static Logger logger = LoggerFactory.getLogger(JdbcUtil.class);
+    private static Log logger = LogFactory.getLog(JdbcUtil.class);
 
     // 定义数据库的链接
     private Connection conn;
