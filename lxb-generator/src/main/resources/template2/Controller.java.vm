@@ -19,7 +19,7 @@ import ${package}.utils.R;
 
 
 /**
- * ${className}
+ * ${tableComment}
  * 
  * @author ${author}
  * @date ${createDate}

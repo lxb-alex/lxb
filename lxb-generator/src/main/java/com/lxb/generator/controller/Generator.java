@@ -37,6 +37,9 @@ public class Generator {
      * @param args
      */
     public static void main(String[] args) throws Exception {
-        MybatisGeneratorUtil.generator(JDBC_DRIVER, JDBC_URL, JDBC_USERNAME, JDBC_PASSWORD, MODULE, DATABASE, TABLE_PREFIX, PACKAGE_NAME, LAST_INSERT_ID_TABLES);
+        // 生成配置文件
+        MybatisGeneratorUtil.createConfigFile(JDBC_DRIVER, JDBC_URL, JDBC_USERNAME, JDBC_PASSWORD, MODULE, PACKAGE_NAME);
+        // 生成 业务相关代码文件
+        //MybatisGeneratorUtil.generator(JDBC_DRIVER, JDBC_URL, JDBC_USERNAME, JDBC_PASSWORD, MODULE, DATABASE, TABLE_PREFIX, PACKAGE_NAME, LAST_INSERT_ID_TABLES);
     }
 }

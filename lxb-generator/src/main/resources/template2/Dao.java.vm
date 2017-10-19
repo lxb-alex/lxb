@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;${package}.dao;
 import ${package}.entity.${className}Entity;
 
 /**
- * ${className}
+ * ${tableComment}
  * 
  * @author ${author}
  * @date ${createDate}

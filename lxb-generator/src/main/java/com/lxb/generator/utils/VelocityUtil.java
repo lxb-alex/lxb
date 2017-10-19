@@ -32,8 +32,7 @@ public class VelocityUtil {
      */
     public static void generate(String vmFilePath, String outputFilePath, VelocityContext context) throws Exception {
         try {
-            System.out.println("vmFilePath : " + vmFilePath);
-            System.out.println("outputFilePath : " + outputFilePath);
+            System.out.println("create file : " + outputFilePath);
             // 设置velocity资源加载器
             VelocityEngine ve = new VelocityEngine();
             ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");

@@ -11,7 +11,12 @@ import ${package}.entity.${className}Entity;
 import ${package}.service.${className}Service;
 
 
-
+/**
+ * ${tableComment}
+ *
+ * @author ${author}
+ * @date ${createDate}
+ */
 @Service("${classname}Service")
 public class ${className}ServiceImpl implements ${className}Service {
 	@Autowired
