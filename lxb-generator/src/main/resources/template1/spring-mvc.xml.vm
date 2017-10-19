@@ -49,6 +49,7 @@
         <property name="contentType" value="text/html;charset=UTF-8" />
         <property name="viewNames" value="*.html" />
         <property name="suffix" value=""/>
+        <!-- 定义参数（在HTML中调用） -->
         <property name="dateToolAttribute" value="date" />
         <property name="numberToolAttribute" value="number" />
         <property name="requestContextAttribute" value="rc"/>
