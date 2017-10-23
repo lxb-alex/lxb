@@ -20,6 +20,12 @@
             <property name="suppressJavaInterface" value="false"/>
         </plugin>
 
+        <!-- 分页插件 -->
+        <!-- 在example类中增 page 属性，并在mapper.xml的查询中加入page !=null 时的查询 -->
+        <!-- <plugin type="org.mybatis.generator.plugins.MySQLPagerPlugin" /> -->
+        <!-- 在example类中增 offset和limit属性，并在mapper.xml的查询中加入limit ${offset} , ${limit} 提供在offset和limit>0时的查询 -->
+        <plugin type="com.lxb.generator.utils.PaginationPlugin"></plugin>
+
         <!-- 生成一个新的selectByExample方法，这个方法可以接收offset和limit参数，主要用来实现分页，只支持mysql(已使用pagehelper代替) -->
         <!--<plugin type="com.zheng.common.plugin.PaginationPlugin"></plugin>-->
 
@@ -63,11 +69,16 @@
         <!-- 需要映射的表 -->
         #foreach($table in $tables)
             #if($last_insert_id_tables.containsKey($!table.table_name) == true)
-                <table tableName="$!table.table_name" domainObjectName="$!table.model_name">
+                <table tableName="$!table.table_name" domainObjectName="$!table.model_name"
+                       enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false"
+                       enableSelectByExample="false" selectByExampleQueryId="false"
+                >
                     <generatedKey column="$!last_insert_id_tables.get($!table.table_name)" sqlStatement="MySql" identity="true"/>
                 </table>
             #else
-                <table tableName="$!table.table_name" domainObjectName="$!table.model_name"></table>
+                <table enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false"
+                       enableSelectByExample="false" selectByExampleQueryId="false"
+                       tableName="$!table.table_name" domainObjectName="$!table.model_name"></table>
             #end
         #end
     </context>

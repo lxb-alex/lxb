@@ -33,7 +33,7 @@
 		select count(*) from ${tableName} 
 	</select>
 
-    <insert id="save" parameterType="${package}.entity.${className}Entity"#if($pk.extra == 'auto_increment') useGeneratedKeys="true" keyProperty="$pk.attrname"#end>
+    <insert id="save" parameterType="${package}.entity.${className}Entity"#if($pk.extra == 'auto_increment') useGeneratedKeys="true" keyProperty="$pkAttrName"#end>
         insert into ${tableName}
         (
 		#foreach($column in $columns)
@@ -63,7 +63,7 @@
 				#end
 			#end
         </set>
-        where ${pk.columnName} = #{${pk.attrname}}
+        where ${pk.columnName} = #{${pkAttrName}}
     </update>
 
     <delete id="delete">
@@ -72,8 +72,8 @@
 
     <delete id="deleteBatch">
         delete from ${tableName} where ${pk.columnName} in
-        <foreach item="${pk.attrname}" collection="array" open="(" separator="," close=")">
-            #{${pk.attrname}}
+        <foreach item="${pkAttrName}" collection="array" open="(" separator="," close=")">
+            #{${pkAttrName}}
         </foreach>
     </delete>
 

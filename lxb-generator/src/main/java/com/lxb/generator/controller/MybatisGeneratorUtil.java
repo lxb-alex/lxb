@@ -154,7 +154,7 @@ public class MybatisGeneratorUtil {
             context.put("className", TableName);    // 表名称（类名）
             context.put("classname", tableName);// 首字母小写（小驼峰）
             context.put("pathName", tableName);// controller 请求前缀
-//            context.put("pk.attrname",null);// 表主键字段
+            context.put("pkAttrName", "id");// 表主键字段，没有查询数据库，直接默认为id
             context.put("author", "Liaoxb");    // 作者
             context.put("createDate", createDate);   // 创建时间
 

@@ -6,8 +6,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
 
-import ${package}.dao.${className}Dao;
-import ${package}.entity.${className}Entity;
+import ${package}.dao.${className}Mapper;
+import ${package}.model.${className};
 import ${package}.service.${className}Service;
 
 
@@ -20,41 +20,41 @@ import ${package}.service.${className}Service;
 @Service("${classname}Service")
 public class ${className}ServiceImpl implements ${className}Service {
 	@Autowired
-	private ${className}Dao ${classname}Dao;
+	private ${className}Mapper ${classname}Mapper;
 	
 	@Override
-	public ${className}Entity queryObject(${pk.attrType} ${pk.attrname}){
-		return ${classname}Dao.queryObject(${pk.attrname});
+	public ${className} get${className}(int ${pkAttrName}){
+		return ${classname}Mapper.selectByPrimaryKey(${pkAttrName});
 	}
 	
 	@Override
-	public List<${className}Entity> queryList(Map<String, Object> map){
-		return ${classname}Dao.queryList(map);
+	public List<${className}> selectList(Map<String, Object> map){
+		return ${classname}Mapper.selectList(map);
 	}
 	
 	@Override
-	public int queryTotal(Map<String, Object> map){
-		return ${classname}Dao.queryTotal(map);
+	public int getTotal(Map<String, Object> map){
+		return ${classname}Mapper.getTotal(map);
 	}
 	
 	@Override
-	public void save(${className}Entity ${classname}){
-		${classname}Dao.save(${classname});
+	public void save(${className} ${classname}){
+		${classname}Mapper.insertSelective(${classname});
 	}
 	
 	@Override
-	public void update(${className}Entity ${classname}){
-		${classname}Dao.update(${classname});
+	public void update(${className} ${classname}){
+		${classname}Mapper.updateByPrimaryKeySelective(${classname});
 	}
 	
 	@Override
-	public void delete(${pk.attrType} ${pk.attrname}){
-		${classname}Dao.delete(${pk.attrname});
+	public void delete(int ${pkAttrName}){
+		${classname}Mapper.deleteByPrimaryKey(${pkAttrName});
 	}
 	
 	@Override
-	public void deleteBatch(${pk.attrType}[] ${pk.attrname}s){
-		${classname}Dao.deleteBatch(${pk.attrname}s);
+	public void deleteBatch(int[] ${pkAttrName}s){
+		${classname}Mapper.deleteBatch(${pkAttrName}s);
 	}
 	
 }

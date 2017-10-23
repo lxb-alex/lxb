@@ -10,7 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * 控制器基类
- * Created by ZhangShuzheng on 2017/2/4.
+ * @author Liaoxb
+ * @Date 2017/9/30 13:45:45
  */
 public abstract class BaseController {
 

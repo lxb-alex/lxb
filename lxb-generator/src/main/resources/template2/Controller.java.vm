@@ -1,21 +1,17 @@
 package ${package}.controller;
 
+import com.alibaba.fastjson.JSONObject;
+import com.lxb.common.base.BaseController;
+import com.lxb.common.utils.MessageVo;
+import com.lxb.common.utils.PageUtil;
+import com.lxb.common.utils.Query;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import ${package}.entity.${className}Entity;
+import ${package}.model.${className};
 import ${package}.service.${className}Service;
-import ${package}.utils.PageUtils;
-import ${package}.utils.Query;
-import ${package}.utils.R;
 
 
 /**
@@ -34,57 +30,61 @@ public class ${className}Controller extends  BaseController{
 	 * 列表
 	 */
 	@RequestMapping("/list")
-	public R list(@RequestParam Map<String, Object> params){
+	public JSONObject list(@RequestParam Map<String, Object> params){
 		//查询列表数据
         Query query = new Query(params);
 
-		List<${className}Entity> ${classname}List = ${classname}Service.queryList(query);
-		int total = ${classname}Service.queryTotal(query);
-		
-		PageUtils pageUtil = new PageUtils(${classname}List, total, query.getLimit(), query.getPage());
-		
-		return R.ok().put("page", pageUtil);
+        int total = ${classname}Service.getTotal(query); // 当前条件得到的总记录数
+        List<${className}> ${classname}List = null;
+        int rowNum =  (query.getPage()-1)*query.getPageSize(); // 当前分页开始记录数
+        if (total> rowNum){
+        	${classname}List = ${classname}Service.selectList(query);
+		}
+
+		PageUtil page = new PageUtil(total, query.getPage(), query.getPageSize(), ${classname}List);
+
+		return PageUtil.convertToJSONObject(page);
 	}
 	
 	
 	/**
 	 * 信息
 	 */
-	@RequestMapping("/info/{${pk.attrname}}")
-	public R info(@PathVariable("${pk.attrname}") ${pk.attrType} ${pk.attrname}){
-		${className}Entity ${classname} = ${classname}Service.queryObject(${pk.attrname});
-		
-		return R.ok().put("${classname}", ${classname});
+	@RequestMapping("/info/{${pkAttrName}}")
+	public MessageVo get${className}(@PathVariable("${pkAttrName}") int ${pkAttrName}){
+		${className} ${classname} = ${classname}Service.get${className}(${pkAttrName});
+
+        return new MessageVo(MessageVo.SUCCESS, ${classname});
 	}
 	
 	/**
 	 * 保存
 	 */
 	@RequestMapping("/save")
-	public R save(@RequestBody ${className}Entity ${classname}){
+	public MessageVo save(@RequestBody ${className} ${classname}){
 		${classname}Service.save(${classname});
 		
-		return R.ok();
+		return new MessageVo(MessageVo.SUCCESS, null);
 	}
 	
 	/**
 	 * 修改
 	 */
 	@RequestMapping("/update")
-	public R update(@RequestBody ${className}Entity ${classname}){
+	public MessageVo update(@RequestBody ${className} ${classname}){
 		${classname}Service.update(${classname});
-		
-		return R.ok();
+
+        return new MessageVo(MessageVo.SUCCESS, null);
 	}
 	
 	/**
 	 * 删除
 	 */
 	@RequestMapping("/delete")
-	public R delete(@RequestBody ${pk.attrType}[] ${pk.attrname}s){
-		${classname}Service.deleteBatch(${pk.attrname}s);
-		
-		return R.ok();
+	public MessageVo delete(@RequestBody int[] ${pkAttrName}s){
+		${classname}Service.deleteBatch(${pkAttrName}s);
+
+        return new MessageVo(MessageVo.SUCCESS, null);
 	}
 	
 }

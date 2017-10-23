@@ -56,17 +56,17 @@ var vm = new Vue({
 			vm.${classname} = {};
 		},
 		update: function (event) {
-			var $pk.attrname = getSelectedRow();
-			if($pk.attrname == null){
+			var $pkAttrName = getSelectedRow();
+			if($pkAttrName == null){
 				return ;
 			}
 			vm.showList = false;
             vm.title = "修改";
             
-            vm.getInfo(${pk.attrname})
+            vm.getInfo(${pkAttrName})
 		},
 		saveOrUpdate: function (event) {
-			var url = vm.${classname}.${pk.attrname} == null ? "../${pathName}/save" : "../${pathName}/update";
+			var url = vm.${classname}.${pkAttrName} == null ? "../${pathName}/save" : "../${pathName}/update";
 			$.ajax({
 				type: "POST",
 			    url: url,
@@ -84,8 +84,8 @@ var vm = new Vue({
 			});
 		},
 		del: function (event) {
-			var ${pk.attrname}s = getSelectedRows();
-			if(${pk.attrname}s == null){
+			var ${pkAttrName}s = getSelectedRows();
+			if(${pkAttrName}s == null){
 				return ;
 			}
 			
@@ -94,7 +94,7 @@ var vm = new Vue({
 					type: "POST",
 				    url: "../${pathName}/delete",
                     contentType: "application/json",
-				    data: JSON.stringify(${pk.attrname}s),
+				    data: JSON.stringify(${pkAttrName}s),
 				    success: function(r){
 						if(r.code == 0){
 							alert('操作成功', function(index){
@@ -107,8 +107,8 @@ var vm = new Vue({
 				});
 			});
 		},
-		getInfo: function(${pk.attrname}){
-			$.get("../${pathName}/info/"+${pk.attrname}, function(r){
+		getInfo: function(${pkAttrName}){
+			$.get("../${pathName}/info/"+${pkAttrName}, function(r){
                 vm.${classname} = r.${classname};
             });
 		},

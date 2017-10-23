@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 
 /**
  * String 工具类
+ *
  * @Author Liaoxb
  * @Date 2017/9/30 10:56:56
  */
@@ -17,7 +18,49 @@ public class StringUtil {
     private static Pattern humpPattern = Pattern.compile("[A-Z]");
 
     /**
+     * 如果为空，返回 默认值
+     * @param obj 判断参数
+     * @param defaultStr 默认值
+     * @return
+     */
+    public static String blank(Object obj, String defaultStr) {
+        if (obj == null || obj == "" || obj == " ") {
+            return defaultStr;
+        } else {
+            return obj.toString();
+        }
+    }
+
+    /**
+     * 如果为空，返回null
+     * @param str 判断参数
+     * @return
+     */
+    public static String blank(String str) {
+        if (str == null || str == "" || str == " ") {
+            return null;
+        } else {
+            return str.trim();
+        }
+    }
+
+    /**
+     *  空 ：true ; 非空 ：false
+     * @param str 判断参数
+     * @return
+     */
+    public static boolean isBlank(String str) {
+        if (str == null || str == "" || str == " ") {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+    /**
      * 下划线转驼峰
+     *
      * @param str
      * @return
      */
@@ -41,6 +84,7 @@ public class StringUtil {
 
     /**
      * 驼峰转下划线(简单写法，效率低于{@link #humpToLine2(String)})
+     *
      * @param str
      * @return
      */
@@ -50,6 +94,7 @@ public class StringUtil {
 
     /**
      * 驼峰转下划线,效率比上面高
+     *
      * @param str
      * @return
      */
@@ -65,6 +110,7 @@ public class StringUtil {
 
     /**
      * 首字母转小写
+     *
      * @param s
      * @return
      */
@@ -81,6 +127,7 @@ public class StringUtil {
 
     /**
      * 首字母转大写
+     *
      * @param s
      * @return
      */
@@ -97,6 +144,7 @@ public class StringUtil {
 
     /**
      * object转String
+     *
      * @param object
      * @return
      */
@@ -117,6 +165,7 @@ public class StringUtil {
 
     /**
      * object转Integer
+     *
      * @param object
      * @return
      */
@@ -137,6 +186,7 @@ public class StringUtil {
 
     /**
      * object转Boolean
+     *
      * @param object
      * @return
      */

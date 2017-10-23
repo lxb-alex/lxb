@@ -1,8 +1,8 @@
-package
+package ${package}.dao;
 
-import org.springframework.stereotype.Repository;${package}.dao;
+import org.springframework.stereotype.Repository;
 
-import ${package}.entity.${className}Entity;
+import ${package}.model.${className};
 
 /**
  * ${tableComment}
@@ -11,6 +11,6 @@ import ${package}.entity.${className}Entity;
  * @date ${createDate}
  */
 @Repository()
-public interface ${className}Dao extends BaseDao<${className}Entity> {
+public interface ${className}Dao extends BaseDao<${className}> {
 	
 }
