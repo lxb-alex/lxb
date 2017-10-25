@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>lxb</artifactId>
+        <groupId>com.lxb</groupId>
+        <version>1.0.0_Beta</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.lxb</groupId>
+    <artifactId>lxb-gen</artifactId>
+    <version>${lxb.version}</version>
+
+    <properties>
+        <velocity.version>1.7</velocity.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.lxb</groupId>
+            <artifactId>lxb-common</artifactId>
+            <version>${lxb.version}</version>
+        </dependency>
+        <!-- 基于java的模板引擎 -->
+        <dependency>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity</artifactId>
+            <version>${velocity.version}</version>
+        </dependency>
+
+    </dependencies>
+
+
+</project>
