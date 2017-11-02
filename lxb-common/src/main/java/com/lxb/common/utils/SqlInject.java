@@ -19,12 +19,13 @@ public class SqlInject {
         }
         str = str.toLowerCase(); // 转为小写
         // 注入字符过滤
-        String inject_str = "chr|mid|master|truncate|exec|execute|create|insert|select|delete|update|count|drop|" +
-                "char|declare|sitename|net user|xp_cmdshell|;|-|+|'|like'|" +
-                "where|table|from|grant|use|group_concat|column_name|" +
-                "information_schema.columns|table_schema|";
-        String inject_strs[] = inject_str.split("|");
-        for (int i = 0; i <= inject_strs.length; i++) {
+        String inject_strs[] = {
+                "chr","mid ","master ","truncate ","exec","execute","create ","insert ","select ","delete ",
+                "update ","count","drop","char","declare","sitename","net user","xp_cmdshell",";","-","+","'",
+                "like '", "where "," table","from","grant","use ","group_concat","column_name",
+                "information_schema.columns","table_schema"
+        };
+        for (int i = 0; i <= inject_strs.length-1; i++) {
             if (str.indexOf(inject_strs[i]) >= 0) {
                 return true;
             }

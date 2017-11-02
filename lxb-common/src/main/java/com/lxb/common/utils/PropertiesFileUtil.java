@@ -116,5 +116,23 @@ public class PropertiesFileUtil {
         }
         return null;
     }
+    /**
+     * 	根据key 获取properties中的值
+     * 	通过jdk的Properties方式，可以防止中文乱码
+     * 	@param key properties 中的key
+     * */
+    public static String getPropertiesValue(String configName, String key){
+        Properties prop = new Properties();
+        InputStream in = PropertiesFileUtil.class.getClassLoader().getResourceAsStream (configName);
+        try {
+            prop.load(new InputStreamReader(in, CHARSET));
+            String value = prop.get(key).toString().trim();
+            return value;
+        } catch (Exception e) {
+            System.out.println(e.getMessage()+"获取配置文件信息异常");
+            e.printStackTrace();
+        }
+        return null;
+    }
 
 }

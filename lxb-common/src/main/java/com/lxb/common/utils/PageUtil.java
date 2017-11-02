@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * @Description
+ * @Description 分页工具类
  * @Author Liaoxb
  * @Date 2017/10/23 0023 10:45:45
  */

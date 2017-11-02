@@ -1,0 +1,30 @@
+package ${package}.service.impl;
+
+import com.lxb.common.annotation.BaseService;
+import com.lxb.common.base.BaseServiceImpl;
+import ${package}.dao.${className}Mapper;
+import ${package}.model.${className};
+import ${package}.model.${className}Example;
+import ${package}.service.${className}Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+/**
+* @Description ${className}Service实现
+* @Author ${author}
+* @Date  ${createDate}
+*/
+@Service
+@Transactional
+@BaseService
+public class ${className}ServiceImpl extends BaseServiceImpl<${className}Mapper, ${className}, ${className}Example> implements ${className}Service {
+
+    private static Logger _log = LoggerFactory.getLogger(${className}ServiceImpl.class);
+
+    @Autowired
+    ${className}Mapper ${classname}Mapper;
+
+}

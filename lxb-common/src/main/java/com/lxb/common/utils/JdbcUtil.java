@@ -26,6 +26,29 @@ public class JdbcUtil {
 
     /**
      * 初始化，基于jdbc连接数据库
+     *  driver 数据库驱动
+     *  url 数据库路径
+     *  username 用户名
+     *  password 密码
+     * @Date 2017/9/30 15:29
+     */
+    public JdbcUtil() {
+        try {
+            String driver = PropertiesFileUtil.getPropertiesValue("generator.properties", "generator.jdbc.driver");
+            String url = PropertiesFileUtil.getPropertiesValue("generator.properties", "generator.jdbc.url");
+            String username = PropertiesFileUtil.getPropertiesValue("generator.properties", "generator.jdbc.username");
+            String password = PropertiesFileUtil.getPropertiesValue("generator.properties", "generator.jdbc.password");
+            Class.forName(driver);
+            conn = DriverManager.getConnection(url, username, password);
+            logger.debug("数据库连接成功");
+        } catch (Exception e) {
+            logger.error(e.getMessage()+" 数据库连接失败");
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 初始化，基于jdbc连接数据库
      * @param driver 数据库驱动
      * @param url 数据库路径
      * @param username 用户名

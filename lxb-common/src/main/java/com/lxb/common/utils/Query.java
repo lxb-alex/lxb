@@ -39,7 +39,6 @@ public class Query extends LinkedHashMap<String, Object> implements Serializable
         String sidx = null == params.get("sortName") ? "createDate" : params.get("sortName").toString();
         String sortorder = null == params.get("sortorder") ? "ASC" : params.get("sortorder").toString();
         if (SqlInject.isSqlInject(sidx)) {
-            System.out.println("SQL参数中存在非法字符");
             logger.error("SQL参数中存在非法字符");
             this.put("sidx", "createDate");
         } else {

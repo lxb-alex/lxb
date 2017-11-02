@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div class="content">
+        #parse("./header.vm")
+        <div class="content-info">
+            #parse("/common/leftMenu.vm")
+            <div class="content-main">
+                $screen_content
+            </div>
+        </div>
+        #parse("common/footer.vm")
+    </div>
+</body>
+</html>

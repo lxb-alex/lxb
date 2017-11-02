@@ -5,16 +5,14 @@
         <groupId>com.lxb</groupId>
         <version>1.0.0_Beta</version>
     </parent>
-    <modelVersion>${lxb.version}</modelVersion>
+
     <artifactId>lxb-web</artifactId>
     <groupId>com.lxb</groupId>
-
     <packaging>war</packaging>
     <version>${lxb.version}</version>
 
     <name>lxb-web </name>
     <url>http://maven.apache.org</url>
-
 
     <dependencies>
         <dependency>

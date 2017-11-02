@@ -1,0 +1,29 @@
+package ${package}.service;
+
+import ${package}.model.${className};
+
+import java.util.List;
+import java.util.Map;
+
+/**
+ * ${tableComment}
+ * 
+ * @author ${author}
+ * @date ${createDate}
+ */
+public interface ${className}Service {
+	
+	${className} get${className}(int ${pkAttrName});
+	
+	List<${className}> selectList(Map<String, Object> map);
+	
+	int getTotal(Map<String, Object> map);
+	
+	void save(${className} ${classname});
+	
+	void update(${className} ${classname});
+	
+	void delete(int ${pkAttrName});
+	
+	void deleteBatch(int[] ${pkAttrName}s);
+}

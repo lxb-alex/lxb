@@ -38,6 +38,19 @@ public class MessageVo {
         this.obj = obj;
     }
 
+    public static MessageVo success(){
+        return success("操作成功");
+    }
+    public static MessageVo success(String msg){
+        return new MessageVo(200, "SUCCESS", msg, null);
+    }
+    public static MessageVo error(){
+        return error("操作失败");
+    }
+    public static MessageVo error(String msg){
+        return new MessageVo(0, "ERROR", msg, null);
+    }
+
     public Integer getCode() {
         return code;
     }

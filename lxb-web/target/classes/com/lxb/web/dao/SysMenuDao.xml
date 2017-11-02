@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lxb.web.dao.SysMenuDao">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.lxb.web.entity.SysMenuEntity" id="sysMenuMap">
+		            <result property="id" column="id"/>
+		            <result property="name" column="name"/>
+		            <result property="parentId" column="parent_id"/>
+		            <result property="url" column="url"/>
+		            <result property="identify" column="identify"/>
+		            <result property="type" column="type"/>
+		            <result property="icon" column="icon"/>
+		            <result property="orderNum" column="order_num"/>
+		    </resultMap>
+
+    <!-- 表所有字段 -->
+    <sql id="baseColumn">
+         `id`,  `name`,  `parent_id`,  `url`,  `identify`,  `type`,  `icon`,  `order_num`     </sql>
+
+    <!-- 条件判断 -->
+    <sql id="otherCondition">
+                    <if test="id != null">AND `id` = #{id}, </if>
+                    <if test="name != null">AND `name` = #{name}, </if>
+                    <if test="parentId != null">AND `parent_id` = #{parentId}, </if>
+                    <if test="url != null">AND `url` = #{url}, </if>
+                    <if test="identify != null">AND `identify` = #{identify}, </if>
+                    <if test="type != null">AND `type` = #{type}, </if>
+                    <if test="icon != null">AND `icon` = #{icon}, </if>
+                    <if test="orderNum != null">AND `order_num` = #{orderNum}</if>
+            </sql>
+
+    <select id="getSysMenuEntity" resultType="com.lxb.web.entity.SysMenuEntity">
+		select * from sys_menu where id = #{value}
+	</select>
+
+    <select id="selectList" resultType="com.lxb.web.entity.SysMenuEntity">
+        select * from sys_menu
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+            <otherwise>
+                order by id desc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="getTotal" resultType="int">
+		select count(*) from sys_menu
+	</select>
+
+    <insert id="save" parameterType="com.lxb.web.entity.SysMenuEntity" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_menu
+        (
+                                    `name`, 
+                                `parent_id`, 
+                                `url`, 
+                                `identify`, 
+                                `type`, 
+                                `icon`, 
+                                `order_num`
+                    )
+        values
+        (
+                                    #{name}, 
+                                #{parentId}, 
+                                #{url}, 
+                                #{identify}, 
+                                #{type}, 
+                                #{icon}, 
+                                #{orderNum}
+                    )
+    </insert>
+
+    <insert id="saveSelective" parameterType="com.lxb.web.entity.SysMenuEntity" >
+        insert into sys_menu
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+          <if test="id != null">`id`, </if>
+          <if test="name != null">`name`, </if>
+          <if test="parentId != null">`parent_id`, </if>
+          <if test="url != null">`url`, </if>
+          <if test="identify != null">`identify`, </if>
+          <if test="type != null">`type`, </if>
+          <if test="icon != null">`icon`, </if>
+          <if test="orderNum != null">`order_num`, </if>
+    
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null"> #{id}, </if>
+            <if test="name != null"> #{name}, </if>
+            <if test="parentId != null"> #{parentId}, </if>
+            <if test="url != null"> #{url}, </if>
+            <if test="identify != null"> #{identify}, </if>
+            <if test="type != null"> #{type}, </if>
+            <if test="icon != null"> #{icon}, </if>
+            <if test="orderNum != null"> #{orderNum}</if>
+            </trim>
+        <selectKey resultType="Integer" order="AFTER" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+
+
+    <update id="update" parameterType="com.lxb.web.entity.SysMenuEntity">
+        update sys_menu
+        <set>
+                                    <if test="name != null">`name` = #{name}, </if>
+                                <if test="parentId != null">`parent_id` = #{parentId}, </if>
+                                <if test="url != null">`url` = #{url}, </if>
+                                <if test="identify != null">`identify` = #{identify}, </if>
+                                <if test="type != null">`type` = #{type}, </if>
+                                <if test="icon != null">`icon` = #{icon}, </if>
+                                <if test="orderNum != null">`order_num` = #{orderNum}</if>
+                    </set>
+        where id = #{id}
+    </update>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.lxb.web.entity.SysMenuEntity" >
+        update sys_menu
+        <set >
+                                        <if test="name != null">`name` = #{name,jdbcType=varchar}, </if>
+                                <if test="parentId != null">`parent_id` = #{parentId,jdbcType=int}, </if>
+                                <if test="url != null">`url` = #{url,jdbcType=varchar}, </if>
+                                <if test="identify != null">`identify` = #{identify,jdbcType=varchar}, </if>
+                                <if test="type != null">`type` = #{type,jdbcType=int}, </if>
+                                <if test="icon != null">`icon` = #{icon,jdbcType=varchar}, </if>
+                                <if test="orderNum != null">`order_num` = #{orderNum,jdbcType=int}</if>
+                        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <delete id="delete">
+		delete from sys_menu where id = #{value}
+	</delete>
+
+    <delete id="deleteBatch">
+        delete from sys_menu where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

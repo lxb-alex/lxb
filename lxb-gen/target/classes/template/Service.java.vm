@@ -1,0 +1,29 @@
+package ${package}.service;
+
+import ${package}.entity.${className}Entity;
+
+import java.util.List;
+import java.util.Map;
+
+/**
+ * ${comments}
+ * 
+ * @author ${author}
+ * @date ${datetime}
+ */
+public interface ${className}Service {
+	
+	${className}Entity get${className}Entity(${pk.attrType} ${pk.attrname});
+	
+	List<${className}Entity> selectList(Map<String, Object> map);
+	
+	int getTotal(Map<String, Object> map);
+	
+	void save(${className}Entity ${classname});
+	
+	void update(${className}Entity ${classname});
+	
+	void delete(${pk.attrType} ${pk.attrname});
+	
+	void deleteBatch(${pk.attrType}[] ${pk.attrname}s);
+}

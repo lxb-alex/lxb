@@ -1,0 +1,90 @@
+package ${package}.controller;
+
+import com.alibaba.fastjson.JSONObject;
+import com.lxb.common.base.BaseController;
+import com.lxb.common.utils.MessageVo;
+import com.lxb.common.utils.PageUtil;
+import com.lxb.common.utils.Query;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
+import java.util.Map;
+
+import ${package}.model.${className};
+import ${package}.service.${className}Service;
+
+
+/**
+ * ${tableComment}
+ * 
+ * @author ${author}
+ * @date ${createDate}
+ */
+@RestController
+@RequestMapping("${pathName}")
+public class ${className}Controller extends  BaseController{
+	@Autowired
+	private ${className}Service ${classname}Service;
+	
+	/**
+	 * 列表
+	 */
+	@RequestMapping("/list")
+	public JSONObject list(@RequestParam Map<String, Object> params){
+		//查询列表数据
+        Query query = new Query(params);
+
+        int total = ${classname}Service.getTotal(query); // 当前条件得到的总记录数
+        List<${className}> ${classname}List = null;
+        int rowNum =  (query.getPage()-1)*query.getPageSize(); // 当前分页开始记录数
+        if (total> rowNum){
+        	${classname}List = ${classname}Service.selectList(query);
+		}
+
+		PageUtil page = new PageUtil(total, query.getPage(), query.getPageSize(), ${classname}List);
+
+		return PageUtil.convertToJSONObject(page);
+	}
+	
+	
+	/**
+	 * 信息
+	 */
+	@RequestMapping("/info/{${pkAttrName}}")
+	public MessageVo get${className}(@PathVariable("${pkAttrName}") int ${pkAttrName}){
+		${className} ${classname} = ${classname}Service.get${className}(${pkAttrName});
+
+        return new MessageVo(MessageVo.SUCCESS, ${classname});
+	}
+	
+	/**
+	 * 保存
+	 */
+	@RequestMapping("/save")
+	public MessageVo save(@RequestBody ${className} ${classname}){
+		${classname}Service.save(${classname});
+		
+		return new MessageVo(MessageVo.SUCCESS, null);
+	}
+	
+	/**
+	 * 修改
+	 */
+	@RequestMapping("/update")
+	public MessageVo update(@RequestBody ${className} ${classname}){
+		${classname}Service.update(${classname});
+
+        return new MessageVo(MessageVo.SUCCESS, null);
+	}
+	
+	/**
+	 * 删除
+	 */
+	@RequestMapping("/delete")
+	public MessageVo delete(@RequestBody int[] ${pkAttrName}s){
+		${classname}Service.deleteBatch(${pkAttrName}s);
+
+        return new MessageVo(MessageVo.SUCCESS, null);
+	}
+	
+}

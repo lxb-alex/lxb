@@ -1,0 +1,14 @@
+package ${package}.service;
+
+import com.lxb.common.base.BaseService;
+import ${package}.model.${className};
+import ${package}.model.${className}Example;
+
+/**
+* @Description ${className}Service接口
+* @Author ${author}
+* @Date  ${createDate}
+*/
+public interface ${className}Service extends BaseService<${className}, ${className}Example> {
+
+}

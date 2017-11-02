@@ -1,0 +1,24 @@
+package ${package}.controller;
+
+import ${groupId}.common.base.BaseController;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+/**
+ * ${className}Controller
+ * Created by ${author} on ${createDate}.
+ */
+@Controller
+@RequestMapping("/manage")
+public class ${className}Controller extends BaseController {
+
+    private static Logger _log = LoggerFactory.getLogger(${className}Controller.class);
+
+
+
+}

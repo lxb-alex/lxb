@@ -1,0 +1,16 @@
+package ${package}.dao;
+
+import org.springframework.stereotype.Repository;
+
+import ${package}.model.${className};
+
+/**
+ * ${tableComment}
+ * 
+ * @author ${author}
+ * @date ${createDate}
+ */
+@Repository()
+public interface ${className}Dao extends BaseDao<${className}> {
+	
+}
