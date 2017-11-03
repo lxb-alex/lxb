@@ -114,7 +114,7 @@ public class Generator {
 		map.put("pk", tableEntity.getPk());
 		map.put("className", tableEntity.getClassName());
 		map.put("classname", tableEntity.getClassname());
-		map.put("pathName", tableEntity.getClassname().toLowerCase());
+		map.put("pathName", tableEntity.getTableName().replace("_", "/").toLowerCase());
 		map.put("columns", tableEntity.getColumns());
 		map.put("package", config.getString("package"));
 		map.put("author", config.getString("author"));

@@ -1,6 +1,6 @@
 $(function () {
     $("#jqGrid").jqGrid({
-        url: '../sysmenu/list',
+        url: '../sys/menu/list',
         datatype: "json",
         colModel: [			
 			{ label: 'id', name: 'id', index: 'id', width: 50, key: true },
@@ -10,7 +10,9 @@ $(function () {
 			{ label: '', name: 'identify', index: 'identify', width: 80 }, 			
 			{ label: '', name: 'type', index: 'type', width: 80 }, 			
 			{ label: '', name: 'icon', index: 'icon', width: 80 }, 			
-			{ label: '排序', name: 'orderNum', index: 'order_num', width: 80 }			
+			{ label: '排序', name: 'orderNum', index: 'order_num', width: 80 }, 			
+			{ label: '', name: 'createDate', index: 'create_date', width: 80 }, 			
+			{ label: '', name: 'updateDate', index: 'update_date', width: 80 }			
         ],
 		viewrecords: true,
         height: 385,
@@ -66,7 +68,7 @@ var vm = new Vue({
             vm.getInfo(id)
 		},
 		saveOrUpdate: function (event) {
-			var url = vm.sysMenu.id == null ? "../sysmenu/save" : "../sysmenu/update";
+			var url = vm.sysMenu.id == null ? "../sys/menu/save" : "../sys/menu/update";
 			$.ajax({
 				type: "POST",
 			    url: url,
@@ -92,7 +94,7 @@ var vm = new Vue({
 			confirm('确定要删除选中的记录？', function(){
 				$.ajax({
 					type: "POST",
-				    url: "../sysmenu/delete",
+				    url: "../sys/menu/delete",
                     contentType: "application/json",
 				    data: JSON.stringify(ids),
 				    success: function(r){
@@ -108,7 +110,7 @@ var vm = new Vue({
 			});
 		},
 		getInfo: function(id){
-			$.get("../sysmenu/info/"+id, function(r){
+			$.get("../sys/menu/info/"+id, function(r){
                 vm.sysMenu = r.sysMenu;
             });
 		},

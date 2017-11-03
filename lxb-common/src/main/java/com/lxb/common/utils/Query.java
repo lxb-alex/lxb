@@ -36,7 +36,7 @@ public class Query extends LinkedHashMap<String, Object> implements Serializable
         // 排序参数
         // 防止SQL注入（因为sidx(排序字段)、order(排序规则)是通过拼接SQL实现排序的，会有SQL注入风险）
         // 默认登记时间排序
-        String sidx = null == params.get("sortName") ? "createDate" : params.get("sortName").toString();
+        String sidx = null == params.get("sortName") ? "create_date" : params.get("sortName").toString();
         String sortorder = null == params.get("sortorder") ? "ASC" : params.get("sortorder").toString();
         if (SqlInject.isSqlInject(sidx)) {
             logger.error("SQL参数中存在非法字符");

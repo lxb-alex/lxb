@@ -22,11 +22,11 @@
         #end
     </sql>
 
-    <select id="get${className}Entity" resultType="${package}.entity.${className}Entity">
+    <select id="get${className}Entity" resultMap="${classname}Map">
 		select * from ${tableName} where ${pk.columnName} = #{value}
 	</select>
 
-    <select id="selectList" resultType="${package}.entity.${className}Entity">
+    <select id="selectList" resultMap="${classname}Map">
         select * from ${tableName}
         <choose>
             <when test="sidx != null and sidx.trim() != ''">

@@ -9,7 +9,7 @@ import java.util.Date;
  * 目录表
  * 
  * @author Liaoxb
- * @date 2017/10/31
+ * @date 2017/11/3
  */
 public class SysMenuEntity implements Serializable {
 
@@ -46,6 +46,14 @@ public class SysMenuEntity implements Serializable {
 	 * 排序
 	 */
 	private Integer orderNum;
+    /**
+	 * 
+	 */
+	private Date createDate;
+    /**
+	 * 
+	 */
+	private Date updateDate;
 
 
 	/**
@@ -143,5 +151,29 @@ public class SysMenuEntity implements Serializable {
 	 */
 	public Integer getOrderNum() {
 		return orderNum;
+	}
+	/**
+	 * 设置：
+	 */
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+	/**
+	 * 获取：
+	 */
+	public Date getCreateDate() {
+		return createDate;
+	}
+	/**
+	 * 设置：
+	 */
+	public void setUpdateDate(Date updateDate) {
+		this.updateDate = updateDate;
+	}
+	/**
+	 * 获取：
+	 */
+	public Date getUpdateDate() {
+		return updateDate;
 	}
 }

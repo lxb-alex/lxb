@@ -1,6 +1,7 @@
 package com.lxb.generator.dao;
 
 import com.lxb.common.utils.JdbcUtil;
+import org.apache.commons.lang.StringUtils;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -20,7 +21,8 @@ public class GeneratorDao {
 		List<Map<String, Object>> tables = new ArrayList<>();
 		// 查询定制前缀项目的所有表
 		JdbcUtil jdbcUtil = new JdbcUtil();
-		String sql = "SELECT table_name,table_comment FROM INFORMATION_SCHEMA.TABLES WHERE table_schema = '" + database + "' AND table_name in" + tableNames + ";";
+		String temp = "\"" + StringUtils.join(tableNames, ",").replaceAll(",","\"\"")+"\"";
+		String sql = "SELECT table_name,table_comment FROM INFORMATION_SCHEMA.TABLES WHERE table_schema = '" + database + "' AND table_name in(" + temp + ");";
 
 		List<Map> result = jdbcUtil.selectByParams(sql, null);
 		for (Map map : result) {

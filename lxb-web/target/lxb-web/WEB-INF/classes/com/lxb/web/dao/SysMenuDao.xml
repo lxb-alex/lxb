@@ -13,11 +13,13 @@
 		            <result property="type" column="type"/>
 		            <result property="icon" column="icon"/>
 		            <result property="orderNum" column="order_num"/>
+		            <result property="createDate" column="create_date"/>
+		            <result property="updateDate" column="update_date"/>
 		    </resultMap>
 
     <!-- 表所有字段 -->
     <sql id="baseColumn">
-         `id`,  `name`,  `parent_id`,  `url`,  `identify`,  `type`,  `icon`,  `order_num`     </sql>
+         `id`,  `name`,  `parent_id`,  `url`,  `identify`,  `type`,  `icon`,  `order_num`,  `create_date`,  `update_date`     </sql>
 
     <!-- 条件判断 -->
     <sql id="otherCondition">
@@ -28,14 +30,16 @@
                     <if test="identify != null">AND `identify` = #{identify}, </if>
                     <if test="type != null">AND `type` = #{type}, </if>
                     <if test="icon != null">AND `icon` = #{icon}, </if>
-                    <if test="orderNum != null">AND `order_num` = #{orderNum}</if>
+                    <if test="orderNum != null">AND `order_num` = #{orderNum}, </if>
+                    <if test="createDate != null">AND `create_date` = #{createDate}, </if>
+                    <if test="updateDate != null">AND `update_date` = #{updateDate}</if>
             </sql>
 
-    <select id="getSysMenuEntity" resultType="com.lxb.web.entity.SysMenuEntity">
+    <select id="getSysMenuEntity" resultMap="sysMenuMap">
 		select * from sys_menu where id = #{value}
 	</select>
 
-    <select id="selectList" resultType="com.lxb.web.entity.SysMenuEntity">
+    <select id="selectList" resultMap="sysMenuMap">
         select * from sys_menu
         <choose>
             <when test="sidx != null and sidx.trim() != ''">
@@ -63,7 +67,9 @@
                                 `identify`, 
                                 `type`, 
                                 `icon`, 
-                                `order_num`
+                                `order_num`, 
+                                `create_date`, 
+                                `update_date`
                     )
         values
         (
@@ -73,7 +79,9 @@
                                 #{identify}, 
                                 #{type}, 
                                 #{icon}, 
-                                #{orderNum}
+                                #{orderNum}, 
+                                #{createDate}, 
+                                #{updateDate}
                     )
     </insert>
 
@@ -88,6 +96,8 @@
           <if test="type != null">`type`, </if>
           <if test="icon != null">`icon`, </if>
           <if test="orderNum != null">`order_num`, </if>
+          <if test="createDate != null">`create_date`, </if>
+          <if test="updateDate != null">`update_date`, </if>
     
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -98,7 +108,9 @@
             <if test="identify != null"> #{identify}, </if>
             <if test="type != null"> #{type}, </if>
             <if test="icon != null"> #{icon}, </if>
-            <if test="orderNum != null"> #{orderNum}</if>
+            <if test="orderNum != null"> #{orderNum}, </if>
+            <if test="createDate != null"> #{createDate}, </if>
+            <if test="updateDate != null"> #{updateDate}</if>
             </trim>
         <selectKey resultType="Integer" order="AFTER" keyProperty="id">
             SELECT LAST_INSERT_ID() AS id
@@ -115,7 +127,9 @@
                                 <if test="identify != null">`identify` = #{identify}, </if>
                                 <if test="type != null">`type` = #{type}, </if>
                                 <if test="icon != null">`icon` = #{icon}, </if>
-                                <if test="orderNum != null">`order_num` = #{orderNum}</if>
+                                <if test="orderNum != null">`order_num` = #{orderNum}, </if>
+                                <if test="createDate != null">`create_date` = #{createDate}, </if>
+                                <if test="updateDate != null">`update_date` = #{updateDate}</if>
                     </set>
         where id = #{id}
     </update>
@@ -129,7 +143,9 @@
                                 <if test="identify != null">`identify` = #{identify,jdbcType=varchar}, </if>
                                 <if test="type != null">`type` = #{type,jdbcType=int}, </if>
                                 <if test="icon != null">`icon` = #{icon,jdbcType=varchar}, </if>
-                                <if test="orderNum != null">`order_num` = #{orderNum,jdbcType=int}</if>
+                                <if test="orderNum != null">`order_num` = #{orderNum,jdbcType=int}, </if>
+                                <if test="createDate != null">`create_date` = #{createDate,jdbcType=date}, </if>
+                                <if test="updateDate != null">`update_date` = #{updateDate,jdbcType=date}</if>
                         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>

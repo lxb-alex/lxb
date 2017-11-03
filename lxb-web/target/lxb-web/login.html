@@ -22,7 +22,7 @@
         </div>
         <!-- /.login-logo -->
         <div class="login-box-body">
-            <p class="login-box-msg">登录</p>
+            <p class="login-box-msg">阿大发送</p>
             <div v-if="error" class="alert alert-danger alert-dismissible">
                 <h4 style="margin-bottom: 0px;"><i class="fa fa-exclamation-triangle"></i> {{errorMsg}}</h4>
             </div>
@@ -80,7 +80,7 @@
                     dataType: "json",
                     success: function(result){
                         if(result.code == 200){//登录成功
-                            parent.location.href ='index.html';
+                            parent.location.href = "index.html";
                         }else{
                             vm.error = true;
                             vm.errorMsg = result.msg;
