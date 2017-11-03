@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
@@ -38,7 +39,7 @@ public class LoginController {
         response.setHeader("Set-Cookie", "name=value; HttpOnly");//设置HttpOnly属性,防止Xss攻击
         response.setDateHeader("Expire", 0);
 
-        CaptchaUtil rdnu = CaptchaUtil.Instance(150,36);
+        CaptchaUtil rdnu = CaptchaUtil.Instance(100,36, 25);
         // 获取验证码文字
         String code = rdnu.getString();
         //将验证码存入Session
@@ -55,17 +56,18 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/sys/login", method = RequestMethod.POST)
+    @ResponseBody
     public MessageVo login(String account, String LoginPassword, String captcha){
 
-        if (StringUtil.isBlank(captcha)){
-            return MessageVo.error("验证码错误");
-        }
-
-        String password = AESUtil.AESEncode(LoginPassword);
-        SysUserEntity user = sysUserService.getSysUserEntity(account, password);
-        if (user!=null){
+//        if (StringUtil.isBlank(captcha)){
+//            return MessageVo.error("验证码错误");
+//        }
+//
+//        String password = AESUtil.AESEncode(LoginPassword);
+//        SysUserEntity user = sysUserService.getSysUserEntity(account, password);
+//        if (user!=null){
             return MessageVo.success();
-        }
-        return MessageVo.error("用户名或密码错误");
+//        }
+//        return MessageVo.error("用户名或密码错误");
     }
 }

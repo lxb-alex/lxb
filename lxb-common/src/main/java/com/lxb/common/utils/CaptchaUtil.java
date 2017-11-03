@@ -31,6 +31,10 @@ public class CaptchaUtil {
      * 图片高度
      */
     private static int height = 20;
+    /**
+     * 字体大小
+     */
+    private static int fontSize = 20;
 
     /**
      *  创建图片验证码
@@ -53,8 +57,9 @@ public class CaptchaUtil {
      * 取得ValidateCodeCreator实例
      * 返回图片验证码 (默认58*20)
      */
-    public static CaptchaUtil Instance(int image_width, int image_height)
+    public static CaptchaUtil Instance(int image_width, int image_height, int font_ize)
     {
+        fontSize = font_ize;
         width = image_width;
         height = image_height;
         return new CaptchaUtil();
@@ -83,14 +88,15 @@ public class CaptchaUtil {
 
         // 获取图形上下文
         Graphics g = image.getGraphics();
-        // 生成随机类
-        Random random = new Random();
         //设定背景色
         g.setColor(getRandColor(200, 250));
         g.fillRect(0, 0, width, height);
         // 设定字体
-        g.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+        //g.setFont(new Font("Times New Roman", Font.PLAIN, fontSize));
+        g.setFont(new Font("华文行楷", Font.BOLD, fontSize));
         // 随机产生155条干扰线，使图象中的认证码不易被其它程序探测到
+        // 生成随机类
+        Random random = new Random();
         g.setColor(getRandColor(160, 200));
         for (int i = 0; i < 155; i++)
         {
@@ -98,6 +104,7 @@ public class CaptchaUtil {
             int y = random.nextInt(height);
             int xl = random.nextInt(12);
             int yl = random.nextInt(12);
+            g.setColor(new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256)));
             g.drawLine(x, y, x + xl, y + yl);
         }
         // 取随机产生的认证码(6位数字)
@@ -110,7 +117,7 @@ public class CaptchaUtil {
             g.setColor(new Color(20 + random.nextInt(110), 20 + random
                     .nextInt(110), 20 + random.nextInt(110)));
             // 调用函数出来的颜色相同，可能是因为种子太接近，所以只能直接生成
-            g.drawString(rand, 13 * i + 6, 16);
+            g.drawString(rand, width/4+(width/6)*i, height/2+7);
         }
         // 赋值验证码
         this.str = sRand;
