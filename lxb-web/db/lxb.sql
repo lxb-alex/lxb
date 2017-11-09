@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50126
 File Encoding         : 65001
 
-Date: 2017-11-01 17:31:16
+Date: 2017-11-09 17:31:35
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -28,12 +28,19 @@ CREATE TABLE `sys_menu` (
   `type` int(11) DEFAULT NULL,
   `icon` varchar(50) DEFAULT NULL,
   `order_num` int(11) DEFAULT NULL COMMENT '排序',
+  `create_date` date DEFAULT NULL,
+  `update_date` date DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='目录表';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='目录表';
 
 -- ----------------------------
 -- Records of sys_menu
 -- ----------------------------
+INSERT INTO `sys_menu` VALUES ('1', '菜单管理', '0', null, null, null, null, '1', '2017-11-09', null);
+INSERT INTO `sys_menu` VALUES ('2', '列表', '1', 'sys/sysmenu.html', null, null, 'fa fa-list-alt', '2', '2017-11-09', '2017-11-09');
+INSERT INTO `sys_menu` VALUES ('3', '添加菜单', '1', null, null, null, 'fa fa-plus', '3', '2017-11-09', '2017-11-09');
+INSERT INTO `sys_menu` VALUES ('4', '修改菜单', '1', null, null, null, 'fa fa-edit', '4', '2017-11-09', '2017-11-09');
+INSERT INTO `sys_menu` VALUES ('5', '删除菜单', '1', null, null, null, 'fa fa-times', '5', '2017-11-09', '2017-11-09');
 
 -- ----------------------------
 -- Table structure for `sys_role`
@@ -44,6 +51,7 @@ CREATE TABLE `sys_role` (
   `name` varchar(50) DEFAULT NULL,
   `create_user_id` int(11) DEFAULT NULL,
   `create_date` datetime DEFAULT NULL,
+  `update_date` date DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色表';
 
