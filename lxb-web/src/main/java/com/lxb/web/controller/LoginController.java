@@ -59,13 +59,13 @@ public class LoginController {
     @ResponseBody
     public MessageVo login(String account, String LoginPassword, String captcha){
 
-//        if (StringUtil.isBlank(captcha)){
-//            return MessageVo.error("验证码错误");
-//        }
-//
-//        String password = AESUtil.AESEncode(LoginPassword);
-//        SysUserEntity user = sysUserService.getSysUserEntity(account, password);
-//        if (user!=null){
+/*        if (StringUtil.isBlank(captcha)){
+            return MessageVo.error("验证码错误");
+        }
+
+        String password = AESUtil.AESEncode(LoginPassword);
+        SysUserEntity user = sysUserService.getSysUserEntity(account, password);
+        if (user!=null){*/
             return MessageVo.success();
 //        }
 //        return MessageVo.error("用户名或密码错误");
