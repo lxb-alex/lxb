@@ -35,6 +35,13 @@ public class GeneratorDao {
 		return tables;
 	}
 
+	/**
+	 * 查询所有表信息
+	 * @param database 数据库
+	 * @param table_prefix 表后缀
+	 * @return 所有 table_prefix 前缀的表的信息
+	 * @throws SQLException
+	 */
 	public List<Map<String, Object>> selectTableList(String database, String table_prefix) throws SQLException {
 		List<Map<String, Object>> tables = new ArrayList<>();
 		// 查询定制前缀项目的所有表

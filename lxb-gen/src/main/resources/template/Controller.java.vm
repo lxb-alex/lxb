@@ -1,4 +1,4 @@
-package ${package}.controller;
+package ${package}.controller${tablePrefix};
 
 import com.alibaba.fastjson.JSONObject;
 import com.lxb.common.base.BaseController;
@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
-import ${package}.entity.${className}Entity;
-import ${package}.service.${className}Service;
+import ${package}.entity${tablePrefix}.${className}Entity;
+import ${package}.service${tablePrefix}.${className}Service;
 
 /**
  * ${comments}

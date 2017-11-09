@@ -1,13 +1,11 @@
 package com.lxb.web.controller;
 
-import com.lxb.common.utils.AESUtil;
 import com.lxb.common.utils.CaptchaUtil;
 import com.lxb.common.utils.MessageVo;
-import com.lxb.common.utils.StringUtil;
-import com.lxb.web.entity.SysUserEntity;
-import com.lxb.web.service.SysUserService;
+import com.lxb.web.service.sys.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -69,5 +67,16 @@ public class LoginController {
             return MessageVo.success();
 //        }
 //        return MessageVo.error("用户名或密码错误");
+    }
+
+    /**
+     * 页面跳转
+     * @param module 模块
+     * @param url 表名称
+     * @return HTML页面
+     */
+    @RequestMapping("{module}/{url}.html")
+    public String page(@PathVariable("module") String module, @PathVariable("url") String url){
+        return module + "/" + url + ".html";
     }
 }

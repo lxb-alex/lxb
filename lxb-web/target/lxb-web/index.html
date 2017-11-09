@@ -8,7 +8,7 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.7 -->
     <link rel="stylesheet" href="static/plugin/AdminLTE/bower_components/bootstrap/dist/css/bootstrap.min.css">
-    <!-- Font Awesome -->
+    <!-- Font Awesome （class图标库） -->
     <link rel="stylesheet" href="static/plugin/AdminLTE/bower_components/font-awesome/css/font-awesome.min.css">
     <!-- Ionicons -->
     <link rel="stylesheet" href="static/plugin/AdminLTE/bower_components/Ionicons/css/ionicons.min.css">
@@ -32,7 +32,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
-    <div class="wrapper" id="index_vm" v-cloak>
+    <div class="wrapper" id="apps" v-cloak>
         <!--顶部导航 banner-->
         <header class="main-header">
             <!-- Logo -->
@@ -184,7 +184,7 @@
 
                 <!-- sidebar menu: : style can be found in sidebar.less -->
                 <ul class="sidebar-menu" data-widget="tree">
-                    <li class="header"  @click="showMenu" v-cloak>菜单</li>
+                    <li class="header">菜单</li>
                     <li class="treeview" v-for="item in menuList">
                         <a href="#" v-if="item.parentId==0">
                             <i v-if="item.icon != null" :class="item.icon"></i><i v-else class="fa fa-circle-o"></i> <span>{{item.name}} </span>
@@ -194,8 +194,8 @@
                         </a>
                         <ul class="treeview-menu">
                             <li v-for="children in menuList" v-if="children.parentId==item.id">
-                                <a href="javascript:;" @click="showMenu">
-                                    <i v-if="item.icon != null" :class="item.icon"></i><i v-else class="fa fa-circle-o"></i> {{children.name}}</a>
+                                <a href="javascript:;" @click="showMenu(children.url)">
+                                    <i v-if="children.icon != null" :class="children.icon"></i><i v-else class="fa fa-circle-o"></i> {{children.name}}</a>
                             </li>
                         </ul>
                     </li>

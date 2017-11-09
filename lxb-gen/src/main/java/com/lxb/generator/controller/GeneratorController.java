@@ -16,7 +16,9 @@ public class GeneratorController {
 		String database = "lxb";
 		String table_prefix = "sys";
 		GeneratorService service = new GeneratorService();
-//		service.generatorCode(database, table_prefix);
-		service.generatorCode(database, tableNames);
+		// 根据表前缀反向生成文件
+		service.generatorCode(database, table_prefix);
+		// 根据表名称集合反向生成文件
+//		service.generatorCode(database, tableNames);
 	}
 }

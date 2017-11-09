@@ -1,10 +1,10 @@
-package ${package}.dao;
+package ${package}.dao${tablePrefix};
 
 import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Map;
 
-import ${package}.entity.${className}Entity;
+import ${package}.entity${tablePrefix}.${className}Entity;
 
 /**
  * ${comments}

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="${package}.dao.${className}Dao">
+<mapper namespace="${package}.dao${tablePrefix}.${className}Dao">
 
     <!-- 可根据自己的需求，是否要使用 -->
-    <resultMap type="${package}.entity.${className}Entity" id="${classname}Map">
+    <resultMap type="${package}.entity${tablePrefix}.${className}Entity" id="${classname}Map">
 		#foreach($column in $columns)
             <result property="${column.attrname}" column="${column.columnName}"/>
 		#end
@@ -45,7 +45,7 @@
 		select count(*) from ${tableName}
 	</select>
 
-    <insert id="save" parameterType="${package}.entity.${className}Entity"#if($pk.extra == 'auto_increment') useGeneratedKeys="true" keyProperty="$pk.attrname"#end>
+    <insert id="save" parameterType="${package}.entity${tablePrefix}.${className}Entity"#if($pk.extra == 'auto_increment') useGeneratedKeys="true" keyProperty="$pk.attrname"#end>
         insert into ${tableName}
         (
     #foreach($column in $columns)
@@ -66,7 +66,7 @@
         )
     </insert>
 
-    <insert id="saveSelective" parameterType="${package}.entity.${className}Entity" >
+    <insert id="saveSelective" parameterType="${package}.entity${tablePrefix}.${className}Entity" >
         insert into ${tableName}
         <trim prefix="(" suffix=")" suffixOverrides="," >
     #foreach($column in $columns)
@@ -85,7 +85,7 @@
     </insert>
 
 
-    <update id="update" parameterType="${package}.entity.${className}Entity">
+    <update id="update" parameterType="${package}.entity${tablePrefix}.${className}Entity">
         update ${tableName}
         <set>
     #foreach($column in $columns)
@@ -97,7 +97,7 @@
         where ${pk.columnName} = #{${pk.attrname}}
     </update>
 
-    <update id="updateByPrimaryKeySelective" parameterType="${package}.entity.${className}Entity" >
+    <update id="updateByPrimaryKeySelective" parameterType="${package}.entity${tablePrefix}.${className}Entity" >
         update ${tableName}
         <set >
         #foreach($column in $columns)

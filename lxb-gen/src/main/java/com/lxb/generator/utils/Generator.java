@@ -36,6 +36,10 @@ public class Generator {
 	// 模板名称集合
 	private static List<String> templateNames = getTemplateNames();
 
+	/**
+	 * 获取generator.properties配置文件中配置信息，返回Configuration对象
+	 * @return  Configuration对象
+	 */
 	public static Configuration getConfig(){
 		try {
 			return new PropertiesConfiguration("generator.properties");
@@ -44,6 +48,10 @@ public class Generator {
 		}
 	}
 
+	/**
+	 * 生成文件需要的模板文件
+	 * @return list结构的模板文件名称
+	 */
 	public static List<String> getTemplateNames(){
 		List<String> templateNames = new ArrayList<String>();
 		templateNames.add("template/Entity.java.vm");
@@ -59,9 +67,21 @@ public class Generator {
 	}
 
 	/**
-	 * 生成代码
+	 * 准备生成文件前的 文件内容填充封装
+	 * @param table map结构的表信息
+	 * @param columns list<map> 结构的 表字段信息
 	 */
 	public static void generatorCode(Map<String, Object> table, List<Map<String, String>> columns){
+		generatorCode(table, columns, null);
+	}
+
+	/**
+	 * 准备生成文件前的 文件内容填充封装
+	 * @param table map结构的表信息
+	 * @param columns list<map> 结构的 表字段信息
+	 * @param table_prefix 表前缀
+	 */
+	public static void generatorCode(Map<String, Object> table, List<Map<String, String>> columns, String table_prefix){
 
 		//表信息
 		TableEntity tableEntity = new TableEntity();
@@ -115,6 +135,7 @@ public class Generator {
 		map.put("className", tableEntity.getClassName());
 		map.put("classname", tableEntity.getClassname());
 		map.put("pathName", tableEntity.getTableName().replace("_", "/").toLowerCase());
+		map.put("tablePrefix", "." + table_prefix); // 如果后面用方式一生成文件，则需要设置该值。若果为方式二，则不设置
 		map.put("columns", tableEntity.getColumns());
 		map.put("package", config.getString("package"));
 		map.put("author", config.getString("author"));
@@ -124,12 +145,22 @@ public class Generator {
 
         //获取模板列表
 		for(String templateName : templateNames){
-			createFile(ClassName, context, templateName);
+			//一。 生成文件路径：packag.controller.表前缀.文件名.java
+			createFile(ClassName, context, templateName, table_prefix);
+			//二。 生成文件路径：packag.controller.文件名.java
+//			createFile(ClassName, context, templateName, null);
 		}
 	}
 
-	private static void createFile(String ClassName, VelocityContext context, String templateName) {
-		String filePath = getFileName(templateName, ClassName, config.getString("package"), config.getString("moduleName"));
+	/**
+	 * 生成文件
+	 * @param ClassName 类名（文件名称）
+	 * @param context 文件内容
+	 * @param templateName 模板名称
+	 * @param table_prefix 表前缀
+	 */
+	private static void createFile(String ClassName, VelocityContext context, String templateName, String table_prefix) {
+		String filePath = getFileName(templateName, ClassName, config.getString("package"), config.getString("moduleName"), table_prefix);
 		System.out.println("create file : " + filePath);
 		if (filePath == null ) return;
 		File createFile = new File(filePath);
@@ -179,7 +210,12 @@ public class Generator {
 	 * 获取文件名<br/>
 	 * 指定 Controller、service、impl、js、page目录
 	 */
-	private static String getFileName(String templateName, String className, String packageName, String moduleName){
+	private static String getFileName(String templateName, String className, String packageName, String moduleName, String table_prefix){
+		String page_js = null;
+		if (StringUtil.isNotBlank(table_prefix)){
+			table_prefix = File.separator + table_prefix;
+			page_js = table_prefix + File.separator;
+		}
 		String rootPath = getRootModulePath() + "src"+ File.separator + "main" + File.separator;
 		if(StringUtils.isNotBlank(moduleName)){
 			rootPath = getRootModulePath() + moduleName + File.separator + "src"+ File.separator + "main" + File.separator;
@@ -195,48 +231,48 @@ public class Generator {
 		}
 
 		if(templateName.contains("Controller.java.vm")){
-			dirExists(javaPath + "controller");
-			return javaPath + "controller" + File.separator + className + "Controller.java";
+			dirExists(javaPath + "controller" + table_prefix);
+			return javaPath + "controller" + table_prefix + File.separator + className + "Controller.java";
 		}
 
 		if(templateName.contains("Service.java.vm")){
-			dirExists(javaPath + "service");
-			return javaPath + "service" + File.separator + className + "Service.java";
+			dirExists(javaPath + "service" + table_prefix);
+			return javaPath + "service" + table_prefix + File.separator + className + "Service.java";
 		}
 
 		if(templateName.contains("ServiceImpl.java.vm")){
-			dirExists(javaPath + "service" + File.separator + "impl");
-			return javaPath + "service" + File.separator + "impl" + File.separator + className + "ServiceImpl.java";
+			dirExists(javaPath + "service" + File.separator + "impl" + table_prefix);
+			return javaPath + "service" + File.separator + "impl" + table_prefix + File.separator + className + "ServiceImpl.java";
 		}
 
         if(templateName.contains("Entity.java.vm")){
-			dirExists(javaPath + "entity");
-            return javaPath + "entity" + File.separator + className + "Entity.java";
+			dirExists(javaPath + "entity" + table_prefix);
+            return javaPath + "entity" + table_prefix + File.separator + className + "Entity.java";
         }
 
         if(templateName.contains("Dao.java.vm")){
-			dirExists(javaPath + "dao");
-            return javaPath + "dao" + File.separator + className + "Dao.java";
+			dirExists(javaPath + "dao" + table_prefix);
+            return javaPath + "dao" + table_prefix + File.separator + className + "Dao.java";
         }
 
         if(templateName.contains("Dao.xml.vm")){
-			dirExists(resourcesPath + "dao");
-            return resourcesPath + "dao" + File.separator + className + "Dao.xml";
+			dirExists(resourcesPath + "dao" + table_prefix);
+            return resourcesPath + "dao" + table_prefix + File.separator + className + "Dao.xml";
         }
 
 		if(templateName.contains("list.html.vm")){
-			dirExists(pagePath);
-			return pagePath +  className.toLowerCase() + ".html";
+			dirExists(pagePath + page_js);
+			return pagePath + page_js +  className.toLowerCase() + ".html";
 		}
 
 		if(templateName.contains("list.js.vm")){
-			dirExists(jsPath);
-			return jsPath+  className.toLowerCase() + ".js";
+			dirExists(jsPath + page_js);
+			return jsPath + page_js +  className.toLowerCase() + ".js";
 		}
 
 		if(templateName.contains("menu.sql.vm")){
-			dirExists(resourcesPath + "sql");
-			return resourcesPath + "sql" + File.separator +  className.toLowerCase() + "_menu.sql";
+			dirExists(resourcesPath + "sql" + table_prefix);
+			return resourcesPath + "sql" + table_prefix + File.separator +  className.toLowerCase() + "_menu.sql";
 		}
 
 		if(templateName.contains("log4j.properties.vm")){
@@ -247,6 +283,10 @@ public class Generator {
 		return null;
 	}
 
+	/**
+	 * 删除文件或文件夹
+	 * @param dir 文件、文件目录路径
+	 */
 	private static void dirExists(String dir) {
 		File file = new File(dir);
 		if (!file.exists()){
@@ -254,8 +294,13 @@ public class Generator {
 		}
 	}
 
-	public static void deletePackage() {
-
+	/**
+	 * 删除Controller、service、impl、dao、xml、page等等文件夹下与表名称相同的文件
+	 * 如果表前缀 table_prefix 为空，则删除所有文件
+	 * @param table_prefix 表前缀
+	 */
+	public static void deletePackage(String table_prefix) {
+		if (StringUtil.isNotBlank(table_prefix)) table_prefix = File.separator + table_prefix;
 		String moduleName = config.getString("moduleName");
 		String packageName = config.getString("package");
 		String rootPath = getRootModulePath() + "src"+ File.separator + "main" + File.separator;
@@ -270,18 +315,22 @@ public class Generator {
 			javaPath += packageName.replace(".", File.separator) + File.separator;
 			resourcesPath += packageName.replace(".", File.separator) + File.separator;
 		}
-		deleteDir(new File(javaPath + "controller"));
-		deleteDir(new File(javaPath + "Service"));
-		deleteDir(new File(javaPath + "Entity"));
-		deleteDir(new File(javaPath + "Dao"));
-		deleteDir(new File(resourcesPath + "dao"));
-		deleteDir(new File(resourcesPath + "sql"));
-		deleteDir(new File(pagePath));
-		deleteDir(new File(jsPath));
+		deleteDir(new File(javaPath + "controller" + table_prefix));
+		deleteDir(new File(javaPath + "Service" + table_prefix));
+		deleteDir(new File(javaPath + "Service" + File.separator + "impl" + table_prefix));
+		deleteDir(new File(javaPath + "Entity" + table_prefix));
+		deleteDir(new File(javaPath + "Dao" + table_prefix));
+		deleteDir(new File(resourcesPath + "dao" + table_prefix));
+		deleteDir(new File(resourcesPath + "sql" + table_prefix));
+		deleteDir(new File(pagePath + table_prefix));
+		deleteDir(new File(jsPath + table_prefix));
 	}
 
 
-	// 递归删除非空文件夹
+	/**
+	 * 递归删除非空文件夹
+	 * @param dir 要删除的文件或文件目录
+	 */
 	public static void deleteDir(File dir) {
 		if (dir.isDirectory()) {
 			File[] files = dir.listFiles();
