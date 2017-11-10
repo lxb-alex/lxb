@@ -77,6 +77,6 @@ public class LoginController {
      */
     @RequestMapping("{module}/{url}.html")
     public String page(@PathVariable("module") String module, @PathVariable("url") String url){
-        return module + "/" + url + ".html";
+        return "/" + module + "/" + url + ".html";
     }
 }

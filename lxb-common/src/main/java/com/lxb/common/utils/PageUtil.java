@@ -38,7 +38,8 @@ public class PageUtil implements Serializable {
     public static JSONObject convertToJSONObject(PageUtil page){
         JSONObject obj = new JSONObject();
         obj.put("Total", page.getTotal());
-        obj.put("pagesize", page.getPagesize());
+        obj.put("page", page.getTotal());
+        obj.put("pagesize", page.getTotal());
         if (page.getRows()!=null){
             obj.put("Rows", page.getRows());
         }

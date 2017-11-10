@@ -1,18 +1,13 @@
 $(function () {
     $("#jqGrid").jqGrid({
-        url: '../sys/menu/list',
+        url: '../sys/role/list',
         datatype: "json",
         colModel: [			
 			{ label: 'id', name: 'id', index: 'id', width: 50, key: true },
-			{ label: '', name: 'name', index: 'name', width: 80 }, 			
-			{ label: '', name: 'parentId', index: 'parent_id', width: 80 }, 			
-			{ label: '', name: 'url', index: 'url', width: 80 }, 			
-			{ label: '', name: 'identify', index: 'identify', width: 80 }, 			
-			{ label: '', name: 'type', index: 'type', width: 80 }, 			
-			{ label: '', name: 'icon', index: 'icon', width: 80 }, 			
-			{ label: '排序', name: 'orderNum', index: 'order_num', width: 80 }, 			
-			{ label: '', name: 'createDate', index: 'create_date', width: 80 }, 			
-			{ label: '', name: 'updateDate', index: 'update_date', width: 80 }			
+			{ label: '角色名', name: 'name', index: 'name', width: 80 }, 			
+			{ label: '创建用户id', name: 'createUserId', index: 'create_user_id', width: 80 }, 			
+			{ label: '创建时间', name: 'createDate', index: 'create_date', width: 80 }, 			
+			{ label: '修改时间', name: 'updateDate', index: 'update_date', width: 80 }			
         ],
 		viewrecords: true,
         height: 385,
@@ -46,7 +41,7 @@ var vm = new Vue({
 	data:{
 		showList: true,
 		title: null,
-		sysMenu: {}
+		sysRole: {}
 	},
 	methods: {
 		query: function () {
@@ -55,7 +50,7 @@ var vm = new Vue({
 		add: function(){
 			vm.showList = false;
 			vm.title = "新增";
-			vm.sysMenu = {};
+			vm.sysRole = {};
 		},
 		update: function (event) {
 			var id = getSelectedRow();
@@ -68,12 +63,12 @@ var vm = new Vue({
             vm.getInfo(id)
 		},
 		saveOrUpdate: function (event) {
-			var url = vm.sysMenu.id == null ? "../sys/menu/save" : "../sys/menu/update";
+			var url = vm.sysRole.id == null ? "../sys/role/save" : "../sys/role/update";
 			$.ajax({
 				type: "POST",
 			    url: url,
                 contentType: "application/json",
-			    data: JSON.stringify(vm.sysMenu),
+			    data: JSON.stringify(vm.sysRole),
 			    success: function(r){
 			    	if(r.code === 0){
 						alert('操作成功', function(index){
@@ -94,7 +89,7 @@ var vm = new Vue({
 			confirm('确定要删除选中的记录？', function(){
 				$.ajax({
 					type: "POST",
-				    url: "../sys/menu/delete",
+				    url: "../sys/role/delete",
                     contentType: "application/json",
 				    data: JSON.stringify(ids),
 				    success: function(r){
@@ -110,8 +105,8 @@ var vm = new Vue({
 			});
 		},
 		getInfo: function(id){
-			$.get("../sys/menu/info/"+id, function(r){
-                vm.sysMenu = r.sysMenu;
+			$.get("../sys/role/info/"+id, function(r){
+                vm.sysRole = r.sysRole;
             });
 		},
 		reload: function (event) {

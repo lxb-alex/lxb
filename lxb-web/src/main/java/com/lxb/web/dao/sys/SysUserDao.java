@@ -10,7 +10,7 @@ import com.lxb.web.entity.sys.SysUserEntity;
  * 系统用户表
  * 
  * @author Liaoxb
- * @date 2017/11/9
+ * @date 2017/11/10
  */
 @Repository()
 public interface SysUserDao {

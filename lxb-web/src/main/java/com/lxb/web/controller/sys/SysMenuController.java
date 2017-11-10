@@ -17,7 +17,7 @@ import com.lxb.web.service.sys.SysMenuService;
  * 目录表
  * 
  * @author Liaoxb
- * @date 2017/11/9
+ * @date 2017/11/10
  */
 @RestController
 @RequestMapping("sys/menu")

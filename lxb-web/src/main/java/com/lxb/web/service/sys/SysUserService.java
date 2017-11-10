@@ -9,7 +9,7 @@ import java.util.Map;
  * 系统用户表
  * 
  * @author Liaoxb
- * @date 2017/11/9
+ * @date 2017/11/10
  */
 public interface SysUserService {
 	

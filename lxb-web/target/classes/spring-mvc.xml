@@ -46,6 +46,7 @@
         </mvc:message-converters>
     </mvc:annotation-driven>
 
+    <!--Velocity 视图解析器在 spring4.3 已放弃支持-->
     <!-- Velocity视图解析器    默认视图  -->
     <bean id="velocityViewResolver" class="org.springframework.web.servlet.view.velocity.VelocityViewResolver">
         <property name="contentType" value="text/html;charset=UTF-8" />
@@ -81,22 +82,21 @@
         <property name="suffix" value=""/>
         <property name="order" value="1"/>
     </bean>
+<!--
+    &lt;!&ndash; FreeMarker视图解析器 &ndash;&gt;
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+        <property name="viewClass" value="org.springframework.web.servlet.view.freemarker.FreeMarkerView"/>
+        <property name="contentType" value="text/html; charset=utf-8"/>
+        <property name="cache" value="false"/>
+        <property name="viewNames" value="*.ftl" />
+        <property name="suffix" value=""/>
+        <property name="order" value="2"/>
+    </bean>
 
-    <!--
-        &lt;!&ndash; FreeMarker视图解析器 &ndash;&gt;
-        <bean id="viewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
-            <property name="viewClass" value="org.springframework.web.servlet.view.freemarker.FreeMarkerView"/>
-            <property name="contentType" value="text/html; charset=utf-8"/>
-            <property name="cache" value="false"/>
-            <property name="viewNames" value="*.ftl" />
-            <property name="suffix" value=""/>
-            <property name="order" value="2"/>
-        </bean>
-
-        <bean class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
-            <property name="templateLoaderPath" value="/WEB-INF/page/"/>
-        </bean>
-
+    <bean class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+        <property name="templateLoaderPath" value="/WEB-INF/page/"/>
+    </bean>-->
+<!--
         &lt;!&ndash; 上传限制 &ndash;&gt;
         <bean id="multipartResolver"
               class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
@@ -117,6 +117,5 @@
                     </constructor-arg>
                 </bean>
             </property>
-        </bean>
-    -->
+        </bean>-->
 </beans>

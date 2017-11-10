@@ -212,7 +212,9 @@ public class Generator {
 	 */
 	private static String getFileName(String templateName, String className, String packageName, String moduleName, String table_prefix){
 		String page_js = null;
+		String page_name = className.toLowerCase();
 		if (StringUtil.isNotBlank(table_prefix)){
+			page_name = className.toLowerCase().replace(table_prefix, "");
 			table_prefix = File.separator + table_prefix;
 			page_js = table_prefix + File.separator;
 		}
@@ -262,12 +264,12 @@ public class Generator {
 
 		if(templateName.contains("list.html.vm")){
 			dirExists(pagePath + page_js);
-			return pagePath + page_js +  className.toLowerCase() + ".html";
+			return pagePath + page_js +  page_name + ".html";
 		}
 
 		if(templateName.contains("list.js.vm")){
 			dirExists(jsPath + page_js);
-			return jsPath + page_js +  className.toLowerCase() + ".js";
+			return jsPath + page_js +  page_name + ".js";
 		}
 
 		if(templateName.contains("menu.sql.vm")){
