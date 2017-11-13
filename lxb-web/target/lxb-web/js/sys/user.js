@@ -11,7 +11,11 @@ $(function () {
 			{ label: '联系电话', name: 'phone', index: 'phone', width: 80 }, 			
 			{ label: '创建时间', name: 'gmtCreate', index: 'gmt_create', width: 80 }, 			
 			{ label: '修改时间', name: 'gmtModify', index: 'gmt_modify', width: 80 }, 			
-			{ label: '0 - 未删除；1 - 删除', name: 'isDeleted', index: 'is_deleted', width: 80 }			
+			{ label: '是否删除', name: 'isDeleted', index: 'is_deleted', width: 80, formatter: function(value, options, row){
+                return value === 0 ?
+                    '<span class="label label-success">未删除</span>' :
+                    '<span class="label label-danger pointer" onclick="vm.showError('+row.logId+')">删除</span>';
+            }}
         ],
 		viewrecords: true,
         height: 385,
@@ -23,10 +27,10 @@ $(function () {
         multiselect: true,
         pager: "#jqGridPager",
         jsonReader : {
-            root: "page.list",
-            page: "page.currPage",
-            total: "page.totalPage",
-            records: "page.totalCount"
+            root: "list",
+            page: "currPage",
+            total: "totalPage",
+            records: "totalCount"
         },
         prmNames : {
             page:"page", 
@@ -71,10 +75,12 @@ var vm = new Vue({
 			$.ajax({
 				type: "POST",
 			    url: url,
+                dataType: "json",
+                cache: false,
                 contentType: "application/json",
 			    data: JSON.stringify(vm.sysUser),
 			    success: function(r){
-			    	if(r.code === 0){
+			    	if(r.code === 200){
 						alert('操作成功', function(index){
 							vm.reload();
 						});
@@ -94,12 +100,14 @@ var vm = new Vue({
 				$.ajax({
 					type: "POST",
 				    url: "../sys/user/delete",
+                    dataType: "json",
+                    cache: false,
                     contentType: "application/json",
 				    data: JSON.stringify(ids),
 				    success: function(r){
-						if(r.code == 0){
+						if(r.code == 200){
 							alert('操作成功', function(index){
-								$("#jqGrid").trigger("reloadGrid");
+								$("#jqGrid").trigger("reloadGrid", {page:1});
 							});
 						}else{
 							alert(r.msg);
@@ -110,8 +118,8 @@ var vm = new Vue({
 		},
 		getInfo: function(id){
 			$.get("../sys/user/info/"+id, function(r){
-                vm.sysUser = r.sysUser;
-            });
+                vm.sysUser = r.obj;
+            },"json");
 		},
 		reload: function (event) {
 			vm.showList = true;

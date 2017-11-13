@@ -10,18 +10,18 @@ import com.lxb.web.entity.sys.SysRoleEntity;
  * 角色表
  * 
  * @author Liaoxb
- * @date 2017/11/10
+ * @date 2017/11/13
  */
 @Repository()
 public interface SysRoleDao {
     // ======= 自动生成接口 START =========
-    void save(SysRoleEntity entity);
+    int save(SysRoleEntity entity);
 
-    void saveSelective(SysRoleEntity entity);
+    int saveSelective(SysRoleEntity entity);
 
-    void save(Map<String, Object> map);
+    int save(Map<String, Object> map);
 
-    void saveBatch(List<SysRoleEntity> list);
+    int saveBatch(List<SysRoleEntity> list);
 
     int update(SysRoleEntity entity);
 

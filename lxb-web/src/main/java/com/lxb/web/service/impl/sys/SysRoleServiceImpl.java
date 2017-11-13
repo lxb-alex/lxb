@@ -33,23 +33,23 @@ public class SysRoleServiceImpl implements SysRoleService {
 	}
 	
 	@Override
-	public void save(SysRoleEntity sysRole){
-		sysRoleDao.save(sysRole);
+	public int save(SysRoleEntity sysRole){
+        return sysRoleDao.save(sysRole);
 	}
 	
 	@Override
-	public void update(SysRoleEntity sysRole){
-		sysRoleDao.update(sysRole);
+	public int update(SysRoleEntity sysRole){
+        return sysRoleDao.update(sysRole);
 	}
 	
 	@Override
-	public void delete(Integer id){
-		sysRoleDao.delete(id);
+	public int delete(Integer id){
+        return sysRoleDao.delete(id);
 	}
 	
 	@Override
-	public void deleteBatch(Integer[] ids){
-		sysRoleDao.deleteBatch(ids);
+	public int deleteBatch(Integer[] ids){
+        return sysRoleDao.deleteBatch(ids);
 	}
 	
 }

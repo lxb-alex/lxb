@@ -1,5 +1,9 @@
 package com.lxb.web.controller.sys;
 
+import com.lxb.common.utils.JsonUtil;
+
+import com.lxb.common.utils.MessageVo;
+
 import com.alibaba.fastjson.JSONObject;
 import com.lxb.common.base.BaseController;
 import com.lxb.common.utils.MessageVo;
@@ -17,7 +21,7 @@ import com.lxb.web.service.sys.SysRoleService;
  * 角色表
  * 
  * @author Liaoxb
- * @date 2017/11/10
+ * @date 2017/11/13
  */
 @RestController
 @RequestMapping("sys/role")
@@ -42,7 +46,7 @@ public class SysRoleController extends  BaseController{
 
         PageUtil page = new PageUtil(total, query.getPage(), query.getPageSize(), sysRoleList);
 
-        return PageUtil.convertToJSONObject(page);
+        return JsonUtil.convertToJSONObject2(page);
     }
 	
 	
@@ -61,9 +65,9 @@ public class SysRoleController extends  BaseController{
 	 */
 	@RequestMapping("/save")
 	public MessageVo save(@RequestBody SysRoleEntity sysRole){
-		sysRoleService.save(sysRole);
+        int count = sysRoleService.save(sysRole);
 
-        return new MessageVo(MessageVo.SUCCESS, null);
+        return MessageVo.success();
 	}
 	
 	/**
@@ -71,9 +75,9 @@ public class SysRoleController extends  BaseController{
 	 */
 	@RequestMapping("/update")
 	public MessageVo update(@RequestBody SysRoleEntity sysRole){
-		sysRoleService.update(sysRole);
+        int count = sysRoleService.update(sysRole);
 
-        return new MessageVo(MessageVo.SUCCESS, null);
+        return MessageVo.success();
 	}
 	
 	/**
@@ -81,9 +85,9 @@ public class SysRoleController extends  BaseController{
 	 */
 	@RequestMapping("/delete")
 	public MessageVo delete(@RequestBody Integer[] ids){
-		sysRoleService.deleteBatch(ids);
+        int count = sysRoleService.deleteBatch(ids);
 
-        return new MessageVo(MessageVo.SUCCESS, null);
+        return MessageVo.success();
 	}
 	
 }

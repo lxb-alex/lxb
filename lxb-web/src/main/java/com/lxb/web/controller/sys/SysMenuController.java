@@ -1,5 +1,9 @@
 package com.lxb.web.controller.sys;
 
+import com.lxb.common.utils.JsonUtil;
+
+import com.lxb.common.utils.MessageVo;
+
 import com.alibaba.fastjson.JSONObject;
 import com.lxb.common.base.BaseController;
 import com.lxb.common.utils.MessageVo;
@@ -17,7 +21,7 @@ import com.lxb.web.service.sys.SysMenuService;
  * 目录表
  * 
  * @author Liaoxb
- * @date 2017/11/10
+ * @date 2017/11/13
  */
 @RestController
 @RequestMapping("sys/menu")
@@ -42,9 +46,20 @@ public class SysMenuController extends  BaseController{
 
         PageUtil page = new PageUtil(total, query.getPage(), query.getPageSize(), sysMenuList);
 
-        return PageUtil.convertToJSONObject(page);
+        return JsonUtil.convertToJSONObject2(page);
     }
-	
+
+	/**
+	 * 列表
+	 */
+	@RequestMapping("/getAll")
+	public Object getAll(@RequestParam Map<String, Object> params){
+		params.put("sidx","id");	// 排序字段
+		params.put("order", "ASC");	// 排序方式
+		params.put("group", "parent_id");	// 分组字段
+		List<SysMenuEntity> list = sysMenuService.getAll(params);
+		return JsonUtil.convertToJSONObject(list);
+	}
 	
 	/**
 	 * 信息
@@ -61,9 +76,9 @@ public class SysMenuController extends  BaseController{
 	 */
 	@RequestMapping("/save")
 	public MessageVo save(@RequestBody SysMenuEntity sysMenu){
-		sysMenuService.save(sysMenu);
+        int count = sysMenuService.save(sysMenu);
 
-        return new MessageVo(MessageVo.SUCCESS, null);
+        return MessageVo.success();
 	}
 	
 	/**
@@ -71,9 +86,9 @@ public class SysMenuController extends  BaseController{
 	 */
 	@RequestMapping("/update")
 	public MessageVo update(@RequestBody SysMenuEntity sysMenu){
-		sysMenuService.update(sysMenu);
+        int count = sysMenuService.update(sysMenu);
 
-        return new MessageVo(MessageVo.SUCCESS, null);
+        return MessageVo.success();
 	}
 	
 	/**
@@ -81,9 +96,9 @@ public class SysMenuController extends  BaseController{
 	 */
 	@RequestMapping("/delete")
 	public MessageVo delete(@RequestBody Integer[] ids){
-		sysMenuService.deleteBatch(ids);
+        int count = sysMenuService.deleteBatch(ids);
 
-        return new MessageVo(MessageVo.SUCCESS, null);
+        return MessageVo.success();
 	}
 	
 }

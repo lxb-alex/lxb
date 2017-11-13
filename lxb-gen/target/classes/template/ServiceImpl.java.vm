@@ -33,23 +33,23 @@ public class ${className}ServiceImpl implements ${className}Service {
 	}
 	
 	@Override
-	public void save(${className}Entity ${classname}){
-		${classname}Dao.save(${classname});
+	public int save(${className}Entity ${classname}){
+        return ${classname}Dao.save(${classname});
 	}
 	
 	@Override
-	public void update(${className}Entity ${classname}){
-		${classname}Dao.update(${classname});
+	public int update(${className}Entity ${classname}){
+        return ${classname}Dao.update(${classname});
 	}
 	
 	@Override
-	public void delete(${pk.attrType} ${pk.attrname}){
-		${classname}Dao.delete(${pk.attrname});
+	public int delete(${pk.attrType} ${pk.attrname}){
+        return ${classname}Dao.delete(${pk.attrname});
 	}
 	
 	@Override
-	public void deleteBatch(${pk.attrType}[] ${pk.attrname}s){
-		${classname}Dao.deleteBatch(${pk.attrname}s);
+	public int deleteBatch(${pk.attrType}[] ${pk.attrname}s){
+        return ${classname}Dao.deleteBatch(${pk.attrname}s);
 	}
 	
 }

@@ -19,10 +19,10 @@ $(function () {
         multiselect: true,
         pager: "#jqGridPager",
         jsonReader : {
-            root: "page.list",
-            page: "page.currPage",
-            total: "page.totalPage",
-            records: "page.totalCount"
+            root: "list",
+            page: "currPage",
+            total: "totalPage",
+            records: "totalCount"
         },
         prmNames : {
             page:"page", 
@@ -67,10 +67,12 @@ var vm = new Vue({
 			$.ajax({
 				type: "POST",
 			    url: url,
+                dataType: "json",
+                cache: false,
                 contentType: "application/json",
 			    data: JSON.stringify(vm.sysRole),
 			    success: function(r){
-			    	if(r.code === 0){
+			    	if(r.code === 200){
 						alert('操作成功', function(index){
 							vm.reload();
 						});
@@ -90,12 +92,14 @@ var vm = new Vue({
 				$.ajax({
 					type: "POST",
 				    url: "../sys/role/delete",
+                    dataType: "json",
+                    cache: false,
                     contentType: "application/json",
 				    data: JSON.stringify(ids),
 				    success: function(r){
-						if(r.code == 0){
+						if(r.code == 200){
 							alert('操作成功', function(index){
-								$("#jqGrid").trigger("reloadGrid");
+								$("#jqGrid").trigger("reloadGrid", {page:1});
 							});
 						}else{
 							alert(r.msg);
@@ -106,8 +110,8 @@ var vm = new Vue({
 		},
 		getInfo: function(id){
 			$.get("../sys/role/info/"+id, function(r){
-                vm.sysRole = r.sysRole;
-            });
+                vm.sysUser = r.obj;
+            },"json");
 		},
 		reload: function (event) {
 			vm.showList = true;

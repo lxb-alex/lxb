@@ -48,7 +48,7 @@ public class MessageVo {
         return error("操作失败");
     }
     public static MessageVo error(String msg){
-        return new MessageVo(0, "ERROR", msg, null);
+        return new MessageVo(-1, "ERROR", msg, null);
     }
 
     public Integer getCode() {

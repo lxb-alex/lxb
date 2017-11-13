@@ -16,8 +16,8 @@
     },
     methods: { // 定义方法
         getMenuList: function () {
-            $.getJSON("sys/menu/list", function (r) {
-                vm.menuList = r.Rows;
+            $.getJSON("sys/menu/getAll", function (r) {
+                vm.menuList = r.list;
             });
         },
         showMenu: function (url) {

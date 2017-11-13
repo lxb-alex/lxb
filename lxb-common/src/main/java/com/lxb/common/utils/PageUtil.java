@@ -1,6 +1,5 @@
 package com.lxb.common.utils;
 
-import com.alibaba.fastjson.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,7 +9,7 @@ import java.util.List;
 /**
  * @Description 分页工具类
  * @Author Liaoxb
- * @Date 2017/10/23 0023 10:45:45
+ * @Date 2017/10/23 10:45:45
  */
 public class PageUtil implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -33,17 +32,12 @@ public class PageUtil implements Serializable {
         this.rows = rows;
     }
 
-
-    /** 将工具类对象转换为json对象, 返回json数据 */
-    public static JSONObject convertToJSONObject(PageUtil page){
-        JSONObject obj = new JSONObject();
-        obj.put("Total", page.getTotal());
-        obj.put("page", page.getTotal());
-        obj.put("pagesize", page.getTotal());
-        if (page.getRows()!=null){
-            obj.put("Rows", page.getRows());
+    public static int getTotalPage(int total, int pagesize){
+        int totalPage = 0;
+        if (total>0){
+            totalPage = total%pagesize==0 ? total/pagesize : total/pagesize + 1;
         }
-        return obj;
+        return totalPage;
     }
 
     /**

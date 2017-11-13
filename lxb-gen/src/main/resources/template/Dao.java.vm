@@ -15,13 +15,13 @@ import ${package}.entity${tablePrefix}.${className}Entity;
 @Repository()
 public interface ${className}Dao {
     // ======= 自动生成接口 START =========
-    void save(${className}Entity entity);
+    int save(${className}Entity entity);
 
-    void saveSelective(${className}Entity entity);
+    int saveSelective(${className}Entity entity);
 
-    void save(Map<String, Object> map);
+    int save(Map<String, Object> map);
 
-    void saveBatch(List<${className}Entity> list);
+    int saveBatch(List<${className}Entity> list);
 
     int update(${className}Entity entity);
 

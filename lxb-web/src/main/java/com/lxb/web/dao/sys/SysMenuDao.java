@@ -10,18 +10,18 @@ import com.lxb.web.entity.sys.SysMenuEntity;
  * 目录表
  * 
  * @author Liaoxb
- * @date 2017/11/10
+ * @date 2017/11/13
  */
 @Repository()
 public interface SysMenuDao {
     // ======= 自动生成接口 START =========
-    void save(SysMenuEntity entity);
+    int save(SysMenuEntity entity);
 
-    void saveSelective(SysMenuEntity entity);
+    int saveSelective(SysMenuEntity entity);
 
-    void save(Map<String, Object> map);
+    int save(Map<String, Object> map);
 
-    void saveBatch(List<SysMenuEntity> list);
+    int saveBatch(List<SysMenuEntity> list);
 
     int update(SysMenuEntity entity);
 
@@ -44,5 +44,7 @@ public interface SysMenuDao {
     int getTotal(Map<String, Object> map);
 
     int getTotal();
+
     // ======= 自动生成接口  END =========
+    List<SysMenuEntity> getAll(Map<String, Object> params);
 }

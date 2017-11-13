@@ -9,7 +9,7 @@ import java.util.Map;
  * 目录表
  * 
  * @author Liaoxb
- * @date 2017/11/10
+ * @date 2017/11/13
  */
 public interface SysMenuService {
 	
@@ -19,11 +19,13 @@ public interface SysMenuService {
 	
 	int getTotal(Map<String, Object> map);
 	
-	void save(SysMenuEntity sysMenu);
-	
-	void update(SysMenuEntity sysMenu);
-	
-	void delete(Integer id);
-	
-	void deleteBatch(Integer[] ids);
+	int save(SysMenuEntity sysMenu);
+
+    int update(SysMenuEntity sysMenu);
+
+    int delete(Integer id);
+
+    int deleteBatch(Integer[] ids);
+
+    List<SysMenuEntity> getAll(Map<String, Object> params);
 }

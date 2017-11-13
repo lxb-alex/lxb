@@ -9,7 +9,7 @@
 		            <result property="name" column="name"/>
 		            <result property="parentId" column="parent_id"/>
 		            <result property="url" column="url"/>
-		            <result property="identify" column="identify"/>
+		            <result property="permissionId" column="permission_id"/>
 		            <result property="type" column="type"/>
 		            <result property="icon" column="icon"/>
 		            <result property="orderNum" column="order_num"/>
@@ -19,7 +19,7 @@
 
     <!-- 表所有字段 -->
     <sql id="baseColumn">
-         `id`,  `name`,  `parent_id`,  `url`,  `identify`,  `type`,  `icon`,  `order_num`,  `create_date`,  `update_date`     </sql>
+         `id`,  `name`,  `parent_id`,  `url`,  `permission_id`,  `type`,  `icon`,  `order_num`,  `create_date`,  `update_date`     </sql>
 
     <!-- 条件判断 -->
     <sql id="otherCondition">
@@ -27,7 +27,7 @@
                     <if test="name != null">AND `name` = #{name}, </if>
                     <if test="parentId != null">AND `parent_id` = #{parentId}, </if>
                     <if test="url != null">AND `url` = #{url}, </if>
-                    <if test="identify != null">AND `identify` = #{identify}, </if>
+                    <if test="permissionId != null">AND `permission_id` = #{permissionId}, </if>
                     <if test="type != null">AND `type` = #{type}, </if>
                     <if test="icon != null">AND `icon` = #{icon}, </if>
                     <if test="orderNum != null">AND `order_num` = #{orderNum}, </if>
@@ -64,7 +64,7 @@
                                     `name`, 
                                 `parent_id`, 
                                 `url`, 
-                                `identify`, 
+                                `permission_id`, 
                                 `type`, 
                                 `icon`, 
                                 `order_num`, 
@@ -76,7 +76,7 @@
                                     #{name}, 
                                 #{parentId}, 
                                 #{url}, 
-                                #{identify}, 
+                                #{permissionId}, 
                                 #{type}, 
                                 #{icon}, 
                                 #{orderNum}, 
@@ -92,7 +92,7 @@
           <if test="name != null">`name`, </if>
           <if test="parentId != null">`parent_id`, </if>
           <if test="url != null">`url`, </if>
-          <if test="identify != null">`identify`, </if>
+          <if test="permissionId != null">`permission_id`, </if>
           <if test="type != null">`type`, </if>
           <if test="icon != null">`icon`, </if>
           <if test="orderNum != null">`order_num`, </if>
@@ -105,7 +105,7 @@
             <if test="name != null"> #{name}, </if>
             <if test="parentId != null"> #{parentId}, </if>
             <if test="url != null"> #{url}, </if>
-            <if test="identify != null"> #{identify}, </if>
+            <if test="permissionId != null"> #{permissionId}, </if>
             <if test="type != null"> #{type}, </if>
             <if test="icon != null"> #{icon}, </if>
             <if test="orderNum != null"> #{orderNum}, </if>
@@ -124,7 +124,7 @@
                                     <if test="name != null">`name` = #{name}, </if>
                                 <if test="parentId != null">`parent_id` = #{parentId}, </if>
                                 <if test="url != null">`url` = #{url}, </if>
-                                <if test="identify != null">`identify` = #{identify}, </if>
+                                <if test="permissionId != null">`permission_id` = #{permissionId}, </if>
                                 <if test="type != null">`type` = #{type}, </if>
                                 <if test="icon != null">`icon` = #{icon}, </if>
                                 <if test="orderNum != null">`order_num` = #{orderNum}, </if>
@@ -140,7 +140,7 @@
                                         <if test="name != null">`name` = #{name,jdbcType=varchar}, </if>
                                 <if test="parentId != null">`parent_id` = #{parentId,jdbcType=int}, </if>
                                 <if test="url != null">`url` = #{url,jdbcType=varchar}, </if>
-                                <if test="identify != null">`identify` = #{identify,jdbcType=varchar}, </if>
+                                <if test="permissionId != null">`permission_id` = #{permissionId,jdbcType=varchar}, </if>
                                 <if test="type != null">`type` = #{type,jdbcType=int}, </if>
                                 <if test="icon != null">`icon` = #{icon,jdbcType=varchar}, </if>
                                 <if test="orderNum != null">`order_num` = #{orderNum,jdbcType=int}, </if>
@@ -160,5 +160,20 @@
             #{id}
         </foreach>
     </delete>
+
+    <select id="getAll" resultMap="sysMenuMap">
+        select * from sys_menu
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+            <otherwise>
+                order by id desc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
 
 </mapper>

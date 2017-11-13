@@ -33,23 +33,28 @@ public class SysMenuServiceImpl implements SysMenuService {
 	}
 	
 	@Override
-	public void save(SysMenuEntity sysMenu){
-		sysMenuDao.save(sysMenu);
+	public int save(SysMenuEntity sysMenu){
+        return sysMenuDao.save(sysMenu);
 	}
 	
 	@Override
-	public void update(SysMenuEntity sysMenu){
-		sysMenuDao.update(sysMenu);
+	public int update(SysMenuEntity sysMenu){
+        return sysMenuDao.update(sysMenu);
 	}
 	
 	@Override
-	public void delete(Integer id){
-		sysMenuDao.delete(id);
+	public int delete(Integer id){
+        return sysMenuDao.delete(id);
 	}
 	
 	@Override
-	public void deleteBatch(Integer[] ids){
-		sysMenuDao.deleteBatch(ids);
+	public int deleteBatch(Integer[] ids){
+        return sysMenuDao.deleteBatch(ids);
 	}
-	
+
+	@Override
+	public List<SysMenuEntity> getAll(Map<String, Object> params) {
+		return sysMenuDao.getAll(params);
+	}
+
 }

@@ -9,7 +9,7 @@ import java.util.Date;
  * 角色表
  * 
  * @author Liaoxb
- * @date 2017/11/10
+ * @date 2017/11/13
  */
 public class SysRoleEntity implements Serializable {
 

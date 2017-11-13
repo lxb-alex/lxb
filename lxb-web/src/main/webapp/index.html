@@ -185,13 +185,15 @@
                 <!-- sidebar menu: : style can be found in sidebar.less -->
                 <ul class="sidebar-menu" data-widget="tree">
                     <li class="header">菜单</li>
-                    <li class="treeview" v-for="item in menuList">
+                    <li class="treeview" v-for="item in menuList"  v-if="item.parentId==0">
+                        <!-- 一级目录 -->
                         <a href="#" v-if="item.parentId==0">
                             <i v-if="item.icon != null" :class="item.icon"></i><i v-else class="fa fa-circle-o"></i> <span>{{item.name}} </span>
                             <span class="pull-right-container">
                               <i class="fa fa-angle-left pull-right"></i>
                             </span>
                         </a>
+                        <!-- 二级目录 -->
                         <ul class="treeview-menu">
                             <li v-for="children in menuList" v-if="children.parentId==item.id">
                                 <a href="javascript:;" @click="showMenu(children.url)">
@@ -249,7 +251,8 @@
 <!-- AdminLTE for demo purposes -->
 <script src="static/plugin/AdminLTE/dist/js/demo.js"></script>
 
-<script type="text/javascript" src="static/libs/vue.js"></script>
-<script type="text/javascript" src="js/index.js"></script>
+<script src="static/libs/vue.js"></script>
+<script src="static/plugin/layer/layer.js"></script>
+<script src="js/index.js"></script>
 </body>
 </html>

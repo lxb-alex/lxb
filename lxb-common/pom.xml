@@ -222,6 +222,13 @@
             <artifactId>jstl</artifactId>
             <version>1.2</version>
         </dependency>
+        <!-- java 业务逻辑验证框架 -->
+        <dependency>
+            <groupId>com.baidu.unbiz</groupId>
+            <artifactId>fluent-validator</artifactId>
+            <version>1.0.9</version>
+        </dependency>
+
         <!-- velocity 模板渲染器 -->
         <dependency>
             <groupId>org.apache.velocity</groupId>

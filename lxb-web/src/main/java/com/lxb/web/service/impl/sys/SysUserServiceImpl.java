@@ -33,23 +33,23 @@ public class SysUserServiceImpl implements SysUserService {
 	}
 	
 	@Override
-	public void save(SysUserEntity sysUser){
-		sysUserDao.save(sysUser);
+	public int save(SysUserEntity sysUser){
+        return sysUserDao.save(sysUser);
 	}
 	
 	@Override
-	public void update(SysUserEntity sysUser){
-		sysUserDao.update(sysUser);
+	public int update(SysUserEntity sysUser){
+        return sysUserDao.update(sysUser);
 	}
 	
 	@Override
-	public void delete(Long id){
-		sysUserDao.delete(id);
+	public int delete(Long id){
+        return sysUserDao.delete(id);
 	}
 	
 	@Override
-	public void deleteBatch(Long[] ids){
-		sysUserDao.deleteBatch(ids);
+	public int deleteBatch(Long[] ids){
+        return sysUserDao.deleteBatch(ids);
 	}
 	
 }

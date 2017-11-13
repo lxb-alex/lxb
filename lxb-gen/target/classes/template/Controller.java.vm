@@ -1,5 +1,9 @@
 package ${package}.controller${tablePrefix};
 
+import com.lxb.common.utils.JsonUtil;
+
+import com.lxb.common.utils.MessageVo;
+
 import com.alibaba.fastjson.JSONObject;
 import com.lxb.common.base.BaseController;
 import com.lxb.common.utils.MessageVo;
@@ -7,6 +11,8 @@ import com.lxb.common.utils.PageUtil;
 import com.lxb.common.utils.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.util.List;
 import java.util.Map;
 
@@ -22,6 +28,7 @@ import ${package}.service${tablePrefix}.${className}Service;
 @RestController
 @RequestMapping("${pathName}")
 public class ${className}Controller extends  BaseController{
+    private static Logger _log = LoggerFactory.getLogger(${className}Controller.class);
 	@Autowired
 	private ${className}Service ${classname}Service;
 
@@ -42,7 +49,7 @@ public class ${className}Controller extends  BaseController{
 
         PageUtil page = new PageUtil(total, query.getPage(), query.getPageSize(), ${classname}List);
 
-        return PageUtil.convertToJSONObject(page);
+        return JsonUtil.convertToJSONObject2(page);
     }
 	
 	
@@ -61,9 +68,9 @@ public class ${className}Controller extends  BaseController{
 	 */
 	@RequestMapping("/save")
 	public MessageVo save(@RequestBody ${className}Entity ${classname}){
-		${classname}Service.save(${classname});
+        int count = ${classname}Service.save(${classname});
 
-        return new MessageVo(MessageVo.SUCCESS, null);
+        return MessageVo.success();
 	}
 	
 	/**
@@ -71,9 +78,9 @@ public class ${className}Controller extends  BaseController{
 	 */
 	@RequestMapping("/update")
 	public MessageVo update(@RequestBody ${className}Entity ${classname}){
-		${classname}Service.update(${classname});
+        int count = ${classname}Service.update(${classname});
 
-        return new MessageVo(MessageVo.SUCCESS, null);
+        return MessageVo.success();
 	}
 	
 	/**
@@ -81,9 +88,9 @@ public class ${className}Controller extends  BaseController{
 	 */
 	@RequestMapping("/delete")
 	public MessageVo delete(@RequestBody ${pk.attrType}[] ${pk.attrname}s){
-		${classname}Service.deleteBatch(${pk.attrname}s);
+        int count = ${classname}Service.deleteBatch(${pk.attrname}s);
 
-        return new MessageVo(MessageVo.SUCCESS, null);
+        return MessageVo.success();
 	}
 	
 }

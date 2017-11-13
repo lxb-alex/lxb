@@ -10,18 +10,18 @@ import com.lxb.web.entity.sys.SysUserEntity;
  * 系统用户表
  * 
  * @author Liaoxb
- * @date 2017/11/10
+ * @date 2017/11/13
  */
 @Repository()
 public interface SysUserDao {
     // ======= 自动生成接口 START =========
-    void save(SysUserEntity entity);
+    int save(SysUserEntity entity);
 
-    void saveSelective(SysUserEntity entity);
+    int saveSelective(SysUserEntity entity);
 
-    void save(Map<String, Object> map);
+    int save(Map<String, Object> map);
 
-    void saveBatch(List<SysUserEntity> list);
+    int saveBatch(List<SysUserEntity> list);
 
     int update(SysUserEntity entity);
 

@@ -19,11 +19,11 @@ public interface ${className}Service {
 	
 	int getTotal(Map<String, Object> map);
 	
-	void save(${className}Entity ${classname});
-	
-	void update(${className}Entity ${classname});
-	
-	void delete(${pk.attrType} ${pk.attrname});
-	
-	void deleteBatch(${pk.attrType}[] ${pk.attrname}s);
+	int save(${className}Entity ${classname});
+
+    int update(${className}Entity ${classname});
+
+    int delete(${pk.attrType} ${pk.attrname});
+
+    int deleteBatch(${pk.attrType}[] ${pk.attrname}s);
 }

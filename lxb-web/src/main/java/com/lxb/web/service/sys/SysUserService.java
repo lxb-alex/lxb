@@ -9,7 +9,7 @@ import java.util.Map;
  * 系统用户表
  * 
  * @author Liaoxb
- * @date 2017/11/10
+ * @date 2017/11/13
  */
 public interface SysUserService {
 	
@@ -19,11 +19,11 @@ public interface SysUserService {
 	
 	int getTotal(Map<String, Object> map);
 	
-	void save(SysUserEntity sysUser);
-	
-	void update(SysUserEntity sysUser);
-	
-	void delete(Long id);
-	
-	void deleteBatch(Long[] ids);
+	int save(SysUserEntity sysUser);
+
+    int update(SysUserEntity sysUser);
+
+    int delete(Long id);
+
+    int deleteBatch(Long[] ids);
 }

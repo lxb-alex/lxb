@@ -9,7 +9,7 @@ import java.util.Map;
  * 角色表
  * 
  * @author Liaoxb
- * @date 2017/11/10
+ * @date 2017/11/13
  */
 public interface SysRoleService {
 	
@@ -19,11 +19,11 @@ public interface SysRoleService {
 	
 	int getTotal(Map<String, Object> map);
 	
-	void save(SysRoleEntity sysRole);
-	
-	void update(SysRoleEntity sysRole);
-	
-	void delete(Integer id);
-	
-	void deleteBatch(Integer[] ids);
+	int save(SysRoleEntity sysRole);
+
+    int update(SysRoleEntity sysRole);
+
+    int delete(Integer id);
+
+    int deleteBatch(Integer[] ids);
 }

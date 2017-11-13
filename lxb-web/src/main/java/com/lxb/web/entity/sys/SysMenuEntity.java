@@ -9,7 +9,7 @@ import java.util.Date;
  * 目录表
  * 
  * @author Liaoxb
- * @date 2017/11/10
+ * @date 2017/11/13
  */
 public class SysMenuEntity implements Serializable {
 
@@ -31,9 +31,9 @@ public class SysMenuEntity implements Serializable {
 	 */
 	private String url;
     /**
-	 * 
+	 * 权限标识
 	 */
-	private String identify;
+	private String permissionId;
     /**
 	 * 菜单类型
 	 */
@@ -105,16 +105,16 @@ public class SysMenuEntity implements Serializable {
 		return url;
 	}
 	/**
-	 * 设置：
+	 * 设置：权限标识
 	 */
-	public void setIdentify(String identify) {
-		this.identify = identify;
+	public void setPermissionId(String permissionId) {
+		this.permissionId = permissionId;
 	}
 	/**
-	 * 获取：
+	 * 获取：权限标识
 	 */
-	public String getIdentify() {
-		return identify;
+	public String getPermissionId() {
+		return permissionId;
 	}
 	/**
 	 * 设置：菜单类型

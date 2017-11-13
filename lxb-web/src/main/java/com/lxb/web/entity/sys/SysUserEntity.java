@@ -9,7 +9,7 @@ import java.util.Date;
  * 系统用户表
  * 
  * @author Liaoxb
- * @date 2017/11/10
+ * @date 2017/11/13
  */
 public class SysUserEntity implements Serializable {
 
