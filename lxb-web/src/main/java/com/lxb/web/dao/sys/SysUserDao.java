@@ -45,4 +45,6 @@ public interface SysUserDao {
 
     int getTotal();
     // ======= 自动生成接口  END =========
+
+    SysUserEntity getSysUser(SysUserEntity userEntity);
 }

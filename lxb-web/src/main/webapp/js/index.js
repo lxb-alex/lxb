@@ -22,6 +22,9 @@
         },
         showMenu: function (url) {
             vm.main = url;
+        },
+        logout: function () {
+            window.location.href= "sys/logout";
         }
     },
     created: function () {

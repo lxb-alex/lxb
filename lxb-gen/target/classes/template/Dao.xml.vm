@@ -18,7 +18,7 @@
     <!-- 条件判断 -->
     <sql id="otherCondition">
         #foreach($column in $columns)
-            <if test="$column.attrname != null">AND `$column.columnName` = #{$column.attrname}#if($velocityCount != $columns.size()), #end</if>
+            <if test="$column.attrname != null"> AND `$column.columnName` = #{$column.attrname}#if($velocityCount != $columns.size()) #end</if>
         #end
     </sql>
 

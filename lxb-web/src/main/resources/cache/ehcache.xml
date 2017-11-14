@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF8"?>
+<ehcache name="mycache"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd" >
+	<!-- <diskStore path="java.io.tmpdir"/> -->
+	<!-- <diskStore path="/Users/gqingsong/Documents/Java/workspace/MyEclipse10/hot/ehcache" /> -->
+	<diskStore path="user.dir/hot" />
+	<defaultCache maxElementsInMemory="10000" eternal="false"
+		overflowToDisk="true" timeToIdleSeconds="500" timeToLiveSeconds="1000"
+		diskPersistent="false" diskExpiryThreadIntervalSeconds="120" />
+
+	<cache name="searchResults" maxElementsInMemory="500000" 
+		maxElementsOnDisk="500000" eternal="false" overflowToDisk="true"
+		timeToIdleSeconds="864000" timeToLiveSeconds="8640000"  diskPersistent="true"
+		diskSpoolBufferSizeMB="20" diskExpiryThreadIntervalSeconds="8640000"
+		memoryStoreEvictionPolicy="LRU" />
+		
+	<cache name="officeRefresh" maxElementsInMemory="10000" timeToLiveSeconds="43200" memoryStoreEvictionPolicy="LRU" />
+		
+		 <!-- shiro授权的缓存名称 -->
+    <cache name="shiroAuthorizationCache" maxElementsInMemory="10000" timeToLiveSeconds="43200">
+    	<!-- <cacheEventListenerFactory class="net.sf.ehcache.distribution.RMICacheReplicatorFactory" properties="replicateAsynchronously=false"/> -->
+    </cache>
+    
+    <!-- shiro认证的缓存名称 -->
+    <cache name="shiroAuthenticationCache" maxElementsInMemory="10000" timeToLiveSeconds="43200" memoryStoreEvictionPolicy="LRU">
+    	<!-- <cacheEventListenerFactory class="net.sf.ehcache.distribution.RMICacheReplicatorFactory" properties="replicateAsynchronously=false"/> -->
+    </cache>
+    
+    <!-- shiro的活动session缓存名称 -->
+    <cache name="shiroActiveSessionCache" maxElementsInMemory="10000" timeToLiveSeconds="43200" memoryStoreEvictionPolicy="LRU">
+    	<!-- <cacheEventListenerFactory class="net.sf.ehcache.distribution.RMICacheReplicatorFactory" properties="replicateAsynchronously=false"/> -->
+    </cache>
+</ehcache>

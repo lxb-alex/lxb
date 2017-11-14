@@ -23,16 +23,16 @@
 
     <!-- 条件判断 -->
     <sql id="otherCondition">
-                    <if test="id != null">AND `id` = #{id}, </if>
-                    <if test="name != null">AND `name` = #{name}, </if>
-                    <if test="parentId != null">AND `parent_id` = #{parentId}, </if>
-                    <if test="url != null">AND `url` = #{url}, </if>
-                    <if test="permissionId != null">AND `permission_id` = #{permissionId}, </if>
-                    <if test="type != null">AND `type` = #{type}, </if>
-                    <if test="icon != null">AND `icon` = #{icon}, </if>
-                    <if test="orderNum != null">AND `order_num` = #{orderNum}, </if>
-                    <if test="createDate != null">AND `create_date` = #{createDate}, </if>
-                    <if test="updateDate != null">AND `update_date` = #{updateDate}</if>
+                    <if test="id != null"> AND `id` = #{id} </if>
+                    <if test="name != null"> AND `name` = #{name} </if>
+                    <if test="parentId != null"> AND `parent_id` = #{parentId} </if>
+                    <if test="url != null"> AND `url` = #{url} </if>
+                    <if test="permissionId != null"> AND `permission_id` = #{permissionId} </if>
+                    <if test="type != null"> AND `type` = #{type} </if>
+                    <if test="icon != null"> AND `icon` = #{icon} </if>
+                    <if test="orderNum != null"> AND `order_num` = #{orderNum}</if>
+                    <if test="createDate != null"> AND `create_date` = #{createDate}</if>
+                    <if test="updateDate != null"> AND `update_date` = #{updateDate}</if>
             </sql>
 
     <select id="getSysMenuEntity" resultMap="sysMenuMap">

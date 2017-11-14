@@ -5,16 +5,16 @@
 
     <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.lxb.web.entity.sys.SysUserEntity" id="sysUserMap">
-		            <result property="id" column="id"/>
-		            <result property="name" column="name"/>
-		            <result property="accout" column="accout"/>
-		            <result property="password" column="password"/>
-		            <result property="email" column="email"/>
-		            <result property="phone" column="phone"/>
-		            <result property="gmtCreate" column="gmt_create"/>
-		            <result property="gmtModify" column="gmt_modify"/>
-		            <result property="isDeleted" column="is_deleted"/>
-		    </resultMap>
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="accout" column="accout"/>
+        <result property="password" column="password"/>
+        <result property="email" column="email"/>
+        <result property="phone" column="phone"/>
+        <result property="gmtCreate" column="gmt_create"/>
+        <result property="gmtModify" column="gmt_modify"/>
+        <result property="isDeleted" column="is_deleted"/>
+    </resultMap>
 
     <!-- 表所有字段 -->
     <sql id="baseColumn">
@@ -22,16 +22,16 @@
 
     <!-- 条件判断 -->
     <sql id="otherCondition">
-                    <if test="id != null">AND `id` = #{id}, </if>
-                    <if test="name != null">AND `name` = #{name}, </if>
-                    <if test="accout != null">AND `accout` = #{accout}, </if>
-                    <if test="password != null">AND `password` = #{password}, </if>
-                    <if test="email != null">AND `email` = #{email}, </if>
-                    <if test="phone != null">AND `phone` = #{phone}, </if>
-                    <if test="gmtCreate != null">AND `gmt_create` = #{gmtCreate}, </if>
-                    <if test="gmtModify != null">AND `gmt_modify` = #{gmtModify}, </if>
-                    <if test="isDeleted != null">AND `is_deleted` = #{isDeleted}</if>
-            </sql>
+        <if test="id != null">AND `id` = #{id}</if>
+        <if test="name != null">AND `name` = #{name}</if>
+        <if test="accout != null">AND `accout` = #{accout}</if>
+        <if test="password != null">AND `password` = #{password}</if>
+        <if test="email != null">AND `email` = #{email}</if>
+        <if test="phone != null">AND `phone` = #{phone}</if>
+        <if test="gmtCreate != null">AND `gmt_create` = #{gmtCreate}</if>
+        <if test="gmtModify != null">AND `gmt_modify` = #{gmtModify}</if>
+        <if test="isDeleted != null">AND `is_deleted` = #{isDeleted}</if>
+    </sql>
 
     <select id="getSysUserEntity" resultMap="sysUserMap">
 		select * from sys_user where id = #{value}
@@ -81,31 +81,31 @@
                     )
     </insert>
 
-    <insert id="saveSelective" parameterType="com.lxb.web.entity.sys.SysUserEntity" >
+    <insert id="saveSelective" parameterType="com.lxb.web.entity.sys.SysUserEntity">
         insert into sys_user
-        <trim prefix="(" suffix=")" suffixOverrides="," >
-          <if test="id != null">`id`, </if>
-          <if test="name != null">`name`, </if>
-          <if test="accout != null">`accout`, </if>
-          <if test="password != null">`password`, </if>
-          <if test="email != null">`email`, </if>
-          <if test="phone != null">`phone`, </if>
-          <if test="gmtCreate != null">`gmt_create`, </if>
-          <if test="gmtModify != null">`gmt_modify`, </if>
-          <if test="isDeleted != null">`is_deleted`, </if>
-    
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">`id`,</if>
+            <if test="name != null">`name`,</if>
+            <if test="accout != null">`accout`,</if>
+            <if test="password != null">`password`,</if>
+            <if test="email != null">`email`,</if>
+            <if test="phone != null">`phone`,</if>
+            <if test="gmtCreate != null">`gmt_create`,</if>
+            <if test="gmtModify != null">`gmt_modify`,</if>
+            <if test="isDeleted != null">`is_deleted`,</if>
+
         </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides="," >
-            <if test="id != null"> #{id}, </if>
-            <if test="name != null"> #{name}, </if>
-            <if test="accout != null"> #{accout}, </if>
-            <if test="password != null"> #{password}, </if>
-            <if test="email != null"> #{email}, </if>
-            <if test="phone != null"> #{phone}, </if>
-            <if test="gmtCreate != null"> #{gmtCreate}, </if>
-            <if test="gmtModify != null"> #{gmtModify}, </if>
-            <if test="isDeleted != null"> #{isDeleted}</if>
-            </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="name != null">#{name},</if>
+            <if test="accout != null">#{accout},</if>
+            <if test="password != null">#{password},</if>
+            <if test="email != null">#{email},</if>
+            <if test="phone != null">#{phone},</if>
+            <if test="gmtCreate != null">#{gmtCreate},</if>
+            <if test="gmtModify != null">#{gmtModify},</if>
+            <if test="isDeleted != null">#{isDeleted}</if>
+        </trim>
         <selectKey resultType="Integer" order="AFTER" keyProperty="id">
             SELECT LAST_INSERT_ID() AS id
         </selectKey>
@@ -115,30 +115,30 @@
     <update id="update" parameterType="com.lxb.web.entity.sys.SysUserEntity">
         update sys_user
         <set>
-                                    <if test="name != null">`name` = #{name}, </if>
-                                <if test="accout != null">`accout` = #{accout}, </if>
-                                <if test="password != null">`password` = #{password}, </if>
-                                <if test="email != null">`email` = #{email}, </if>
-                                <if test="phone != null">`phone` = #{phone}, </if>
-                                <if test="gmtCreate != null">`gmt_create` = #{gmtCreate}, </if>
-                                <if test="gmtModify != null">`gmt_modify` = #{gmtModify}, </if>
-                                <if test="isDeleted != null">`is_deleted` = #{isDeleted}</if>
-                    </set>
+            <if test="name != null">`name` = #{name},</if>
+            <if test="accout != null">`accout` = #{accout},</if>
+            <if test="password != null">`password` = #{password},</if>
+            <if test="email != null">`email` = #{email},</if>
+            <if test="phone != null">`phone` = #{phone},</if>
+            <if test="gmtCreate != null">`gmt_create` = #{gmtCreate},</if>
+            <if test="gmtModify != null">`gmt_modify` = #{gmtModify},</if>
+            <if test="isDeleted != null">`is_deleted` = #{isDeleted}</if>
+        </set>
         where id = #{id}
     </update>
 
-    <update id="updateByPrimaryKeySelective" parameterType="com.lxb.web.entity.sys.SysUserEntity" >
+    <update id="updateByPrimaryKeySelective" parameterType="com.lxb.web.entity.sys.SysUserEntity">
         update sys_user
-        <set >
-                                        <if test="name != null">`name` = #{name,jdbcType=varchar}, </if>
-                                <if test="accout != null">`accout` = #{accout,jdbcType=varchar}, </if>
-                                <if test="password != null">`password` = #{password,jdbcType=varchar}, </if>
-                                <if test="email != null">`email` = #{email,jdbcType=varchar}, </if>
-                                <if test="phone != null">`phone` = #{phone,jdbcType=varchar}, </if>
-                                <if test="gmtCreate != null">`gmt_create` = #{gmtCreate,jdbcType=datetime}, </if>
-                                <if test="gmtModify != null">`gmt_modify` = #{gmtModify,jdbcType=datetime}, </if>
-                                <if test="isDeleted != null">`is_deleted` = #{isDeleted,jdbcType=tinyint}</if>
-                        </set>
+        <set>
+            <if test="name != null">`name` = #{name,jdbcType=varchar},</if>
+            <if test="accout != null">`accout` = #{accout,jdbcType=varchar},</if>
+            <if test="password != null">`password` = #{password,jdbcType=varchar},</if>
+            <if test="email != null">`email` = #{email,jdbcType=varchar},</if>
+            <if test="phone != null">`phone` = #{phone,jdbcType=varchar},</if>
+            <if test="gmtCreate != null">`gmt_create` = #{gmtCreate,jdbcType=datetime},</if>
+            <if test="gmtModify != null">`gmt_modify` = #{gmtModify,jdbcType=datetime},</if>
+            <if test="isDeleted != null">`is_deleted` = #{isDeleted,jdbcType=tinyint}</if>
+        </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
 
@@ -152,5 +152,12 @@
             #{id}
         </foreach>
     </delete>
+
+    <select id="getSysUser" parameterType="com.lxb.web.entity.sys.SysUserEntity"
+            resultType="com.lxb.web.entity.sys.SysUserEntity">
+        SELECT * FROM sys_user where 1 = 1
+        <include refid="otherCondition"/>
+
+    </select>
 
 </mapper>

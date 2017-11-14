@@ -18,11 +18,11 @@
 
     <!-- 条件判断 -->
     <sql id="otherCondition">
-                    <if test="id != null">AND `id` = #{id}, </if>
-                    <if test="name != null">AND `name` = #{name}, </if>
-                    <if test="createUserId != null">AND `create_user_id` = #{createUserId}, </if>
-                    <if test="createDate != null">AND `create_date` = #{createDate}, </if>
-                    <if test="updateDate != null">AND `update_date` = #{updateDate}</if>
+                    <if test="id != null"> AND `id` = #{id} </if>
+                    <if test="name != null"> AND `name` = #{name} </if>
+                    <if test="createUserId != null"> AND `create_user_id` = #{createUserId} </if>
+                    <if test="createDate != null"> AND `create_date` = #{createDate} </if>
+                    <if test="updateDate != null"> AND `update_date` = #{updateDate}</if>
             </sql>
 
     <select id="getSysRoleEntity" resultMap="sysRoleMap">

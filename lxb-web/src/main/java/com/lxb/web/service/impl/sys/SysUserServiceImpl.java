@@ -51,5 +51,13 @@ public class SysUserServiceImpl implements SysUserService {
 	public int deleteBatch(Long[] ids){
         return sysUserDao.deleteBatch(ids);
 	}
-	
+
+	@Override
+	public SysUserEntity getSysUserEntity(String account, String password) {
+		SysUserEntity user = new SysUserEntity();
+		user.setAccout(account);
+		user.setPassword(password);
+		return sysUserDao.getSysUser(user);
+	}
+
 }

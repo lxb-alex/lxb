@@ -72,7 +72,7 @@
                 this.src = "captcha.jpg?t=" + $.now();
             },
             login: function (event) {
-                var data = "username="+vm.username+"&password="+vm.password+"&captcha="+vm.captcha;
+                var data = "account="+vm.username+"&LoginPassword="+vm.password+"&captcha="+vm.captcha;
                 $.ajax({
                     type: "POST",
                     url: "sys/login",
