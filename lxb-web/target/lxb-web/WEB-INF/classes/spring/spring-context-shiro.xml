@@ -45,9 +45,10 @@
             <value>
                 /static/** = anon
                 /userfiles/** = anon
-                ${adminPath}/login = authc
-                ${adminPath}/logout = logout
-                ${adminPath}/** = user
+                /captcha.jpg = authc
+                /login = authc
+                /logout = logout
+                <!--/** = user-->
             </value>
         </constructor-arg>
     </bean>
@@ -58,10 +59,9 @@
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
         <!-- realm：域，Shiro从从Realm获取安全数据（如用户、角色、权限）从数据库读取资源-->
         <!--可以配置多个realm，如：当有不同数据库时-->
-<!--        <property name="realms">
-            <bean id="systemAuthorizingRealm" class="com.lxb.web.controller.security.systemAuthorizingRealm"/>
-        </property>-->
-        <property name="realms" ref="systemAuthorizingRealm"/> <!-- 类上面加了@Service可就可以直接引用 -->
+        <property name="realms">
+            <bean id="systemAuthorizingRealm" class="com.lxb.sys.controller.security.SystemAuthorizingRealm"/>
+        </property>
         <property name="sessionManager" ref="sessionManager"/>
         <property name="cacheManager" ref="shiroCacheManager"/>
     </bean>

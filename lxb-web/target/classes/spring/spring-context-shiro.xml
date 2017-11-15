@@ -12,11 +12,11 @@
         <!-- Shiro的核心安全接口，这个属性是必须的 -->
         <property name="securityManager" ref="securityManager"></property>
         <!-- 要求登录时的链接，非必须的属性，默认会自动寻找Web工程根目录下的"/login.jsp"页面 -->
-        <property name="loginUrl" value="/security/login"></property>
+        <property name="loginUrl" value="/login.html"></property>
         <!-- 登录成功后要跳转的连接(本例中此属性用不到，因为登录成功后的处理逻辑在LoginController里硬编码) -->
         <!-- <property name="successUrl" value="/" ></property> -->
         <!-- 用户访问未对其授权的资源时（没有权限要跳转的链接），所显示的连接 -->
-        <property name="unauthorizedUrl" value="/"></property>
+        <property name="unauthorizedUrl" value="/captcha.jpg"></property>
         <!-- shiro连接约束配置,在这里使用自定义的动态获取资源类 -->
         <property name="filterChainDefinitions">
             <ref bean="shiroFilterChainDefinitions"/>
@@ -45,9 +45,10 @@
             <value>
                 /static/** = anon
                 /userfiles/** = anon
-                ${adminPath}/login = authc
-                ${adminPath}/logout = logout
-                ${adminPath}/** = user
+                <!--/captcha.jpg = anon-->
+                /login = authc
+                /logout = logout
+                <!--/** = user-->
             </value>
         </constructor-arg>
     </bean>
@@ -58,10 +59,9 @@
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
         <!-- realm：域，Shiro从从Realm获取安全数据（如用户、角色、权限）从数据库读取资源-->
         <!--可以配置多个realm，如：当有不同数据库时-->
-<!--        <property name="realms">
-            <bean id="systemAuthorizingRealm" class="com.lxb.web.controller.security.systemAuthorizingRealm"/>
-        </property>-->
-        <property name="realms" ref="systemAuthorizingRealm"/> <!-- 类上面加了@Service可就可以直接引用 -->
+        <property name="realms">
+            <bean id="systemAuthorizingRealm" class="com.lxb.sys.controller.security.SystemAuthorizingRealm"/>
+        </property>
         <property name="sessionManager" ref="sessionManager"/>
         <property name="cacheManager" ref="shiroCacheManager"/>
     </bean>

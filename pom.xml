@@ -16,6 +16,7 @@
         <module>lxb-api</module>
         <module>lxb-gen</module>
         <module>lxb-thread</module>
+        <module>lxb-system</module>
     </modules>
 
     <properties>

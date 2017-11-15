@@ -20,6 +20,11 @@
             <artifactId>lxb-common</artifactId>
             <version>${lxb.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.lxb</groupId>
+            <artifactId>lxb-system</artifactId>
+            <version>${lxb.version}</version>
+        </dependency>
     </dependencies>
     <build>
         <finalName>lxb-web</finalName>
