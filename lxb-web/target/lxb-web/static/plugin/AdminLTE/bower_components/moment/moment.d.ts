@@ -102,7 +102,7 @@ declare namespace moment {
     LLL: string;
     LLLL: string;
 
-    // lets forget for a sec that any upper/lower permutation will also work
+    // lets forget for a security that any upper/lower permutation will also work
     lts?: string;
     lt?: string;
     l?: string;

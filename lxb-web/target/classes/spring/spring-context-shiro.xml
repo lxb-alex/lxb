@@ -16,7 +16,7 @@
         <!-- 登录成功后要跳转的连接(本例中此属性用不到，因为登录成功后的处理逻辑在LoginController里硬编码) -->
         <!-- <property name="successUrl" value="/" ></property> -->
         <!-- 用户访问未对其授权的资源时（没有权限要跳转的链接），所显示的连接 -->
-        <property name="unauthorizedUrl" value="/captcha.jpg"></property>
+        <property name="unauthorizedUrl" value="/"></property>
         <!-- shiro连接约束配置,在这里使用自定义的动态获取资源类 -->
         <property name="filterChainDefinitions">
             <ref bean="shiroFilterChainDefinitions"/>
@@ -45,7 +45,7 @@
             <value>
                 /static/** = anon
                 /userfiles/** = anon
-                <!--/captcha.jpg = anon-->
+                /captcha.jpg = anon
                 /login = authc
                 /logout = logout
                 <!--/** = user-->

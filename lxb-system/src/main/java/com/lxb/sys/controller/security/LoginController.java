@@ -1,7 +1,6 @@
 package com.lxb.sys.controller.security;
 
 import com.lxb.common.utils.*;
-import com.lxb.sys.entity.sys.SysUserEntity;
 import com.lxb.sys.service.sys.SysUserService;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
@@ -17,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Map;
 
 /**
  * @Description
@@ -59,8 +59,16 @@ public class LoginController {
     @ResponseBody
     public MessageVo login(String account, String LoginPassword, String captcha){
         Subject subject = ShiroUtil.getSubject();
+        subject.login(new UsernamePasswordToken(account, LoginPassword));
         if (!subject.isAuthenticated()){
-            subject.login(new UsernamePasswordToken(account, LoginPassword));
+            Map map = ShiroUtil.getCurrentLoginUser();
+            System.out.println(map);
+            System.out.println(false);
+        }
+        if (subject.isAuthenticated()){
+            Map map = ShiroUtil.getCurrentLoginUser();
+            System.out.println(map);
+            System.out.println(true);
         }
 /*        if (StringUtil.isBlank(captcha)){
             return MessageVo.error("验证码错误");

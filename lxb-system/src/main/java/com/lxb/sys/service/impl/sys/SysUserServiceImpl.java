@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 
-@Service("sysUserService")
+@Service
 public class SysUserServiceImpl implements SysUserService {
 	@Autowired
 	private SysUserDao sysUserDao;

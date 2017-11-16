@@ -18,7 +18,7 @@
     <!-- xsd 版本是 maven 导入的依赖包的版本 -->
 
     <!-- 自动扫描 -->
-    <context:component-scan base-package="com.lxb.web">
+    <context:component-scan base-package="com.lxb">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>
     </context:component-scan>
 
@@ -69,12 +69,12 @@
     <!-- 3.配置SqlSessionFactory对象 -->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />
-        <property name="mapperLocations" value="classpath:com/lxb/sys/dao/sys/SysUserDao.xml"></property>
+        <property name="mapperLocations" value="classpath:com/lxb/**/*Dao.xml"></property>
     </bean>
 
     <!-- 4.配置扫描Dao接口包，动态实现Dao接口，注入到spring容器中 -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.lxb.web.dao/*"/>
+        <property name="basePackage" value="com.lxb.sys.dao.sys"/>
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
     </bean>
 
@@ -94,7 +94,7 @@
     </tx:advice>
     <!-- 配置AOP切入点 -->
     <aop:config>
-        <aop:pointcut id="allManagerMethod" expression="execution(* com.lxb.web.service.impl.*.*(..))" />
+        <aop:pointcut id="allManagerMethod" expression="execution(* com.lxb.sys.service.impl.*.*(..))" />
         <aop:advisor advice-ref="txAdvice" pointcut-ref="allManagerMethod" />
     </aop:config>
     <!-- ========================================= 数据库相关配置 END ========================================= -->

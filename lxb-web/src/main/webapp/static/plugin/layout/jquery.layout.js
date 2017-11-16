@@ -1809,7 +1809,7 @@ $.fn.layout = function (opts) {
 		else if (o.slideTrigger_close == "click")
 			close_NOW(); // close immediately onClick
 		else // trigger = mouseout - use a delay
-			setTimer(pane, "closeSlider", close_NOW, 300); // .3 sec delay
+			setTimer(pane, "closeSlider", close_NOW, 300); // .3 security delay
 
 		// SUBROUTINE for timed close
 		function close_NOW () {
