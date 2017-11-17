@@ -1,5 +1,6 @@
 package com.lxb.common.utils;
 
+import com.google.common.collect.Maps;
 import org.apache.commons.beanutils.BeanMap;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.UnavailableSecurityManagerException;
@@ -75,16 +76,24 @@ public class ShiroUtil {
     }
 
     public static Object getCache(String key, Object defaultValue) {
-        Object obj = getSession().getAttribute(key);
+        Object obj = getCacheMap().get(key);
         return obj==null?defaultValue:obj;
     }
 
     public static void putCache(String key, Object value) {
-        getSession().setAttribute(key, value);
+        getCacheMap().put(key, value);
     }
 
-    public static void removeCache(String key) {
-        getSession().removeAttribute(key);
+    public static void removeCache(String key){
+        getCacheMap().remove(key);
+
+    }
+
+    public static Map<String, Object> getCacheMap(){
+        Map<String, Object> map = Maps.newHashMap();
+        Principal principal = (Principal) getSubject().getPrincipal();
+//        return principal != null ? principal.getCacheMap():map;
+return null;
     }
 
     /**============================== 获取当前登录用户（用于操作用户） ================================*/

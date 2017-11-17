@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lxb.sys.dao.SysLogDao">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.lxb.sys.entity.SysLogEntity" id="sysLogMap">
+		            <result property="id" column="id"/>
+		            <result property="title" column="title"/>
+		            <result property="type" column="type"/>
+		            <result property="remoteAddr" column="remote_addr"/>
+		            <result property="userAgent" column="user_agent"/>
+		            <result property="requestUri" column="request_uri"/>
+		            <result property="params" column="params"/>
+		            <result property="method" column="method"/>
+		            <result property="optation" column="optation"/>
+		            <result property="createDate" column="create_date"/>
+		    </resultMap>
+
+    <!-- 表所有字段 -->
+    <sql id="baseColumn">
+         `id`,  `title`,  `type`,  `remote_addr`,  `user_agent`,  `request_uri`,  `params`,  `method`,  `optation`,  `create_date`     </sql>
+
+    <!-- 条件判断 -->
+    <sql id="otherCondition">
+                    <if test="id != null"> AND `id` = #{id} </if>
+                    <if test="title != null"> AND `title` = #{title} </if>
+                    <if test="type != null"> AND `type` = #{type} </if>
+                    <if test="remoteAddr != null"> AND `remote_addr` = #{remoteAddr} </if>
+                    <if test="userAgent != null"> AND `user_agent` = #{userAgent} </if>
+                    <if test="requestUri != null"> AND `request_uri` = #{requestUri} </if>
+                    <if test="params != null"> AND `params` = #{params} </if>
+                    <if test="method != null"> AND `method` = #{method} </if>
+                    <if test="optation != null"> AND `optation` = #{optation} </if>
+                    <if test="createDate != null"> AND `create_date` = #{createDate}</if>
+            </sql>
+
+    <select id="getSysLogEntity" resultMap="sysLogMap">
+		select * from sys_log where id = #{value}
+	</select>
+
+    <select id="selectList" resultMap="sysLogMap">
+        select * from sys_log
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+            <otherwise>
+                order by id desc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="getTotal" resultType="int">
+		select count(*) from sys_log
+	</select>
+
+    <insert id="save" parameterType="com.lxb.sys.entity.SysLogEntity">
+        insert into sys_log
+        (
+                        `id`, 
+                                `title`, 
+                                `type`, 
+                                `remote_addr`, 
+                                `user_agent`, 
+                                `request_uri`, 
+                                `params`, 
+                                `method`, 
+                                `optation`, 
+                                `create_date`
+                    )
+        values
+        (
+                        #{id}, 
+                                #{title}, 
+                                #{type}, 
+                                #{remoteAddr}, 
+                                #{userAgent}, 
+                                #{requestUri}, 
+                                #{params}, 
+                                #{method}, 
+                                #{optation}, 
+                                #{createDate}
+                    )
+    </insert>
+
+    <insert id="saveSelective" parameterType="com.lxb.sys.entity.SysLogEntity" >
+        insert into sys_log
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+          <if test="id != null">`id`, </if>
+          <if test="title != null">`title`, </if>
+          <if test="type != null">`type`, </if>
+          <if test="remoteAddr != null">`remote_addr`, </if>
+          <if test="userAgent != null">`user_agent`, </if>
+          <if test="requestUri != null">`request_uri`, </if>
+          <if test="params != null">`params`, </if>
+          <if test="method != null">`method`, </if>
+          <if test="optation != null">`optation`, </if>
+          <if test="createDate != null">`create_date`, </if>
+    
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null"> #{id}, </if>
+            <if test="title != null"> #{title}, </if>
+            <if test="type != null"> #{type}, </if>
+            <if test="remoteAddr != null"> #{remoteAddr}, </if>
+            <if test="userAgent != null"> #{userAgent}, </if>
+            <if test="requestUri != null"> #{requestUri}, </if>
+            <if test="params != null"> #{params}, </if>
+            <if test="method != null"> #{method}, </if>
+            <if test="optation != null"> #{optation}, </if>
+            <if test="createDate != null"> #{createDate}</if>
+            </trim>
+        <selectKey resultType="Integer" order="AFTER" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+    </insert>
+
+
+    <update id="update" parameterType="com.lxb.sys.entity.SysLogEntity">
+        update sys_log
+        <set>
+                                    <if test="title != null">`title` = #{title}, </if>
+                                <if test="type != null">`type` = #{type}, </if>
+                                <if test="remoteAddr != null">`remote_addr` = #{remoteAddr}, </if>
+                                <if test="userAgent != null">`user_agent` = #{userAgent}, </if>
+                                <if test="requestUri != null">`request_uri` = #{requestUri}, </if>
+                                <if test="params != null">`params` = #{params}, </if>
+                                <if test="method != null">`method` = #{method}, </if>
+                                <if test="optation != null">`optation` = #{optation}, </if>
+                                <if test="createDate != null">`create_date` = #{createDate}</if>
+                    </set>
+        where id = #{id}
+    </update>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.lxb.sys.entity.SysLogEntity" >
+        update sys_log
+        <set >
+                                        <if test="title != null">`title` = #{title,jdbcType=varchar}, </if>
+                                <if test="type != null">`type` = #{type,jdbcType=varchar}, </if>
+                                <if test="remoteAddr != null">`remote_addr` = #{remoteAddr,jdbcType=varchar}, </if>
+                                <if test="userAgent != null">`user_agent` = #{userAgent,jdbcType=varchar}, </if>
+                                <if test="requestUri != null">`request_uri` = #{requestUri,jdbcType=varchar}, </if>
+                                <if test="params != null">`params` = #{params,jdbcType=varchar}, </if>
+                                <if test="method != null">`method` = #{method,jdbcType=varchar}, </if>
+                                <if test="optation != null">`optation` = #{optation,jdbcType=int}, </if>
+                                <if test="createDate != null">`create_date` = #{createDate,jdbcType=datetime}</if>
+                        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <delete id="delete">
+		delete from sys_log where id = #{value}
+	</delete>
+
+    <delete id="deleteBatch">
+        delete from sys_log where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

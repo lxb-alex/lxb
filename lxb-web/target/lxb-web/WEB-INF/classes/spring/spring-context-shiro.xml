@@ -59,9 +59,10 @@
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
         <!-- realm：域，Shiro从从Realm获取安全数据（如用户、角色、权限）从数据库读取资源-->
         <!--可以配置多个realm，如：当有不同数据库时-->
-        <property name="realms">
-            <bean id="systemAuthorizingRealm" class="com.lxb.sys.controller.security.SystemAuthorizingRealm"/>
-        </property>
+<!--        <property name="realms">
+            <bean id="systemAuthorizingRealm" class="com.lxb.sys.security.SystemAuthorizingRealm"/>
+        </property>-->
+        <property name="realms" ref="systemAuthorizingRealm"/> <!-- 加上注解可以直接引用 -->
         <property name="sessionManager" ref="sessionManager"/>
         <property name="cacheManager" ref="shiroCacheManager"/>
     </bean>
@@ -121,6 +122,7 @@
     <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
 
     <!-- AOP式方法级权限检查  -->
+    <!-- AOP式方法级权限检查  此方法会产生二次代理，换位spring-mvc 里的aop:config方式 -->
     <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
           depends-on="lifecycleBeanPostProcessor">
         <property name="proxyTargetClass" value="true"/>
@@ -129,16 +131,4 @@
         <property name="securityManager" ref="securityManager"/>
     </bean>
 
-    <!--
-       开启Shiro的注解(如@RequiresRoles，@RequiresPermissions)，需借助SpringAOP扫描使用Shiro注解的类，
-       并在必要时进行安全逻辑验证
-    -->
-    <!--
-    <bean
-        class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"></bean>
-    <bean
-        class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
-        <property name="securityManager" ref="securityManager"></property>
-    </bean>
-    -->
 </beans>
