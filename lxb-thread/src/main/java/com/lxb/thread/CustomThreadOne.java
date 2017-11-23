@@ -1,12 +1,11 @@
-import java.math.BigInteger;
-import java.util.Date;
+package com.lxb.thread;
 
 /**
  * @Description
  * @Author Liaoxb
- * @Date 2017/11/22 0022 11:24:24
+ * @Date 2017/11/23 0023 15:56:56
  */
-public class TicketsRunnable implements Runnable{
+public class CustomThreadOne implements Runnable {
 
     private long tickets = Long.MAX_VALUE/200;
     private Long start = null;
@@ -35,15 +34,17 @@ public class TicketsRunnable implements Runnable{
     }
 }
 
+    /** 多线程的执行速度是单一主线程执行速度的N倍 */
+
 class testRunnable{
     public static void main(String[] args) {
         // Runnable 类对象直接调用run()方法执行的是请求的主线程，并未开启线程
         // Runnable 线程共享类属性
-        TicketsRunnable t1 = new TicketsRunnable();
-        Thread thread = new Thread(t1);
-        Thread thread2 = new Thread(t1);
-        Thread thread3 = new Thread(t1);
-        Thread thread4 = new Thread(t1);
+        CustomThreadOne cto = new CustomThreadOne();
+        Thread thread = new Thread(cto);
+        Thread thread2 = new Thread(cto);
+        Thread thread3 = new Thread(cto);
+        Thread thread4 = new Thread(cto);
         thread.start();
         thread2.start();
         thread3.start();
@@ -84,4 +85,5 @@ class testDemo{
         }
     }
 }
+
 
