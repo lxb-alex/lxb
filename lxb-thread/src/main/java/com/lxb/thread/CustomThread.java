@@ -32,11 +32,21 @@ public class CustomThread {
         new Thread(rd).start();
         new Thread(rd).start();
 */
-        // 测试通过Runnable实现的多个线程之间是否线程安全的
+/*        // 测试通过Runnable实现的多个线程之间是否线程安全的,
+        // 结果不能保证线程安全
         RunnableSalfe rs = new RunnableSalfe();
         new Thread(rs, "一号窗口").start();
         new Thread(rs, "二号窗口").start();
-        new Thread(rs, "三号窗口").start();
+        new Thread(rs, "三号窗口").start();*/
+
+        // 加上 synchronized 同步块，结果：能保证线程安全
+        RunnableSalfe_syn rss = new RunnableSalfe_syn();
+        new Thread(rss, "一号窗口").start();
+        new Thread(rss, "二号窗口").start();
+        new Thread(rss, "三号窗口").start();
+        new Thread(rss, "四号窗口").start();
+        new Thread(rss, "五号窗口").start();
+        new Thread(rss, "六号窗口").start();
 
     }
 
@@ -98,6 +108,31 @@ class RunnableSalfe implements Runnable{
             }
             if (tickets>0){
                 System.out.println(Thread.currentThread().getName()+" --- "+tickets--);
+            }
+        }
+
+    }
+}
+/**
+ * 结果：能保证线程安全
+ * */
+// 模拟实际售票业务
+class RunnableSalfe_syn implements Runnable{
+    // 定义10张票
+    private  int tickets = 500;
+    @Override
+    public void run() {
+        while (tickets>0){
+            synchronized (this){
+                try {
+                    // 模拟网络延迟 200 毫秒，或则是执行任务需要耗时200毫秒
+                    Thread.sleep(200);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                if (tickets>0){
+                    System.out.println(Thread.currentThread().getName()+" --- "+tickets--);
+                }
             }
         }
 
