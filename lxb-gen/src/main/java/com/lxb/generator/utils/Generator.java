@@ -54,15 +54,15 @@ public class Generator {
 	 */
 	public static List<String> getTemplateNames(){
 		List<String> templateNames = new ArrayList<String>();
-		templateNames.add("template/Entity.java.vm");
-		templateNames.add("template/Dao.java.vm");
+//		templateNames.add("template/Entity.java.vm");
+//		templateNames.add("template/Dao.java.vm");
 		templateNames.add("template/Dao.xml.vm");
-		templateNames.add("template/Service.java.vm");
-		templateNames.add("template/ServiceImpl.java.vm");
-		templateNames.add("template/Controller.java.vm");
-		templateNames.add("template/list.html.vm");
-		templateNames.add("template/list.js.vm");
-		templateNames.add("template/menu.sql.vm");
+//		templateNames.add("template/Service.java.vm");
+//		templateNames.add("template/ServiceImpl.java.vm");
+//		templateNames.add("template/Controller.java.vm");
+//		templateNames.add("template/list.html.vm");
+//		templateNames.add("template/list.js.vm");
+//		templateNames.add("template/menu.sql.vm");
 		return templateNames;
 	}
 
