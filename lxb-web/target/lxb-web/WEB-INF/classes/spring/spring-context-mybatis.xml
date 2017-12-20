@@ -23,7 +23,7 @@
     </context:component-scan>
 
     <!-- ========================================= 数据库相关配置 START ========================================= -->
-    <!-- 1.第一种方式：加载一个properties文件 -->
+    <!-- 1.加载一个properties文件 -->
     <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="location" value="classpath:config/db.properties"/>
     </bean>
@@ -79,12 +79,11 @@
     </bean>
 
     <!-- 配置事务管理器 -->
-    <bean id="transcationManager"
-          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource" />
     </bean>
 
-    <tx:advice id="txAdvice" transaction-manager="transcationManager">
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
         <tx:attributes>
             <tx:method name="save*" propagation="REQUIRED" />
             <tx:method name="update*" propagation="REQUIRED" />
@@ -97,13 +96,22 @@
         <aop:pointcut id="allManagerMethod" expression="execution(* com.lxb.sys.service.impl.*.*(..))" />
         <aop:advisor advice-ref="txAdvice" pointcut-ref="allManagerMethod" />
     </aop:config>
+
+<!--
+    &lt;!&ndash; 配置 Annotation 驱动，扫描@Transactional注解的类定义事务  &ndash;&gt;
+    <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
+-->
+
     <!-- ========================================= 数据库相关配置 END ========================================= -->
 
     <!-- ========================================= 缓存相关配置 START ========================================= -->
+
+<!--    &lt;!&ndash; 配置 JSR303 Bean Validator 定义 &ndash;&gt;
+    <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />-->
+
     <!-- spring 对 ehcache 的缓存工厂支持 -->
     <bean id="ehCacheManagerFactory" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
         <property name="configLocation" value="classpath:cache/ehcache-application-local.xml" />
-        <!-- <property name="acceptExisting" value="true" /> -->
     </bean>
 <!--
     交由shiro管理

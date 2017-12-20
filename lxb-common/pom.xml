@@ -255,6 +255,12 @@
             <artifactId>jstl</artifactId>
             <version>1.2</version>
         </dependency>
+        <!-- poi excel -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>3.17</version>
+        </dependency>
         <!-- java 业务逻辑验证框架 -->
         <dependency>
             <groupId>com.baidu.unbiz</groupId>

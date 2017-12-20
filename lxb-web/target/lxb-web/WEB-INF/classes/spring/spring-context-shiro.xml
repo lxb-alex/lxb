@@ -62,7 +62,7 @@
 <!--        <property name="realms">
             <bean id="systemAuthorizingRealm" class="com.lxb.sys.security.SystemAuthorizingRealm"/>
         </property>-->
-        <property name="realms" ref="systemAuthorizingRealm"/> <!-- 加上注解可以直接引用 -->
+        <property name="realm" ref="systemAuthorizingRealm"/> <!-- 加上注解可以直接引用 -->
         <property name="sessionManager" ref="sessionManager"/>
         <property name="cacheManager" ref="shiroCacheManager"/>
     </bean>
@@ -71,7 +71,25 @@
     <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
         <!-- 使用EnterpriseCacheSessionDAO，解决session同步问题 -->
         <property name="sessionDAO" ref="sessionDAO" />
+
+        <!-- 会话超时时间，单位：毫秒  -->
+        <property name="globalSessionTimeout" value="18000000"/>
+
+        <!-- 定时清理失效会话, 清理用户直接关闭浏览器造成的孤立会话   -->
+        <property name="sessionValidationInterval" value="1200000"/>
+        <!-- <property name="sessionValidationSchedulerEnabled" value="false"/> -->
+        <property name="sessionValidationSchedulerEnabled" value="true"/>
+
+        <property name="sessionIdCookie" ref="sessionIdCookie"/>
+        <property name="sessionIdCookieEnabled" value="true"/>
     </bean>
+
+    <!-- 指定本系统SESSIONID, 默认为: JSESSIONID 问题: 与SERVLET容器名冲突, 如JETTY, TOMCAT 等默认JSESSIONID,
+    当跳出SHIRO SERVLET时如ERROR-PAGE容器会为JSESSIONID重新分配值导致登录会话丢失! -->
+    <bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+        <constructor-arg name="name" value="lxb.session.id"/>
+    </bean>
+
     <!-- 使用EnterpriseCacheSessionDAO，将session放入到缓存，通过同步配置，将缓存同步到其他集群点上，解决session同步问题。 -->
     <bean id="sessionDAO" class="org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO">
         <!-- 活动session缓存名称 -->
@@ -82,39 +100,6 @@
     <!-- <bean id="shiroCacheManager" class="com.thinkgem.jeesite.common.security.shiro.cache.SessionCacheManager" /> -->
     <bean id="shiroCacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
         <property name="cacheManager" ref="ehCacheManagerFactory"/>
-    </bean>
-
-
-
-
-
-
-
-<!--
-
-    &lt;!&ndash; 自定义会话管理配置 &ndash;&gt;
-    <bean id="sessionManager" class="com.yonyou.hotusm.common.security.session.SessionManager">
-        <property name="sessionDAO" ref="sessionDAO"/>
-        &lt;!&ndash; 会话超时时间，单位：毫秒  &ndash;&gt;
-        <property name="globalSessionTimeout" value="${session.sessionTimeout}"/>
-        &lt;!&ndash; 定时清理失效会话, 清理用户直接关闭浏览器造成的孤立会话   &ndash;&gt;
-        <property name="sessionValidationInterval" value="${session.sessionTimeoutClean}"/>
-        &lt;!&ndash;          <property name="sessionValidationSchedulerEnabled" value="false"/> &ndash;&gt;
-        <property name="sessionValidationSchedulerEnabled" value="true"/>
-        <property name="sessionIdCookie" ref="sessionIdCookie"/>
-        <property name="sessionIdCookieEnabled" value="true"/>
-    </bean>
-    <bean id="sessionDAO" class="com.yonyou.hotusm.common.security.session.CacheSessionDAO">
-        <property name="sessionIdGenerator" ref="idGen"/>
-        <property name="activeSessionsCacheName" value="activeSessionsCache"/>
-        <property name="cacheManager" ref="shiroCacheManager"/>
-    </bean>
--->
-
-    <!-- 指定本系统SESSIONID, 默认为: JSESSIONID 问题: 与SERVLET容器名冲突, 如JETTY, TOMCAT 等默认JSESSIONID,
-    当跳出SHIRO SERVLET时如ERROR-PAGE容器会为JSESSIONID重新分配值导致登录会话丢失! -->
-    <bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
-        <constructor-arg name="name" value="jsid"/>
     </bean>
 
 
