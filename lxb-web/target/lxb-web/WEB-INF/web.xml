@@ -23,6 +23,10 @@
         <param-value>600000</param-value>
     </context-param>
 
+    <!-- 加载Spring框架中的log4j监听器Log4jConfigListener -->
+    <listener>
+        <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
+    </listener>
     <!-- spring监听器 -->
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>

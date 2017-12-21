@@ -19,7 +19,7 @@
 
     <!-- 自动扫描 -->
     <context:component-scan base-package="com.lxb">
-        <context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
 
     <!-- ========================================= 数据库相关配置 START ========================================= -->
@@ -97,31 +97,31 @@
         <aop:advisor advice-ref="txAdvice" pointcut-ref="allManagerMethod" />
     </aop:config>
 
-<!--
-    &lt;!&ndash; 配置 Annotation 驱动，扫描@Transactional注解的类定义事务  &ndash;&gt;
-    <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
--->
+    <!--
+        &lt;!&ndash; 配置 Annotation 驱动，扫描@Transactional注解的类定义事务  &ndash;&gt;
+        <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
+    -->
 
     <!-- ========================================= 数据库相关配置 END ========================================= -->
 
     <!-- ========================================= 缓存相关配置 START ========================================= -->
 
-<!--    &lt;!&ndash; 配置 JSR303 Bean Validator 定义 &ndash;&gt;
-    <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />-->
+    <!--    &lt;!&ndash; 配置 JSR303 Bean Validator 定义 &ndash;&gt;
+        <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />-->
 
     <!-- spring 对 ehcache 的缓存工厂支持 -->
     <bean id="ehCacheManagerFactory" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
         <property name="configLocation" value="classpath:cache/ehcache-application-local.xml" />
     </bean>
-<!--
-    交由shiro管理
-    &lt;!&ndash; spring对ehcache的缓存管理 &ndash;&gt;
-    <bean id="ehCacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
-        <property name="cacheManager" ref="ehCacheManagerFactory"></property>
-    </bean>
-    &lt;!&ndash; 使用缓存annotation 配置(请将其配置在Spring主配置文件中) &ndash;&gt;
-    <cache:annotation-driven cache-manager="ehCacheManager" mode="proxy" proxy-target-class="true" />
-    -->
+    <!--
+        交由shiro管理
+        &lt;!&ndash; spring对ehcache的缓存管理 &ndash;&gt;
+        <bean id="ehCacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
+            <property name="cacheManager" ref="ehCacheManagerFactory"></property>
+        </bean>
+        &lt;!&ndash; 使用缓存annotation 配置(请将其配置在Spring主配置文件中) &ndash;&gt;
+        <cache:annotation-driven cache-manager="ehCacheManager" mode="proxy" proxy-target-class="true" />
+        -->
     <!-- Spring 自己的基于java.util.concurrent.ConcurrentHashMap实现的缓存管理器SimpleCache(该功能是从Spring3.1开始提供的) -->
     <!--
     <bean id="cacheManager" class="org.springframework.cache.support.SimpleCacheManager">
@@ -135,56 +135,56 @@
     <!-- ========================================= 缓存相关配置 END =========================================== -->
 
     <!-- ========================================= 任务调度相关配置 START ========================================= -->
-<!--
-    &lt;!&ndash; 定时器：Quartz 方式（重量级工具）。作业类需继承自特定的基类：org.springframework.scheduling.quartz.QuartzJobBean	 &ndash;&gt;
-    &lt;!&ndash; 注册作业任务类（定时执行工作内容的对象） &ndash;&gt;
-    <bean id="timersTerminals" class="com.XXX.controllers.TimerTerminalsControllers"/>
-    &lt;!&ndash; 定义调用对象和调用对象的方法 &ndash;&gt;
-    <bean id="jobtask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-        &lt;!&ndash; 作业任务类 &ndash;&gt;
-        <property name="targetObject" >
-            <ref bean="timersTerminals"/>
-        </property>
-        &lt;!&ndash; 作业任务类中具体执行作业任务方法 &ndash;&gt;
-        <property name="targetMethod">
-            <value>start</value>
-        </property>
-        &lt;!&ndash; 作业不并发调度 &ndash;&gt;
-        <property name="concurrent" value="false"/>
-    </bean>
+    <!--
+        &lt;!&ndash; 定时器：Quartz 方式（重量级工具）。作业类需继承自特定的基类：org.springframework.scheduling.quartz.QuartzJobBean	 &ndash;&gt;
+        &lt;!&ndash; 注册作业任务类（定时执行工作内容的对象） &ndash;&gt;
+        <bean id="timersTerminals" class="com.XXX.controllers.TimerTerminalsControllers"/>
+        &lt;!&ndash; 定义调用对象和调用对象的方法 &ndash;&gt;
+        <bean id="jobtask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+            &lt;!&ndash; 作业任务类 &ndash;&gt;
+            <property name="targetObject" >
+                <ref bean="timersTerminals"/>
+            </property>
+            &lt;!&ndash; 作业任务类中具体执行作业任务方法 &ndash;&gt;
+            <property name="targetMethod">
+                <value>start</value>
+            </property>
+            &lt;!&ndash; 作业不并发调度 &ndash;&gt;
+            <property name="concurrent" value="false"/>
+        </bean>
 
-    &lt;!&ndash; 配置作业任务触发方式,触发时间 &ndash;&gt;
-    &lt;!&ndash; 每隔指定时间则触发一次，在Quartz中对应的触发器为：org.springframework.scheduling.quartz.SimpleTriggerBean &ndash;&gt;
-    &lt;!&ndash; 每到指定时间则触发一次，在Quartz中对应的调度器为：org.springframework.scheduling.quartz.CronTriggerBean &ndash;&gt;
+        &lt;!&ndash; 配置作业任务触发方式,触发时间 &ndash;&gt;
+        &lt;!&ndash; 每隔指定时间则触发一次，在Quartz中对应的触发器为：org.springframework.scheduling.quartz.SimpleTriggerBean &ndash;&gt;
+        &lt;!&ndash; 每到指定时间则触发一次，在Quartz中对应的调度器为：org.springframework.scheduling.quartz.CronTriggerBean &ndash;&gt;
 
-    <bean id="doTime" class="org.springframework.scheduling.quartz.CronTriggerBean">
-        <property name="jobDetail" ref="jobtask"/>
-        <property name="cronExpression">
-            <value>0 0 0 * * ?</value>&lt;!&ndash; 每天0点执行一次 &ndash;&gt;
-        </property>
-    </bean>
-    &lt;!&ndash; 调度工厂,如果将lazy-init='false'那么容器启动就会执行调度程序 &ndash;&gt;
-    <bean id="startQuertz" lazy-init="false" autowire="no" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
-        <property name="triggers">
-            <list>
-                <ref bean="doTime"/>  &lt;!&ndash; 关联定义的定时器 &ndash;&gt;
-            </list>
-        </property>
-    </bean>
+        <bean id="doTime" class="org.springframework.scheduling.quartz.CronTriggerBean">
+            <property name="jobDetail" ref="jobtask"/>
+            <property name="cronExpression">
+                <value>0 0 0 * * ?</value>&lt;!&ndash; 每天0点执行一次 &ndash;&gt;
+            </property>
+        </bean>
+        &lt;!&ndash; 调度工厂,如果将lazy-init='false'那么容器启动就会执行调度程序 &ndash;&gt;
+        <bean id="startQuertz" lazy-init="false" autowire="no" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+            <property name="triggers">
+                <list>
+                    <ref bean="doTime"/>  &lt;!&ndash; 关联定义的定时器 &ndash;&gt;
+                </list>
+            </property>
+        </bean>
 
-    &lt;!&ndash;     定时器：Spring-Task方式（支持注解与配置两种方式）。 作业类为普通类不需要继承基类&ndash;&gt;
-    &lt;!&ndash; 定义调用对象和调用对象的方法 &ndash;&gt;
-    <bean id="taskManageController" class="com.enrising.taskManage.controllers.TaskManageController"></bean>
-    <task:scheduled-tasks>
-        &lt;!&ndash; 调用的类taskManageController    定时执行的方法findBirthdayOldman   这里表示的是每天早上1:00:00调用一次&ndash;&gt;
-        <task:scheduled ref="taskManageController" method="findBirthdayOldman" cron="0 0 1 * * ?" />
-    </task:scheduled-tasks>
+        &lt;!&ndash;     定时器：Spring-Task方式（支持注解与配置两种方式）。 作业类为普通类不需要继承基类&ndash;&gt;
+        &lt;!&ndash; 定义调用对象和调用对象的方法 &ndash;&gt;
+        <bean id="taskManageController" class="com.enrising.taskManage.controllers.TaskManageController"></bean>
+        <task:scheduled-tasks>
+            &lt;!&ndash; 调用的类taskManageController    定时执行的方法findBirthdayOldman   这里表示的是每天早上1:00:00调用一次&ndash;&gt;
+            <task:scheduled ref="taskManageController" method="findBirthdayOldman" cron="0 0 1 * * ?" />
+        </task:scheduled-tasks>
 
-    <task:scheduled-tasks>
-        &lt;!&ndash; 调用的对象taskManageController    定时执行的方法sendBirthdaySms   这里表示的是每天早上9:00:00调用一次 &ndash;&gt;
-        <task:scheduled ref="taskManageController" method="sendBirthdaySms" cron="0 0 9 * * ?" />
-    </task:scheduled-tasks>
-    -->
+        <task:scheduled-tasks>
+            &lt;!&ndash; 调用的对象taskManageController    定时执行的方法sendBirthdaySms   这里表示的是每天早上9:00:00调用一次 &ndash;&gt;
+            <task:scheduled ref="taskManageController" method="sendBirthdaySms" cron="0 0 9 * * ?" />
+        </task:scheduled-tasks>
+        -->
     <!-- ========================================= 任务调度相关配置 END =========================================== -->
 
     <!-- ========================================= 缓存相关配置 START ========================================= -->

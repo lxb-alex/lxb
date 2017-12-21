@@ -19,7 +19,7 @@
 
     <!-- 自动扫描 -->
     <context:component-scan base-package="com.lxb">
-        <context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
 
     <!-- ========================================= 数据库相关配置 START ========================================= -->

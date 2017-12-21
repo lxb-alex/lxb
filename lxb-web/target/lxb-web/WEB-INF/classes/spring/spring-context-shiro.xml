@@ -11,8 +11,8 @@
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <!-- Shiro的核心安全接口，这个属性是必须的 -->
         <property name="securityManager" ref="securityManager"></property>
-        <!-- 要求登录时的链接，非必须的属性，默认会自动寻找Web工程根目录下的"/login.jsp"页面 -->
-        <property name="loginUrl" value="/login.html"></property>
+        <!-- 要求登录时的链接(可根据项目的URL进行替换),非必须的属性,默认会自动寻找Web工程根目录下的"/login.html"页面 -->
+        <property name="loginUrl" value="/login.html"/>
         <!-- 登录成功后要跳转的连接(本例中此属性用不到，因为登录成功后的处理逻辑在LoginController里硬编码) -->
         <!-- <property name="successUrl" value="/" ></property> -->
         <!-- 用户访问未对其授权的资源时（没有权限要跳转的链接），所显示的连接 -->
@@ -43,6 +43,7 @@
     <bean name="shiroFilterChainDefinitions" class="java.lang.String">
         <constructor-arg>
             <value>
+                /login.html=anon
                 /static/** = anon
                 /userfiles/** = anon
                 /captcha.jpg = anon
@@ -56,13 +57,11 @@
     <!-- 定义Shiro安全管理配置 -->
     <!-- SecurityManager 它和我们前面讲的ShiroFilterFactoryBean的关系形象的将就是ShiroFilterFactoryBean是一个
         路由规则配置仓库和代理类，其实真正的逻辑都是在SecurityManager中进行的，-->
+    <bean id="userRealm" class="com.lxb.sys.security.userAuthorizingRealm"/>
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
         <!-- realm：域，Shiro从从Realm获取安全数据（如用户、角色、权限）从数据库读取资源-->
         <!--可以配置多个realm，如：当有不同数据库时-->
-<!--        <property name="realms">
-            <bean id="systemAuthorizingRealm" class="com.lxb.sys.security.SystemAuthorizingRealm"/>
-        </property>-->
-        <property name="realm" ref="systemAuthorizingRealm"/> <!-- 加上注解可以直接引用 -->
+        <property name="realm" ref="userRealm"/> <!-- 加上注解可以直接引用 -->
         <property name="sessionManager" ref="sessionManager"/>
         <property name="cacheManager" ref="shiroCacheManager"/>
     </bean>

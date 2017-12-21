@@ -1,6 +1,5 @@
 package com.lxb.sys.security;
 
-import com.lxb.common.utils.AESUtil;
 import com.lxb.sys.entity.SysUserEntity;
 import com.lxb.sys.service.SysUserService;
 import org.apache.shiro.authc.*;
@@ -8,17 +7,15 @@ import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.DependsOn;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 /**
  * @Description
  * @Author Liaoxb
  * @Date 2017/11/14 0014 16:26:26
  */
-@Component
-@DependsOn(value = "sysUserDao")
-public class SystemAuthorizingRealm extends AuthorizingRealm{
+@Service
+public class userAuthorizingRealm extends AuthorizingRealm{
 
     @Autowired
     private SysUserService sysUserService;
@@ -49,7 +46,7 @@ public class SystemAuthorizingRealm extends AuthorizingRealm{
         }*/
 
         // 获取校验用户名密码
-        String password = AESUtil.AESDecode(token.getPassword().toString());
+        String password = token.getPassword().toString();
         String username = token.getUsername();
         if ("unknown".equals(username)) {
             throw new UnknownAccountException("用户不存在");
@@ -57,7 +54,7 @@ public class SystemAuthorizingRealm extends AuthorizingRealm{
         SysUserEntity user = sysUserService.getSysUserEntity(username, password);
         if (user != null) {
             // 返回认证后的信息 SimpleAuthenticationInfo（PrincipalCollection，credentials）
-            return new SimpleAuthenticationInfo(user.getAccout(), user.getPassword(), getName());
+            return new SimpleAuthenticationInfo(user, user.getPassword(), getName());
         } else {
             throw new UnknownAccountException("账号不存在");
         }

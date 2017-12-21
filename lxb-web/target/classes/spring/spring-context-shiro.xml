@@ -57,13 +57,11 @@
     <!-- 定义Shiro安全管理配置 -->
     <!-- SecurityManager 它和我们前面讲的ShiroFilterFactoryBean的关系形象的将就是ShiroFilterFactoryBean是一个
         路由规则配置仓库和代理类，其实真正的逻辑都是在SecurityManager中进行的，-->
+    <bean id="userRealm" class="com.lxb.sys.security.userAuthorizingRealm"/>
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
         <!-- realm：域，Shiro从从Realm获取安全数据（如用户、角色、权限）从数据库读取资源-->
         <!--可以配置多个realm，如：当有不同数据库时-->
-        <!--        <property name="realms">
-                    <bean id="systemAuthorizingRealm" class="com.lxb.sys.security.SystemAuthorizingRealm"/>
-                </property>-->
-        <property name="realm" ref="systemAuthorizingRealm"/> <!-- 加上注解可以直接引用 -->
+        <property name="realm" ref="userRealm"/> <!-- 加上注解可以直接引用 -->
         <property name="sessionManager" ref="sessionManager"/>
         <property name="cacheManager" ref="shiroCacheManager"/>
     </bean>

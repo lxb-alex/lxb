@@ -1,8 +1,11 @@
 package com.lxb.sys.security;
 
-import com.lxb.common.utils.*;
+import com.lxb.common.utils.CaptchaUtil;
+import com.lxb.common.utils.MessageVo;
 import com.lxb.sys.service.SysUserService;
+import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +20,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.security.Principal;
-import java.util.Map;
 
 /**
  * @Description
@@ -28,6 +29,8 @@ import java.util.Map;
 @Controller
 @RequestMapping
 public class LoginController {
+
+    private static Logger logger = Logger.getLogger(LoginController.class);
 
     @Autowired
     SysUserService sysUserService;
@@ -62,8 +65,18 @@ public class LoginController {
     public MessageVo login(String account, String LoginPassword, String captcha){
         Subject subject = SecurityUtils.getSubject();
         Object principal = subject.getPrincipal();
-        System.out.println(1);
-        System.out.println(principal);
+        logger.info("sdafffffffffff");
+        logger.debug("099090099009900");
+        try {
+            SecurityUtils.getSubject().login(new UsernamePasswordToken(account, LoginPassword));
+        } catch (AuthenticationException e) {
+            logger.error("asdfaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
+                    "asffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffasdffffff" +
+                    "afffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" +
+                    "afsssssssssssssssssssweaffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" +
+                    "awefffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffaweawfasdf");
+            e.printStackTrace();
+        }
 /*        Subject subject = ShiroUtil.getSubject();
         subject.login(new UsernamePasswordToken(account, LoginPassword));
         if (!subject.isAuthenticated()){
