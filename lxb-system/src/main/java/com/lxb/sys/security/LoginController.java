@@ -2,6 +2,7 @@ package com.lxb.sys.security;
 
 import com.lxb.common.utils.CaptchaUtil;
 import com.lxb.common.utils.MessageVo;
+import com.lxb.common.utils.ShiroUtil;
 import com.lxb.sys.service.SysUserService;
 import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
@@ -44,25 +45,26 @@ public class LoginController {
         response.setHeader("Set-Cookie", "name=value; HttpOnly");//设置HttpOnly属性,防止Xss攻击
         response.setDateHeader("Expire", 0);
 
-        CaptchaUtil rdnu = CaptchaUtil.Instance(100,36, 25);
+        CaptchaUtil rdnu = CaptchaUtil.Instance(100, 36, 25);
         // 获取验证码文字
         String code = rdnu.getString();
+        ShiroUtil.getSession().setAttribute("capthca", code);
         //将验证码存入Session
         // 通过流的方式输出到浏览器
         BufferedImage bufferedImage = ImageIO.read(rdnu.getImage());
         OutputStream out = response.getOutputStream();
-        ImageIO.write(bufferedImage,"jpg", out);
+        ImageIO.write(bufferedImage, "jpg", out);
     }
 
 
     @RequestMapping(value = "/sys/login", method = RequestMethod.GET)
-    public String login(){
+    public String login() {
         return "redirect:/login.html";
     }
 
     @RequestMapping(value = "/sys/login", method = RequestMethod.POST)
     @ResponseBody
-    public MessageVo login(String account, String LoginPassword, String captcha){
+    public MessageVo login(String account, String LoginPassword, String captcha) {
         Subject subject = SecurityUtils.getSubject();
         Object principal = subject.getPrincipal();
         logger.info("sdafffffffffff");
@@ -102,7 +104,7 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/sys/logout", method = RequestMethod.GET)
-    public Object logout(){
+    public Object logout() {
         return "redirect:/login.html";
     }
 
@@ -111,14 +113,16 @@ public class LoginController {
 
         return "redirect:/login.html";
     }
-       /**
+
+    /**
      * 页面跳转
+     *
      * @param module 模块
      * @param url 表名称
      * @return HTML页面
      */
     @RequestMapping("{module}/{url}.html")
-    public String page(@PathVariable("module") String module, @PathVariable("url") String url){
+    public String page(@PathVariable("module") String module, @PathVariable("url") String url) {
         return "/" + module + "/" + url + ".html";
     }
 }

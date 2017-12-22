@@ -1,10 +1,9 @@
 package com.lxb.sys.security;
 
 import com.lxb.common.utils.ShiroUtil;
+import com.lxb.sys.entity.SysUserEntity;
 import com.lxb.sys.service.impl.SysUserServiceImpl;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.AuthenticationInfo;
-import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.session.Session;
@@ -19,7 +18,7 @@ import java.io.Serializable;
  * @Author Liaoxb
  * @Date 2017/12/21 0021 17:07:07
  */
-public class userRealm extends AuthorizingRealm {
+public class UserRealm extends AuthorizingRealm {
 
     @Autowired
     private SysUserServiceImpl userService;
@@ -42,8 +41,20 @@ public class userRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
-
-        return null;
+        AccountPasswordToken token = (AccountPasswordToken) authenticationToken;
+        Session session = ShiroUtil.getSession();
+        String code = (String)session.getAttribute(ShiroUtil.CAPTCHA_CODE);
+        if (token.getCaptcha() == null || !token.getCaptcha().toUpperCase().equals(code)){
+            throw new AuthenticationException("msg:验证码错误, 请重试.");
+        }
+        String account = token.getAccount();
+        String password = token.getPassword().toString();
+        SysUserEntity user = userService.getSysUserEntity(account, password);
+        if (user == null){
+            throw new UnknownAccountException("msg: 账号不存在");
+        }else {
+            return new SimpleAuthenticationInfo(new Principal(user), user.getPassword(), user.getName());
+        }
     }
 
     private static class Principal implements Serializable {
@@ -51,13 +62,11 @@ public class userRealm extends AuthorizingRealm {
         private int id; // 主键id
         private String account; // 登录账号
         private String password; // 登录密码
-        private boolean mobileLogin; // 移动登录
 
-        public Principal(int id, String account, String password, boolean mobileLogin) {
-            this.id = id;
-            this.account = account;
-            this.password = password;
-            this.mobileLogin = mobileLogin;
+        public Principal(SysUserEntity user) {
+            this.id = user.getIsDeleted();
+            this.account = user.getAccout();
+            this.password = user.getPassword();
         }
 
         public int getId() {
@@ -82,14 +91,6 @@ public class userRealm extends AuthorizingRealm {
 
         public void setPassword(String password) {
             this.password = password;
-        }
-
-        public boolean isMobileLogin() {
-            return mobileLogin;
-        }
-
-        public void setMobileLogin(boolean mobileLogin) {
-            this.mobileLogin = mobileLogin;
         }
 
         public String getSessionId() {

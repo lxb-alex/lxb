@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
  * @Date 2017/11/14 0014 16:26:26
  */
 @Service
-public class userAuthorizingRealm extends AuthorizingRealm{
+public class UserAuthorizingRealm extends AuthorizingRealm{
 
     @Autowired
     private SysUserService sysUserService;

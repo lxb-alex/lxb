@@ -13,10 +13,12 @@ import java.util.Map;
 
 /**
  * @Description
- * @Author Liaoxb
+ * @author Liaoxb
  * @Date 2017/11/15 0015 11:01:01
  */
 public class ShiroUtil {
+
+    public static final String CAPTCHA_CODE = "captcha_code";
 
     /**
      * 获取session
@@ -31,7 +33,6 @@ public class ShiroUtil {
             if (session != null){
                 return session;
             }
-//			subject.logout();
         }catch (InvalidSessionException e){
 
         }
