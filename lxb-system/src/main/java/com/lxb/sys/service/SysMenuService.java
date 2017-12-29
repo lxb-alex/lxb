@@ -29,4 +29,11 @@ public interface SysMenuService {
     int deleteBatch(Integer[] ids);
 
     List<SysMenuEntity> getAll(Map<String, Object> params);
+
+    /**
+     * 根据用户id查询所具有权限的菜单
+     * @param userId 用户id
+     * @return
+     */
+    List<SysMenuEntity> selectMenuByUserId(String userId);
 }

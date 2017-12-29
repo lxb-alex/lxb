@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * 角色表
@@ -44,5 +45,7 @@ public interface SysRoleDao {
     int getTotal(Map<String, Object> map);
 
     int getTotal();
+
     // ======= 自动生成接口  END =========
+    Set<SysRoleEntity> selectSet(String id);
 }

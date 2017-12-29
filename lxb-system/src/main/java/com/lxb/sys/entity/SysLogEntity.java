@@ -17,7 +17,7 @@ public class SysLogEntity implements Serializable {
     /**
 	 * 
 	 */
-	private Integer id;
+	private String id;
     /**
 	 * 标题
 	 */
@@ -59,13 +59,13 @@ public class SysLogEntity implements Serializable {
 	/**
 	 * 设置：
 	 */
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	/**
 	 * 获取：
 	 */
-	public Integer getId() {
+	public String getId() {
 		return id;
 	}
 	/**

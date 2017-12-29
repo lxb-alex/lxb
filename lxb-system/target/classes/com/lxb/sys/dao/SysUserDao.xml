@@ -7,7 +7,7 @@
     <resultMap type="com.lxb.sys.entity.SysUserEntity" id="sysUserMap">
         <result property="id" column="id"/>
         <result property="name" column="name"/>
-        <result property="accout" column="accout"/>
+        <result property="account" column="account"/>
         <result property="password" column="password"/>
         <result property="email" column="email"/>
         <result property="phone" column="phone"/>
@@ -18,13 +18,13 @@
 
     <!-- 表所有字段 -->
     <sql id="baseColumn">
-         `id`,  `name`,  `accout`,  `password`,  `email`,  `phone`,  `gmt_create`,  `gmt_modify`,  `is_deleted`     </sql>
+         `id`,  `name`,  `account`,  `password`,  `email`,  `phone`,  `gmt_create`,  `gmt_modify`,  `is_deleted`     </sql>
 
     <!-- 条件判断 -->
     <sql id="otherCondition">
         <if test="id != null">AND `id` = #{id}</if>
         <if test="name != null">AND `name` = #{name}</if>
-        <if test="accout != null">AND `accout` = #{accout}</if>
+        <if test="account != null">AND `account` = #{account}</if>
         <if test="password != null">AND `password` = #{password}</if>
         <if test="email != null">AND `email` = #{email}</if>
         <if test="phone != null">AND `phone` = #{phone}</if>
@@ -59,26 +59,26 @@
     <insert id="save" parameterType="com.lxb.sys.entity.SysUserEntity" useGeneratedKeys="true" keyProperty="id">
         insert into sys_user
         (
-                                    `name`, 
-                                `accout`, 
-                                `password`, 
-                                `email`, 
-                                `phone`, 
-                                `gmt_create`, 
-                                `gmt_modify`, 
-                                `is_deleted`
-                    )
+            `name`,
+            `account`,
+            `password`,
+            `email`,
+            `phone`,
+            `gmt_create`,
+            `gmt_modify`,
+            `is_deleted`
+        )
         values
         (
-                                    #{name}, 
-                                #{accout}, 
-                                #{password}, 
-                                #{email}, 
-                                #{phone}, 
-                                #{gmtCreate}, 
-                                #{gmtModify}, 
-                                #{isDeleted}
-                    )
+            #{name},
+            #{account},
+            #{password},
+            #{email},
+            #{phone},
+            #{gmtCreate},
+            #{gmtModify},
+            #{isDeleted}
+        )
     </insert>
 
     <insert id="saveSelective" parameterType="com.lxb.sys.entity.SysUserEntity">
@@ -86,7 +86,7 @@
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">`id`,</if>
             <if test="name != null">`name`,</if>
-            <if test="accout != null">`accout`,</if>
+            <if test="account != null">`account`,</if>
             <if test="password != null">`password`,</if>
             <if test="email != null">`email`,</if>
             <if test="phone != null">`phone`,</if>
@@ -98,7 +98,7 @@
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">#{id},</if>
             <if test="name != null">#{name},</if>
-            <if test="accout != null">#{accout},</if>
+            <if test="account != null">#{account},</if>
             <if test="password != null">#{password},</if>
             <if test="email != null">#{email},</if>
             <if test="phone != null">#{phone},</if>
@@ -111,12 +111,11 @@
         </selectKey>
     </insert>
 
-
     <update id="update" parameterType="com.lxb.sys.entity.SysUserEntity">
         update sys_user
         <set>
             <if test="name != null">`name` = #{name},</if>
-            <if test="accout != null">`accout` = #{accout},</if>
+            <if test="account != null">`account` = #{account},</if>
             <if test="password != null">`password` = #{password},</if>
             <if test="email != null">`email` = #{email},</if>
             <if test="phone != null">`phone` = #{phone},</if>
@@ -131,7 +130,7 @@
         update sys_user
         <set>
             <if test="name != null">`name` = #{name,jdbcType=varchar},</if>
-            <if test="accout != null">`accout` = #{accout,jdbcType=varchar},</if>
+            <if test="account != null">`account` = #{account,jdbcType=varchar},</if>
             <if test="password != null">`password` = #{password,jdbcType=varchar},</if>
             <if test="email != null">`email` = #{email,jdbcType=varchar},</if>
             <if test="phone != null">`phone` = #{phone,jdbcType=varchar},</if>
@@ -157,7 +156,6 @@
             resultType="com.lxb.sys.entity.SysUserEntity">
         SELECT * FROM sys_user where 1 = 1
         <include refid="otherCondition"/>
-
     </select>
 
 </mapper>

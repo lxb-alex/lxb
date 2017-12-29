@@ -51,10 +51,9 @@ public class SysUserServiceImpl implements SysUserService {
 	}
 
 	@Override
-	public SysUserEntity getSysUserEntity(String account, String password) {
+	public SysUserEntity getSysUserEntity(String account) {
 		SysUserEntity user = new SysUserEntity();
-		user.setAccout(account);
-		user.setPassword(password);
+		user.setAccount(account);
 		return sysUserDao.getSysUser(user);
 	}
 

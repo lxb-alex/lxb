@@ -14,8 +14,8 @@ import java.security.SecureRandom;
 /**
  * AES加解密工具类<br/>
  *    AES是一种对称的私钥加密技术。它支持128，192，256位加密。现在的java支持128位key的加密。
- * @Author Liaoxb
- * @Date 2017/9/30 13:45:45
+ * @author Liaoxb
+ * @date 2017/9/30 13:45:45
  */
 public class AESUtil {
 

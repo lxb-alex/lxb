@@ -5,35 +5,35 @@
 
     <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.lxb.sys.entity.SysMenuEntity" id="sysMenuMap">
-		            <result property="id" column="id"/>
-		            <result property="name" column="name"/>
-		            <result property="parentId" column="parent_id"/>
-		            <result property="url" column="url"/>
-		            <result property="permissionId" column="permission_id"/>
-		            <result property="type" column="type"/>
-		            <result property="icon" column="icon"/>
-		            <result property="orderNum" column="order_num"/>
-		            <result property="createDate" column="create_date"/>
-		            <result property="updateDate" column="update_date"/>
-		    </resultMap>
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="parentId" column="parent_id"/>
+        <result property="url" column="url"/>
+        <result property="permission" column="permission"/>
+        <result property="type" column="type"/>
+        <result property="icon" column="icon"/>
+        <result property="sort" column="sort"/>
+        <result property="createDate" column="create_date"/>
+        <result property="updateDate" column="update_date"/>
+    </resultMap>
 
     <!-- 表所有字段 -->
     <sql id="baseColumn">
-         `id`,  `name`,  `parent_id`,  `url`,  `permission_id`,  `type`,  `icon`,  `order_num`,  `create_date`,  `update_date`     </sql>
+         `id`,  `name`,  `parent_id`,  `url`,  `permission`,  `type`,  `icon`,  `sort`,  `create_date`,  `update_date`     </sql>
 
     <!-- 条件判断 -->
     <sql id="otherCondition">
-                    <if test="id != null"> AND `id` = #{id} </if>
-                    <if test="name != null"> AND `name` = #{name} </if>
-                    <if test="parentId != null"> AND `parent_id` = #{parentId} </if>
-                    <if test="url != null"> AND `url` = #{url} </if>
-                    <if test="permissionId != null"> AND `permission_id` = #{permissionId} </if>
-                    <if test="type != null"> AND `type` = #{type} </if>
-                    <if test="icon != null"> AND `icon` = #{icon} </if>
-                    <if test="orderNum != null"> AND `order_num` = #{orderNum}</if>
-                    <if test="createDate != null"> AND `create_date` = #{createDate}</if>
-                    <if test="updateDate != null"> AND `update_date` = #{updateDate}</if>
-            </sql>
+        <if test="id != null">AND `id` = #{id}</if>
+        <if test="name != null">AND `name` = #{name}</if>
+        <if test="parentId != null">AND `parent_id` = #{parentId}</if>
+        <if test="url != null">AND `url` = #{url}</if>
+        <if test="permission != null">AND `permission` = #{permission}</if>
+        <if test="type != null">AND `type` = #{type}</if>
+        <if test="icon != null">AND `icon` = #{icon}</if>
+        <if test="sort != null">AND `sort` = #{sort}</if>
+        <if test="createDate != null">AND `create_date` = #{createDate}</if>
+        <if test="updateDate != null">AND `update_date` = #{updateDate}</if>
+    </sql>
 
     <select id="getSysMenuEntity" resultMap="sysMenuMap">
 		select * from sys_menu where id = #{value}
@@ -61,57 +61,57 @@
     <insert id="save" parameterType="com.lxb.sys.entity.SysMenuEntity" useGeneratedKeys="true" keyProperty="id">
         insert into sys_menu
         (
-                                    `name`, 
-                                `parent_id`, 
-                                `url`, 
-                                `permission_id`, 
-                                `type`, 
-                                `icon`, 
-                                `order_num`, 
-                                `create_date`, 
-                                `update_date`
-                    )
+            `name`,
+            `parent_id`,
+            `url`,
+            `permission`,
+            `type`,
+            `icon`,
+            `sort`,
+            `create_date`,
+            `update_date`
+        )
         values
         (
-                                    #{name}, 
-                                #{parentId}, 
-                                #{url}, 
-                                #{permissionId}, 
-                                #{type}, 
-                                #{icon}, 
-                                #{orderNum}, 
-                                #{createDate}, 
-                                #{updateDate}
-                    )
+            #{name},
+            #{parentId},
+            #{url},
+            #{permission},
+            #{type},
+            #{icon},
+            #{sort},
+            #{createDate},
+            #{updateDate}
+        )
     </insert>
 
-    <insert id="saveSelective" parameterType="com.lxb.sys.entity.SysMenuEntity" >
+    <insert id="saveSelective" parameterType="com.lxb.sys.entity.SysMenuEntity">
         insert into sys_menu
-        <trim prefix="(" suffix=")" suffixOverrides="," >
-          <if test="id != null">`id`, </if>
-          <if test="name != null">`name`, </if>
-          <if test="parentId != null">`parent_id`, </if>
-          <if test="url != null">`url`, </if>
-          <if test="permissionId != null">`permission_id`, </if>
-          <if test="type != null">`type`, </if>
-          <if test="icon != null">`icon`, </if>
-          <if test="orderNum != null">`order_num`, </if>
-          <if test="createDate != null">`create_date`, </if>
-          <if test="updateDate != null">`update_date`, </if>
-    
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">`id`,</if>
+            <if test="name != null">`name`,</if>
+            <if test="parentId != null">`parent_id`,</if>
+            <if test="url != null">`url`,</if>
+            <if test="permission != null">`permission`,</if>
+            <if test="type != null">`type`,</if>
+            <if test="icon != null">`icon`,</if>
+            <if test="sort != null">`sort`,</if>
+            <if test="createDate != null">`create_date`,</if>
+            <if test="updateDate != null">`update_date`,</if>
+
         </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides="," >
-            <if test="id != null"> #{id}, </if>
-            <if test="name != null"> #{name}, </if>
-            <if test="parentId != null"> #{parentId}, </if>
-            <if test="url != null"> #{url}, </if>
-            <if test="permissionId != null"> #{permissionId}, </if>
-            <if test="type != null"> #{type}, </if>
-            <if test="icon != null"> #{icon}, </if>
-            <if test="orderNum != null"> #{orderNum}, </if>
-            <if test="createDate != null"> #{createDate}, </if>
-            <if test="updateDate != null"> #{updateDate}</if>
-            </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="name != null">#{name},</if>
+            <if test="parentId != null">#{parentId},</if>
+            <if test="url != null">#{url},</if>
+            <if test="permission != null">#{permission},</if>
+            <if test="type != null">#{type},</if>
+            <if test="icon != null">#{icon},</if>
+            <if test="sort != null">#{sort},</if>
+            <if test="createDate != null">#{createDate},</if>
+            <if test="updateDate != null">#{updateDate}</if>
+        </trim>
         <selectKey resultType="Integer" order="AFTER" keyProperty="id">
             SELECT LAST_INSERT_ID() AS id
         </selectKey>
@@ -121,32 +121,32 @@
     <update id="update" parameterType="com.lxb.sys.entity.SysMenuEntity">
         update sys_menu
         <set>
-                                    <if test="name != null">`name` = #{name}, </if>
-                                <if test="parentId != null">`parent_id` = #{parentId}, </if>
-                                <if test="url != null">`url` = #{url}, </if>
-                                <if test="permissionId != null">`permission_id` = #{permissionId}, </if>
-                                <if test="type != null">`type` = #{type}, </if>
-                                <if test="icon != null">`icon` = #{icon}, </if>
-                                <if test="orderNum != null">`order_num` = #{orderNum}, </if>
-                                <if test="createDate != null">`create_date` = #{createDate}, </if>
-                                <if test="updateDate != null">`update_date` = #{updateDate}</if>
-                    </set>
+            <if test="name != null">`name` = #{name},</if>
+            <if test="parentId != null">`parent_id` = #{parentId},</if>
+            <if test="url != null">`url` = #{url},</if>
+            <if test="permission != null">`permission` = #{permission},</if>
+            <if test="type != null">`type` = #{type},</if>
+            <if test="icon != null">`icon` = #{icon},</if>
+            <if test="sort != null">`sort` = #{sort},</if>
+            <if test="createDate != null">`create_date` = #{createDate},</if>
+            <if test="updateDate != null">`update_date` = #{updateDate}</if>
+        </set>
         where id = #{id}
     </update>
 
-    <update id="updateByPrimaryKeySelective" parameterType="com.lxb.sys.entity.SysMenuEntity" >
+    <update id="updateByPrimaryKeySelective" parameterType="com.lxb.sys.entity.SysMenuEntity">
         update sys_menu
-        <set >
-                                        <if test="name != null">`name` = #{name,jdbcType=varchar}, </if>
-                                <if test="parentId != null">`parent_id` = #{parentId,jdbcType=int}, </if>
-                                <if test="url != null">`url` = #{url,jdbcType=varchar}, </if>
-                                <if test="permissionId != null">`permission_id` = #{permissionId,jdbcType=varchar}, </if>
-                                <if test="type != null">`type` = #{type,jdbcType=int}, </if>
-                                <if test="icon != null">`icon` = #{icon,jdbcType=varchar}, </if>
-                                <if test="orderNum != null">`order_num` = #{orderNum,jdbcType=int}, </if>
-                                <if test="createDate != null">`create_date` = #{createDate,jdbcType=date}, </if>
-                                <if test="updateDate != null">`update_date` = #{updateDate,jdbcType=date}</if>
-                        </set>
+        <set>
+            <if test="name != null">`name` = #{name,jdbcType=varchar},</if>
+            <if test="parentId != null">`parent_id` = #{parentId,jdbcType=int},</if>
+            <if test="url != null">`url` = #{url,jdbcType=varchar},</if>
+            <if test="permission != null">`permission` = #{permission,jdbcType=varchar},</if>
+            <if test="type != null">`type` = #{type,jdbcType=int},</if>
+            <if test="icon != null">`icon` = #{icon,jdbcType=varchar},</if>
+            <if test="sort != null">`sort` = #{sort,jdbcType=int},</if>
+            <if test="createDate != null">`create_date` = #{createDate,jdbcType=date},</if>
+            <if test="updateDate != null">`update_date` = #{updateDate,jdbcType=date}</if>
+        </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
 
@@ -174,6 +174,15 @@
         <if test="offset != null and limit != null">
             limit #{offset}, #{limit}
         </if>
+    </select>
+
+    <select id="selectMenuByUserId" parameterType="java.lang.Integer" resultMap="sysMenuMap">
+        SELECT m.* FROM sys_menu m
+            LEFT JOIN sys_role_menu rm ON m.id = rm.menu_id
+            LEFT JOIN sys_role r ON rm.role_id = r.id
+            LEFT JOIN sys_user_role ur ON r.id = ur.role_id
+            WHERE
+	            ur.user_id = #{VALUE}
     </select>
 
 </mapper>

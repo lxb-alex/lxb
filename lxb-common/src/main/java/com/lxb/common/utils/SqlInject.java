@@ -3,9 +3,9 @@ package com.lxb.common.utils;
 import java.io.File;
 
 /**
- * @Description 防止SQL注入，过滤字符
- * @Author Liaoxb
- * @Date 2017/10/23 9:27:27
+ * @description 防止SQL注入，过滤字符
+ * @author Liaoxb
+ * @date 2017/9/30 10:56:56
  */
 public class SqlInject {
     /**
@@ -14,7 +14,7 @@ public class SqlInject {
      * @return true：存在注入，false：不存在
      */
     public static boolean isSqlInject(String str) {
-        if (StringUtil.isBlank(str)) {
+        if (StringUtils.isBlank(str)) {
             return false;
         }
         str = str.toLowerCase(); // 转为小写

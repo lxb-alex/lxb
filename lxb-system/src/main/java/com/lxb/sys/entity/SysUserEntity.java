@@ -17,7 +17,7 @@ public class SysUserEntity implements Serializable {
     /**
 	 * 主键，自增
 	 */
-	private Long id;
+	private String id;
     /**
 	 * 用户名
 	 */
@@ -25,7 +25,7 @@ public class SysUserEntity implements Serializable {
     /**
 	 * 登录账号
 	 */
-	private String accout;
+	private String account;
     /**
 	 * 登录密码
 	 */
@@ -55,13 +55,13 @@ public class SysUserEntity implements Serializable {
 	/**
 	 * 设置：主键，自增
 	 */
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	/**
 	 * 获取：主键，自增
 	 */
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
 	/**
@@ -79,14 +79,14 @@ public class SysUserEntity implements Serializable {
 	/**
 	 * 设置：登录账号
 	 */
-	public void setAccout(String accout) {
-		this.accout = accout;
+	public void setAccount(String account) {
+		this.account = account;
 	}
 	/**
 	 * 获取：登录账号
 	 */
-	public String getAccout() {
-		return accout;
+	public String getAccount() {
+		return account;
 	}
 	/**
 	 * 设置：登录密码

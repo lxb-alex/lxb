@@ -13,7 +13,4 @@ public class Constant {
     public static final String FAILURE = "failure";
     public static final String WARNING = "warning";
 
-    // 缓存
-    public static final String SESSION_LOGIN_USER = "loginUser";
-
 }

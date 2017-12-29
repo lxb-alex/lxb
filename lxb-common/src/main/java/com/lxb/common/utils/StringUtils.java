@@ -1,18 +1,16 @@
 package com.lxb.common.utils;
 
-
-import org.apache.commons.lang.StringUtils;
-
+import javax.servlet.http.HttpServletRequest;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
  * String 工具类
  *
- * @Author Liaoxb
- * @Date 2017/9/30 10:56:56
+ * @author Liaoxb
+ * @date 2017/9/30 10:56:56
  */
-public class StringUtil {
+public class StringUtils extends org.apache.commons.lang3.StringUtils {
 
     private static Pattern linePattern = Pattern.compile("_(\\w)");
     private static Pattern humpPattern = Pattern.compile("[A-Z]");
@@ -55,7 +53,6 @@ public class StringUtil {
         } else {
             return false;
         }
-
     }
 
     /**
@@ -205,4 +202,18 @@ public class StringUtil {
         }
     }
 
+    /**
+     * 获得用户远程地址
+     */
+    public static String getRemoteAddr(HttpServletRequest request){
+        String remoteAddr = request.getHeader("X-Real-IP");
+        if (isNotBlank(remoteAddr)) {
+            remoteAddr = request.getHeader("X-Forwarded-For");
+        }else if (isNotBlank(remoteAddr)) {
+            remoteAddr = request.getHeader("Proxy-Client-IP");
+        }else if (isNotBlank(remoteAddr)) {
+            remoteAddr = request.getHeader("WL-Proxy-Client-IP");
+        }
+        return remoteAddr != null ? remoteAddr : request.getRemoteAddr();
+    }
 }

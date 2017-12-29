@@ -28,5 +28,5 @@ public interface SysUserService {
 
     int deleteBatch(Long[] ids);
 
-    SysUserEntity getSysUserEntity(String account, String password);
+    SysUserEntity getSysUserEntity(String account);
 }

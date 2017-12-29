@@ -9,6 +9,7 @@ import com.lxb.common.base.BaseController;
 import com.lxb.common.utils.PageUtil;
 import com.lxb.common.utils.Query;
 import com.lxb.sys.service.SysRoleService;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
@@ -34,6 +35,7 @@ public class SysRoleController extends  BaseController{
     /**
      * 列表
      */
+    @RequiresPermissions("sys:role:view")
     @RequestMapping("/list")
     public JSONObject list(@RequestParam Map<String, Object> params){
         //查询列表数据

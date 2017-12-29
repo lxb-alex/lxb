@@ -17,7 +17,7 @@ public class SysRoleEntity implements Serializable {
     /**
 	 * 主键
 	 */
-	private Integer id;
+	private String id;
     /**
 	 * 角色名
 	 */
@@ -39,13 +39,13 @@ public class SysRoleEntity implements Serializable {
 	/**
 	 * 设置：主键
 	 */
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	/**
 	 * 获取：主键
 	 */
-	public Integer getId() {
+	public String getId() {
 		return id;
 	}
 	/**

@@ -47,4 +47,11 @@ public interface SysMenuDao {
 
     // ======= 自动生成接口  END =========
     List<SysMenuEntity> getAll(Map<String, Object> params);
+
+    /**
+     * 根据用户id查询所具有权限的菜单
+     * @param userId 用户id
+     * @return
+     */
+    List<SysMenuEntity> selectMenuByUserId(String userId);
 }

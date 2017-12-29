@@ -7,9 +7,7 @@ import org.apache.shiro.authc.UsernamePasswordToken;
  * @author Liaoxb
  * @date 2017/12/21 17:40:40
  */
-public class AccountPasswordToken extends UsernamePasswordToken{
-
-    private static final long serialVersionUID = 1L;
+public class AccountPasswordToken extends UsernamePasswordToken{    private static final long serialVersionUID = 1L;
 
     private String account; // 账号
     private String captcha;
@@ -18,9 +16,9 @@ public class AccountPasswordToken extends UsernamePasswordToken{
         super();
     }
 
-    public AccountPasswordToken(String username, char[] password, boolean rememberMe, String account, String captcha) {
-        super(username, password, rememberMe);
-        this.account = account;
+    public AccountPasswordToken(String username, char[] password, boolean rememberMe, String host, String captcha) {
+        super(username, password, rememberMe, host);
+        this.account = username;
         this.captcha = captcha;
     }
 
@@ -39,4 +37,6 @@ public class AccountPasswordToken extends UsernamePasswordToken{
     public void setCaptcha(String captcha) {
         this.captcha = captcha;
     }
+
+
 }

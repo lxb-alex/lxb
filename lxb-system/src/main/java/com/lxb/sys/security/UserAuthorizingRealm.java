@@ -1,5 +1,6 @@
 package com.lxb.sys.security;
 
+import com.lxb.common.utils.AESUtil;
 import com.lxb.sys.entity.SysUserEntity;
 import com.lxb.sys.service.SysUserService;
 import org.apache.shiro.authc.*;
@@ -10,9 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- * @Description
- * @Author Liaoxb
- * @Date 2017/11/14 0014 16:26:26
+ * @description
+ * @author Liaoxb
+ * @date 2017/11/14 0014 16:26:26
  */
 @Service
 public class UserAuthorizingRealm extends AuthorizingRealm{
@@ -36,27 +37,14 @@ public class UserAuthorizingRealm extends AuthorizingRealm{
         // 2.在登录Controller类中认证（对不同类型用户登录没影响）
         // 转换为自定义的Token类，自定义类中添加了登录字段（username，password，logingtype，isMobileLogin()）
         UsernamePasswordToken token = (UsernamePasswordToken) authenticationToken;
-/*        // 校验登录验证码
-        if (LoginController.isValidateCodeLogin(token.getUsername(), false, false)){
-            Session session = ShiroUtil.getSession();
-            String code = (String)session.getAttribute(ValidateCodeServlet.VALIDATE_CODE);
-            if (authenticationToken.getCaptcha() == null || !token.getCaptcha().toUpperCase().equals(code)){
-                throw new AuthenticationException("msg:验证码错误, 请重试.");
-            }
-        }*/
 
         // 获取校验用户名密码
-        String password = token.getPassword().toString();
-        String username = token.getUsername();
-        if ("unknown".equals(username)) {
-            throw new UnknownAccountException("用户不存在");
-        }
-        SysUserEntity user = sysUserService.getSysUserEntity(username, password);
-        if (user != null) {
+        SysUserEntity user = sysUserService.getSysUserEntity(token.getUsername());
+        if (user != null){
+            String password = String.valueOf(token.getPassword());
             // 返回认证后的信息 SimpleAuthenticationInfo（PrincipalCollection，credentials）
-            return new SimpleAuthenticationInfo(user, user.getPassword(), getName());
-        } else {
-            throw new UnknownAccountException("账号不存在");
+            return new SimpleAuthenticationInfo(user, AESUtil.AESDecode(user.getPassword()), getName());
         }
+        throw new UnknownAccountException("账号不存在");
     }
 }

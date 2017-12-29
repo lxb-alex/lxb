@@ -3,9 +3,8 @@ package com.lxb.generator.controller;
 import com.lxb.common.utils.AESUtil;
 import com.lxb.common.utils.JdbcUtil;
 import com.lxb.common.utils.PropertiesFileUtil;
-import com.lxb.common.utils.StringUtil;
+import com.lxb.common.utils.StringUtils;
 import com.lxb.generator.utils.VelocityUtil;
-import org.apache.commons.lang.StringUtils;
 import org.apache.velocity.VelocityContext;
 import org.mybatis.generator.api.MyBatisGenerator;
 import org.mybatis.generator.config.Configuration;
@@ -143,11 +142,11 @@ public class MybatisGeneratorUtil {
         }
         System.out.println("========== 开始生成 Controller、service、impl、js、page ==========");
         for (int i = 0; i < tables.size(); i++) {
-            String TableName = StringUtil.lineToHump(toString(tables.get(i).get("table_name")));// 大驼峰
-            String tableName = StringUtil.toLowerCaseFirstOne(TableName); // 小驼峰
+            String TableName = StringUtils.lineToHump(toString(tables.get(i).get("table_name")));// 大驼峰
+            String tableName = StringUtils.toLowerCaseFirstOne(TableName); // 小驼峰
             String createDate = new SimpleDateFormat("yyyy/M/d").format(new Date());
             String tableComment = tables.get(i).get("table_comment")+" "+ TableName;
-            // 封装模板数据
+            // 封装模板数据s
             VelocityContext context = new VelocityContext();
             context.put("package", package_name);// 包路径
             context.put("tableComment", tableComment);// 表注释
@@ -303,7 +302,7 @@ public class MybatisGeneratorUtil {
         for (Map map : result) {
             Map<String, Object> table = new HashMap<>();
             table.put("table_name", map.get("TABLE_NAME"));
-            table.put("model_name", StringUtil.lineToHump(toString(map.get("TABLE_NAME"))));
+            table.put("model_name", StringUtils.lineToHump(toString(map.get("TABLE_NAME"))));
             table.put("table_comment", map.get("TABLE_COMMENT"));
             tables.add(table);
         }

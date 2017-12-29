@@ -5,12 +5,12 @@
 
     <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.lxb.sys.entity.SysRoleEntity" id="sysRoleMap">
-		            <result property="id" column="id"/>
-		            <result property="name" column="name"/>
-		            <result property="createUserId" column="create_user_id"/>
-		            <result property="createDate" column="create_date"/>
-		            <result property="updateDate" column="update_date"/>
-		    </resultMap>
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="createUserId" column="create_user_id"/>
+        <result property="createDate" column="create_date"/>
+        <result property="updateDate" column="update_date"/>
+    </resultMap>
 
     <!-- 表所有字段 -->
     <sql id="baseColumn">
@@ -18,12 +18,12 @@
 
     <!-- 条件判断 -->
     <sql id="otherCondition">
-                    <if test="id != null"> AND `id` = #{id} </if>
-                    <if test="name != null"> AND `name` = #{name} </if>
-                    <if test="createUserId != null"> AND `create_user_id` = #{createUserId} </if>
-                    <if test="createDate != null"> AND `create_date` = #{createDate} </if>
-                    <if test="updateDate != null"> AND `update_date` = #{updateDate}</if>
-            </sql>
+        <if test="id != null">AND `id` = #{id}</if>
+        <if test="name != null">AND `name` = #{name}</if>
+        <if test="createUserId != null">AND `create_user_id` = #{createUserId}</if>
+        <if test="createDate != null">AND `create_date` = #{createDate}</if>
+        <if test="updateDate != null">AND `update_date` = #{updateDate}</if>
+    </sql>
 
     <select id="getSysRoleEntity" resultMap="sysRoleMap">
 		select * from sys_role where id = #{value}
@@ -44,6 +44,7 @@
         </if>
     </select>
 
+
     <select id="getTotal" resultType="int">
 		select count(*) from sys_role
 	</select>
@@ -51,37 +52,37 @@
     <insert id="save" parameterType="com.lxb.sys.entity.SysRoleEntity" useGeneratedKeys="true" keyProperty="id">
         insert into sys_role
         (
-                                    `name`, 
-                                `create_user_id`, 
-                                `create_date`, 
-                                `update_date`
-                    )
+            `name`,
+            `create_user_id`,
+            `create_date`,
+            `update_date`
+        )
         values
         (
-                                    #{name}, 
-                                #{createUserId}, 
-                                #{createDate}, 
-                                #{updateDate}
-                    )
+            #{name},
+            #{createUserId},
+            #{createDate},
+            #{updateDate}
+        )
     </insert>
 
-    <insert id="saveSelective" parameterType="com.lxb.sys.entity.SysRoleEntity" >
+    <insert id="saveSelective" parameterType="com.lxb.sys.entity.SysRoleEntity">
         insert into sys_role
-        <trim prefix="(" suffix=")" suffixOverrides="," >
-          <if test="id != null">`id`, </if>
-          <if test="name != null">`name`, </if>
-          <if test="createUserId != null">`create_user_id`, </if>
-          <if test="createDate != null">`create_date`, </if>
-          <if test="updateDate != null">`update_date`, </if>
-    
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">`id`,</if>
+            <if test="name != null">`name`,</if>
+            <if test="createUserId != null">`create_user_id`,</if>
+            <if test="createDate != null">`create_date`,</if>
+            <if test="updateDate != null">`update_date`,</if>
+
         </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides="," >
-            <if test="id != null"> #{id}, </if>
-            <if test="name != null"> #{name}, </if>
-            <if test="createUserId != null"> #{createUserId}, </if>
-            <if test="createDate != null"> #{createDate}, </if>
-            <if test="updateDate != null"> #{updateDate}</if>
-            </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="name != null">#{name},</if>
+            <if test="createUserId != null">#{createUserId},</if>
+            <if test="createDate != null">#{createDate},</if>
+            <if test="updateDate != null">#{updateDate}</if>
+        </trim>
         <selectKey resultType="Integer" order="AFTER" keyProperty="id">
             SELECT LAST_INSERT_ID() AS id
         </selectKey>
@@ -91,22 +92,22 @@
     <update id="update" parameterType="com.lxb.sys.entity.SysRoleEntity">
         update sys_role
         <set>
-                                    <if test="name != null">`name` = #{name}, </if>
-                                <if test="createUserId != null">`create_user_id` = #{createUserId}, </if>
-                                <if test="createDate != null">`create_date` = #{createDate}, </if>
-                                <if test="updateDate != null">`update_date` = #{updateDate}</if>
-                    </set>
+            <if test="name != null">`name` = #{name},</if>
+            <if test="createUserId != null">`create_user_id` = #{createUserId},</if>
+            <if test="createDate != null">`create_date` = #{createDate},</if>
+            <if test="updateDate != null">`update_date` = #{updateDate}</if>
+        </set>
         where id = #{id}
     </update>
 
-    <update id="updateByPrimaryKeySelective" parameterType="com.lxb.sys.entity.SysRoleEntity" >
+    <update id="updateByPrimaryKeySelective" parameterType="com.lxb.sys.entity.SysRoleEntity">
         update sys_role
-        <set >
-                                        <if test="name != null">`name` = #{name,jdbcType=varchar}, </if>
-                                <if test="createUserId != null">`create_user_id` = #{createUserId,jdbcType=int}, </if>
-                                <if test="createDate != null">`create_date` = #{createDate,jdbcType=datetime}, </if>
-                                <if test="updateDate != null">`update_date` = #{updateDate,jdbcType=date}</if>
-                        </set>
+        <set>
+            <if test="name != null">`name` = #{name,jdbcType=varchar},</if>
+            <if test="createUserId != null">`create_user_id` = #{createUserId,jdbcType=int},</if>
+            <if test="createDate != null">`create_date` = #{createDate,jdbcType=datetime},</if>
+            <if test="updateDate != null">`update_date` = #{updateDate,jdbcType=date}</if>
+        </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
 
@@ -121,4 +122,12 @@
         </foreach>
     </delete>
 
+    <select id="selectSet" resultMap="sysRoleMap">
+        select * from sys_role
+        WHERE 
+        order by id desc
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
 </mapper>

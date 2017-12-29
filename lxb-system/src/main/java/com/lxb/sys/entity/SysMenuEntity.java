@@ -17,7 +17,7 @@ public class SysMenuEntity implements Serializable {
     /**
 	 * 主键
 	 */
-	private Integer id;
+	private String id;
     /**
 	 * 名称
 	 */
@@ -33,7 +33,7 @@ public class SysMenuEntity implements Serializable {
     /**
 	 * 权限标识
 	 */
-	private String permissionId;
+	private String permission;
     /**
 	 * 菜单类型
 	 */
@@ -45,7 +45,7 @@ public class SysMenuEntity implements Serializable {
     /**
 	 * 排序
 	 */
-	private Integer orderNum;
+	private Integer sort;
     /**
 	 * 创建时间
 	 */
@@ -59,13 +59,13 @@ public class SysMenuEntity implements Serializable {
 	/**
 	 * 设置：主键
 	 */
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	/**
 	 * 获取：主键
 	 */
-	public Integer getId() {
+	public String getId() {
 		return id;
 	}
 	/**
@@ -107,14 +107,14 @@ public class SysMenuEntity implements Serializable {
 	/**
 	 * 设置：权限标识
 	 */
-	public void setPermissionId(String permissionId) {
-		this.permissionId = permissionId;
+	public void setPermission(String permission) {
+		this.permission = permission;
 	}
 	/**
 	 * 获取：权限标识
 	 */
-	public String getPermissionId() {
-		return permissionId;
+	public String getPermission() {
+		return permission;
 	}
 	/**
 	 * 设置：菜单类型
@@ -143,14 +143,14 @@ public class SysMenuEntity implements Serializable {
 	/**
 	 * 设置：排序
 	 */
-	public void setOrderNum(Integer orderNum) {
-		this.orderNum = orderNum;
+	public void setSort(Integer sort) {
+		this.sort = sort;
 	}
 	/**
 	 * 获取：排序
 	 */
-	public Integer getOrderNum() {
-		return orderNum;
+	public Integer getSort() {
+		return sort;
 	}
 	/**
 	 * 设置：创建时间

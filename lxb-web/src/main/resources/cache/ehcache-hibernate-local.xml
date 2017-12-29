@@ -2,6 +2,7 @@
 <ehcache updateCheck="false" name="hibernateCache">
 
 	<!-- <diskStore path="java.io.tmpdir/homecare/ehcache/hibernate" /> -->
+	<!--指定数据在磁盘中的存储位置。-->
 	<diskStore path="user.dir/homecare" />
 
 	<!-- DefaultCache setting. -->

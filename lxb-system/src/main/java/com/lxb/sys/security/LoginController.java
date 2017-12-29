@@ -2,12 +2,13 @@ package com.lxb.sys.security;
 
 import com.lxb.common.utils.CaptchaUtil;
 import com.lxb.common.utils.MessageVo;
-import com.lxb.common.utils.ShiroUtil;
+import com.lxb.common.utils.ShiroUtils;
+import com.lxb.common.utils.StringUtils;
+import com.lxb.sys.entity.SysUserEntity;
 import com.lxb.sys.service.SysUserService;
 import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -48,7 +50,7 @@ public class LoginController {
         CaptchaUtil rdnu = CaptchaUtil.Instance(100, 36, 25);
         // 获取验证码文字
         String code = rdnu.getString();
-        ShiroUtil.getSession().setAttribute("capthca", code);
+        ShiroUtils.getSession().setAttribute(ShiroUtils.CACHE_CAPTCHA_CODE, code);
         //将验证码存入Session
         // 通过流的方式输出到浏览器
         BufferedImage bufferedImage = ImageIO.read(rdnu.getImage());
@@ -64,43 +66,26 @@ public class LoginController {
 
     @RequestMapping(value = "/sys/login", method = RequestMethod.POST)
     @ResponseBody
-    public MessageVo login(String account, String LoginPassword, String captcha) {
+    public MessageVo login(String account, String LoginPassword, String captcha, HttpServletRequest request) {
         Subject subject = SecurityUtils.getSubject();
-        Object principal = subject.getPrincipal();
-        logger.info("sdafffffffffff");
-        logger.debug("099090099009900");
+        SysUserEntity principal = (SysUserEntity)subject.getPrincipal();
+        if (principal != null){
+            // 登录对象存入session
+            ShiroUtils.setSessionCache(ShiroUtils.CACHE_LOGIN_USER, principal);
+            return MessageVo.success("已经登录");
+        }
         try {
-            SecurityUtils.getSubject().login(new UsernamePasswordToken(account, LoginPassword));
+           /* // 方式一： 使用默认的 UsernamePasswordToken UserAuthorizingRealm
+            SecurityUtils.getSubject().login(new org.apache.shiro.authc.UsernamePasswordToken(account, LoginPassword));*/
+
+            // 方式二：使用自定义的 UsernamePasswordToken UserRealm
+            char[] password = LoginPassword.toCharArray();
+            String host = StringUtils.getRemoteAddr(request);
+            SecurityUtils.getSubject().login(new AccountPasswordToken(account, password,false, host, captcha));
         } catch (AuthenticationException e) {
-            logger.error("asdfaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
-                    "asffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffasdffffff" +
-                    "afffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" +
-                    "afsssssssssssssssssssweaffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" +
-                    "awefffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffaweawfasdf");
             e.printStackTrace();
         }
-/*        Subject subject = ShiroUtil.getSubject();
-        subject.login(new UsernamePasswordToken(account, LoginPassword));
-        if (!subject.isAuthenticated()){
-            Map map = ShiroUtil.getCurrentLoginUser();
-            System.out.println(map);
-            System.out.println(false);
-        }
-        if (subject.isAuthenticated()){
-            Map map = ShiroUtil.getCurrentLoginUser();
-            System.out.println(map);
-            System.out.println(true);
-        }*/
-/*        if (StringUtil.isBlank(captcha)){
-            return MessageVo.error("验证码错误");
-        }
-
-        String password = AESUtil.AESEncode(LoginPassword);
-        SysUserEntity user = sysUserService.getSysUserEntity(account, password);
-        if (user!=null){
-            return MessageVo.success();
-        }*/
-        return MessageVo.error("用户名或密码错误");
+        return MessageVo.success("登录认证成功");
     }
 
     @RequestMapping(value = "/sys/logout", method = RequestMethod.GET)

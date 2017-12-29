@@ -55,4 +55,9 @@ public class SysMenuServiceImpl implements SysMenuService {
 		return sysMenuDao.getAll(params);
 	}
 
+	@Override
+	public List<SysMenuEntity> selectMenuByUserId(String userId) {
+		return sysMenuDao.selectMenuByUserId(userId);
+	}
+
 }

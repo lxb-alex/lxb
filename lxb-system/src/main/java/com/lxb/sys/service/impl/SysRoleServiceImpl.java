@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 
 @Service("sysRoleService")
@@ -49,5 +50,10 @@ public class SysRoleServiceImpl implements SysRoleService {
 	public int deleteBatch(Integer[] ids){
         return sysRoleDao.deleteBatch(ids);
 	}
-	
+
+	@Override
+	public Set<SysRoleEntity> selectSet(String id) {
+		return sysRoleDao.selectSet(id);
+	}
+
 }
