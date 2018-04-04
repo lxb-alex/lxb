@@ -1,0 +1,15 @@
+package ${package}${tablePrefix}.dao;
+
+import org.springframework.stereotype.Repository;
+import ${package}${tablePrefix}.entity.${className};
+import org.springframework.data.jpa.repository.JpaRepository;
+/**
+ * ${comments}
+ * 
+ * @author ${author}
+ * @date ${datetime}
+ */
+@Repository()
+public interface ${className}Dao extends JpaRepository<${className}, Long> {
+
+}

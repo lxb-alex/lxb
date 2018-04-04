@@ -14,24 +14,22 @@ public class CustomThread {
      * */
 
     public static void main(String[] args) {
-/*
         // 测试 Thread Runnable 实现的线程是否共享数据
-        ThreadDemo t1 = new ThreadDemo();
+/*        ThreadDemo t1 = new ThreadDemo();
         ThreadDemo t2 = new ThreadDemo();
         ThreadDemo t3 = new ThreadDemo();
         ThreadDemo t4 = new ThreadDemo();
         t1.start();
         t2.start();
         t3.start();
-        t4.start();
+        t4.start();*/
 
 
-        RunnableDemo rd = new RunnableDemo();
+/*        RunnableDemo rd = new RunnableDemo();
         new Thread(rd).start();
         new Thread(rd).start();
         new Thread(rd).start();
-        new Thread(rd).start();
-*/
+        new Thread(rd).start();*/
 /*        // 测试通过Runnable实现的多个线程之间是否线程安全的,
         // 结果不能保证线程安全
         RunnableSalfe rs = new RunnableSalfe();
@@ -40,13 +38,13 @@ public class CustomThread {
         new Thread(rs, "三号窗口").start();*/
 
         // 加上 synchronized 同步块，结果：能保证线程安全
-        RunnableSalfe_syn rss = new RunnableSalfe_syn();
+ /*       RunnableSalfe_syn rss = new RunnableSalfe_syn();
         new Thread(rss, "一号窗口").start();
         new Thread(rss, "二号窗口").start();
         new Thread(rss, "三号窗口").start();
         new Thread(rss, "四号窗口").start();
         new Thread(rss, "五号窗口").start();
-        new Thread(rss, "六号窗口").start();
+        new Thread(rss, "六号窗口").start();*/
 
     }
 

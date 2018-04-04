@@ -56,13 +56,18 @@ public class Generator {
 		List<String> templateNames = new ArrayList<String>();
 //		templateNames.add("template/Entity.java.vm");
 //		templateNames.add("template/Dao.java.vm");
-		templateNames.add("template/Dao.xml.vm");
+//		templateNames.add("template/Dao.xml.vm");
 //		templateNames.add("template/Service.java.vm");
 //		templateNames.add("template/ServiceImpl.java.vm");
 //		templateNames.add("template/Controller.java.vm");
 //		templateNames.add("template/list.html.vm");
 //		templateNames.add("template/list.js.vm");
 //		templateNames.add("template/menu.sql.vm");
+
+		templateNames.add("templateJpa/Dao.java.vm");
+		templateNames.add("templateJpa/Entity.java.vm");
+		templateNames.add("templateJpa/Service.java.vm");
+		templateNames.add("templateJpa/ServiceImpl.java.vm");
 		return templateNames;
 	}
 
@@ -215,7 +220,7 @@ public class Generator {
 		String page_name = className.toLowerCase();
 		if (StringUtil.isNotBlank(table_prefix)){
 			page_name = className.toLowerCase().replace(table_prefix, "");
-			table_prefix = File.separator + table_prefix;
+			table_prefix = File.separator + table_prefix + File.separator;
 			page_js = table_prefix + File.separator;
 		}
 		String rootPath = getRootModulePath() + "src"+ File.separator + "main" + File.separator;
@@ -228,38 +233,38 @@ public class Generator {
 		String jsPath = rootPath + "webapp" + File.separator +"js"+ File.separator;
 
 		if(StringUtils.isNotBlank(packageName)){
-			javaPath += packageName.replace(".", File.separator) + File.separator;
+			javaPath += packageName.replace(".", File.separator);
 			resourcesPath += packageName.replace(".", File.separator) + File.separator;
 		}
 
 		if(templateName.contains("Controller.java.vm")){
-			dirExists(javaPath + "controller" + table_prefix);
-			return javaPath + "controller" + table_prefix + File.separator + className + "Controller.java";
+			dirExists(javaPath + table_prefix+ "controller");
+			return javaPath + table_prefix + "controller" + File.separator + className + "Controller.java";
 		}
 
 		if(templateName.contains("Service.java.vm")){
-			dirExists(javaPath + "service" + table_prefix);
-			return javaPath + "service" + table_prefix + File.separator + className + "Service.java";
+			dirExists(javaPath + table_prefix + "service");
+			return javaPath + table_prefix  + "service"+ File.separator + className + "Service.java";
 		}
 
 		if(templateName.contains("ServiceImpl.java.vm")){
-			dirExists(javaPath + "service" + File.separator + "impl" + table_prefix);
-			return javaPath + "service" + File.separator + "impl" + table_prefix + File.separator + className + "ServiceImpl.java";
+			dirExists(javaPath + table_prefix + "service" + File.separator + "impl");
+			return javaPath + table_prefix  + "service" + File.separator + "impl"+ File.separator + className + "ServiceImpl.java";
 		}
 
         if(templateName.contains("Entity.java.vm")){
-			dirExists(javaPath + "entity" + table_prefix);
-            return javaPath + "entity" + table_prefix + File.separator + className + "Entity.java";
+			dirExists(javaPath + table_prefix + "entity");
+            return javaPath + table_prefix + "entity" + File.separator + className + ".java";
         }
 
         if(templateName.contains("Dao.java.vm")){
-			dirExists(javaPath + "dao" + table_prefix);
-            return javaPath + "dao" + table_prefix + File.separator + className + "Dao.java";
+			dirExists(javaPath + table_prefix + "dao");
+            return javaPath + table_prefix + "dao" + File.separator + className + "Dao.java";
         }
 
         if(templateName.contains("Dao.xml.vm")){
-			dirExists(resourcesPath + "dao" + table_prefix);
-            return resourcesPath + "dao" + table_prefix + File.separator + className + "Dao.xml";
+			dirExists(resourcesPath + table_prefix + "dao");
+            return resourcesPath + table_prefix + "dao" + File.separator + className + "Dao.xml";
         }
 
 		if(templateName.contains("list.html.vm")){

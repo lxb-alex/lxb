@@ -1,0 +1,29 @@
+package ${package}.service.impl${tablePrefix};
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Map;
+
+import ${package}${tablePrefix}.dao.${className}Dao;
+import ${package}${tablePrefix}.entity.${className};
+import ${package}${tablePrefix}.service.${className}Service;
+
+
+
+@Service("${classname}Service")
+public class ${className}ServiceImpl implements ${className}Service {
+	@Autowired
+	private ${className}Dao ${classname}Dao;
+
+	@Override
+	public List<${className}> selectList(){
+		return ${classname}Dao.findAll();
+	}
+	
+	@Override
+	public int save(${className} ${classname}){
+        return ${classname}Dao.save(${classname});
+	}
+}
